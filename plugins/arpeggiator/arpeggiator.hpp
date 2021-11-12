@@ -28,53 +28,53 @@
 
 class Arpeggiator {
 public:
-	enum ArpModes {
-		ARP_UP = 0,
-		ARP_DOWN,
-		ARP_UP_DOWN,
-		ARP_UP_DOWN_ALT,
-		ARP_PLAYED,
-		ARP_RANDOM
-	};
-	Arpeggiator();
-	~Arpeggiator();
-	void setArpEnabled(bool arpEnabled);
-	void setLatchMode(bool latchMode);
-	void setSampleRate(float sampleRate);
-	void setSyncMode(int mode);
-	void setBpm(double bpm);
-	void setDivision(int division);
-	void setVelocity(uint8_t velocity);
-	void setNoteLength(float noteLength);
-	void setOctaveSpread(int octaveSpread);
-	void setArpMode(int arpMode);
-	void setOctaveMode(int octaveMode);
-	void setPanic(bool panic);
-	bool getArpEnabled() const;
-	bool getLatchMode() const;
-	float getSampleRate() const;
-	int getSyncMode() const;
-	float getBpm() const;
-	int getDivision() const;
-	uint8_t getVelocity() const;
-	float getNoteLength() const;
-	int getOctaveSpread() const;
-	int getArpMode() const;
-	int getOctaveMode() const;
-	bool getPanic() const;
-	void transmitHostInfo(const bool playing, const float beatsPerBar,
-	const int beat, const float barBeat, const double bpm);
-	void reset();
-	void emptyMidiBuffer();
-	void allNotesOff();
-	struct MidiBuffer getMidiBuffer();
-	void process(const MidiEvent* event, uint32_t eventCount, uint32_t n_frames);
+    enum ArpModes {
+        ARP_UP = 0,
+        ARP_DOWN,
+        ARP_UP_DOWN,
+        ARP_UP_DOWN_ALT,
+        ARP_PLAYED,
+        ARP_RANDOM
+    };
+    Arpeggiator();
+    ~Arpeggiator();
+    void setArpEnabled(bool arpEnabled);
+    void setLatchMode(bool latchMode);
+    void setSampleRate(float sampleRate);
+    void setSyncMode(int mode);
+    void setBpm(double bpm);
+    void setDivision(int division);
+    void setVelocity(uint8_t velocity);
+    void setNoteLength(float noteLength);
+    void setOctaveSpread(int octaveSpread);
+    void setArpMode(int arpMode);
+    void setOctaveMode(int octaveMode);
+    void setPanic(bool panic);
+    bool getArpEnabled() const;
+    bool getLatchMode() const;
+    float getSampleRate() const;
+    int getSyncMode() const;
+    float getBpm() const;
+    int getDivision() const;
+    uint8_t getVelocity() const;
+    float getNoteLength() const;
+    int getOctaveSpread() const;
+    int getArpMode() const;
+    int getOctaveMode() const;
+    bool getPanic() const;
+    void transmitHostInfo(const bool playing, const float beatsPerBar,
+            const int beat, const float barBeat, const double bpm);
+    void reset();
+    void emptyMidiBuffer();
+    void allNotesOff();
+    struct MidiBuffer getMidiBuffer();
+    void process(const MidiEvent* event, uint32_t eventCount, uint32_t n_frames);
 private:
 
     struct ArpNoteEvent {
-	    uint8_t midiNote;
-	    uint8_t channel;
-	    bool active;
+        uint8_t midiNote;
+        uint8_t channel;
+        bool active;
     };
 
     struct ArpNoteOffEvent {
@@ -86,48 +86,48 @@ private:
     ArpNoteOffEvent arpNoteOffEvent[NUM_VOICES];
     ArpNoteEvent notesBypassed[NUM_VOICES];
 
-	int notesPressed;
-	int activeNotes;
-	int notePlayed;
+    int notesPressed;
+    int activeNotes;
+    int notePlayed;
 
-	int octaveMode;
-	int octaveSpread;
-	int arpMode;
+    int octaveMode;
+    int octaveSpread;
+    int arpMode;
 
-	float noteLength;
+    float noteLength;
 
-	uint8_t pitch;
-	uint8_t previousMidiNote;
-	uint8_t velocity;
-	int previousSyncMode;
-	int activeNotesIndex;
-	int activeNotesBypassed;
-	int timeOutTime;
-	int firstNoteTimer;
-	float barBeat;
+    uint8_t pitch;
+    uint8_t previousMidiNote;
+    uint8_t velocity;
+    int previousSyncMode;
+    int activeNotesIndex;
+    int activeNotesBypassed;
+    int timeOutTime;
+    int firstNoteTimer;
+    float barBeat;
 
-	bool pluginEnabled;
-	bool first;
-	bool arpEnabled;
-	bool latchMode;
-	bool previousLatch;
-	bool latchPlaying;
-	bool trigger;
-	bool firstNote;
-	bool quantizedStart;
-	bool resetPattern;
-	bool midiNotesCopied;
-	bool panic;
+    bool pluginEnabled;
+    bool first;
+    bool arpEnabled;
+    bool latchMode;
+    bool previousLatch;
+    bool latchPlaying;
+    bool trigger;
+    bool firstNote;
+    bool quantizedStart;
+    bool resetPattern;
+    bool midiNotesCopied;
+    bool panic;
 
-	int division;
-	float sampleRate;
-	double bpm;
+    int division;
+    float sampleRate;
+    double bpm;
 
-	ArpUtils utils;
-	Pattern **arpPattern;
-	Pattern **octavePattern;
-	MidiHandler midiHandler;
-	PluginClock clock;
+    ArpUtils utils;
+    Pattern **arpPattern;
+    Pattern **octavePattern;
+    MidiHandler midiHandler;
+    PluginClock clock;
 };
 
 #endif //_H_ARPEGGIATOR_
