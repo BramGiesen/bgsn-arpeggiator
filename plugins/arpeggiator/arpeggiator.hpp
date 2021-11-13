@@ -3,29 +3,12 @@
 
 #include <cstdint>
 
-#include "utils.hpp"
+#include "voiceManager.hpp"
+#include "notesTracker.hpp"
 #include "../../common/clock.hpp"
 #include "../../common/pattern.hpp"
 #include "../../common/midiHandler.hpp"
 #include "types.h"
-
-#define NUM_VOICES 32
-#define NUM_NOTE_OFF_SLOTS 32
-#define PLUGIN_URI "http://moddevices.com/plugins/mod-devel/arpeggiator"
-
-#define MIDI_NOTEOFF 0x80
-#define MIDI_NOTEON  0x90
-
-#define MIDI_NOTE 0
-#define MIDI_CHANNEL 1
-#define TIMER 2
-
-#define NUM_ARP_MODES 6
-#define NUM_OCTAVE_MODES 5
-
-#define NUM_MIDI_CHANNELS 16
-
-#define ONE_OCT_UP_PER_CYCLE 4
 
 class Arpeggiator {
 public:
@@ -51,6 +34,7 @@ public:
     void setArpMode(int arpMode);
     void setOctaveMode(int octaveMode);
     void setPanic(bool panic);
+    int getPatternSize();
     bool getArpEnabled() const;
     bool getLatchMode() const;
     float getSampleRate() const;
@@ -72,13 +56,23 @@ public:
     void process(const MidiEvent* event, uint32_t eventCount, uint32_t n_frames);
 
 private:
+    void setOctavePattern(int patternSize, int octaveSpread);
+    void handleMidiInputEvent(const MidiEvent *event, uint8_t status);
+    void handleMidiEventDisabledState(const MidiEvent *event, uint8_t status);
+    void handleNoteOnEvent(const MidiEvent *event);
+    void handleNoteOffEvent(const MidiEvent *event);
+    void handleMidiThroughEvent(const MidiEvent *event);
+    void handleTimeBasedEvents(uint8_t n_frames);
+    void createNewArpOutEvent(ArpNoteEvent event, size_t currentFrame);
+    void noteOffTimer(size_t currentFrame);
+    void addEventToNoteOffTimer(ArpNoteEvent event);
+    void resetArpPattern();
+
     ArpNoteEvent arpVoice[NUM_VOICES];
     ArpNoteOffEvent arpNoteOffEvent[NUM_VOICES];
     ArpNoteEvent notesBypassed[NUM_VOICES];
 
-    int notesPressed;
-    int activeNotes;
-    int notePlayed;
+    int currentStep;
 
     int octaveMode;
     int octaveSpread;
@@ -86,17 +80,11 @@ private:
 
     float noteLength;
 
-    uint8_t pitch;
-    uint8_t previousMidiNote;
     uint8_t velocity;
-    int previousSyncMode;
-    int activeNotesIndex;
-    int activeNotesBypassed;
     int timeOutTime;
     int firstNoteTimer;
     float barBeat;
 
-    bool pluginEnabled;
     bool first;
     bool arpEnabled;
     bool latchMode;
@@ -113,11 +101,12 @@ private:
     float sampleRate;
     double bpm;
 
-    ArpUtils utils;
     Pattern **arpPattern;
     Pattern **octavePattern;
     MidiHandler midiHandler;
     PluginClock clock;
+    VoiceManager *voiceManager;
+    NotesTracker notesTracker;
 };
 
 #endif //_H_ARPEGGIATOR_

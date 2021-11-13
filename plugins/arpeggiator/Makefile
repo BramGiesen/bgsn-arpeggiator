@@ -29,6 +29,8 @@ FILES_DSP = \
 	plugin.cpp \
 	arpeggiator.cpp \
 	utils.cpp \
+	voiceManager.cpp \
+	notesTracker.cpp \
 	../../common/midiHandler.cpp \
 	../../common/clock.cpp \
 	../../common/pattern.cpp \
