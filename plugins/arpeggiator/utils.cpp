@@ -10,34 +10,33 @@ ArpUtils::~ArpUtils()
 
 }
 
-void ArpUtils::swap(uint8_t *a, uint8_t *b)
+void ArpUtils::swap(ArpNoteEvent *a, ArpNoteEvent *b)
 {
-	int temp = *a;
+	ArpNoteEvent temp = *a;
 	*a = *b;
 	*b = temp;
 }
 
 //got the code for the quick sort algorithm here https://medium.com/human-in-a-machine-world/quicksort-the-best-sorting-algorithm-6ab461b5a9d0
-void ArpUtils::quicksort(uint8_t arr[][2], int l, int r)
+void ArpUtils::quicksort(ArpNoteEvent *events, int l, int r)
 {
 	if (l >= r)
 	{
 		return;
 	}
 
-	int pivot = arr[r][0];
+	int pivot = static_cast<int>(events[r].midiNote);
 
 	int cnt = l;
 
 	for (int i = l; i <= r; i++)
 	{
-		if (arr[i][0] <= pivot)
+		if (static_cast<int>(events[i].midiNote) <= pivot)
 		{
-			swap(&arr[cnt][0], &arr[i][0]);
-			swap(&arr[cnt][1], &arr[i][1]);
+			swap(&events[cnt], &events[i]);
 			cnt++;
 		}
 	}
-	quicksort(arr, l, cnt-2);
-	quicksort(arr, cnt, r);
+	quicksort(events, l, cnt-2);
+	quicksort(events, cnt, r);
 }

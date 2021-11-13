@@ -1,4 +1,5 @@
 #include "arpeggiator.hpp"
+#include <iostream>
 
 Arpeggiator::Arpeggiator() :
     notesPressed(0),
@@ -624,6 +625,7 @@ void Arpeggiator::process(const MidiEvent* events, uint32_t eventCount, uint32_t
 
                         arpNoteOffEvent[activeNotesIndex].noteEvent.midiNote = midiNote;
                         arpNoteOffEvent[activeNotesIndex].noteEvent.channel = channel;
+                        arpNoteOffEvent[activeNotesIndex].noteEvent.active = true;
                         activeNotesIndex = (activeNotesIndex + 1) % NUM_NOTE_OFF_SLOTS;
                         noteFound = true;
                         firstNote = false;
@@ -640,6 +642,7 @@ void Arpeggiator::process(const MidiEvent* events, uint32_t eventCount, uint32_t
             if (arpNoteOffEvent[i].noteEvent.active) {
                 arpNoteOffEvent[i].timer += 1;
                 if (arpNoteOffEvent[i].timer > static_cast<uint32_t>(clock.getPeriod() * noteLength)) {
+                    std::cout << "note off for note: " << arpNoteOffEvent[i].noteEvent.midiNote << std::endl;
                     midiEvent.frame = s;
                     midiEvent.size = 3;
                     midiEvent.data[0] = MIDI_NOTEOFF | arpNoteOffEvent[i].noteEvent.channel;

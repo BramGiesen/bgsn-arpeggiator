@@ -3,10 +3,11 @@
 
 #include <cstdint>
 
+#include "utils.hpp"
 #include "../../common/clock.hpp"
 #include "../../common/pattern.hpp"
 #include "../../common/midiHandler.hpp"
-#include "utils.hpp"
+#include "types.h"
 
 #define NUM_VOICES 32
 #define NUM_NOTE_OFF_SLOTS 32
@@ -69,19 +70,8 @@ public:
     void allNotesOff();
     struct MidiBuffer getMidiBuffer();
     void process(const MidiEvent* event, uint32_t eventCount, uint32_t n_frames);
+
 private:
-
-    struct ArpNoteEvent {
-        uint8_t midiNote;
-        uint8_t channel;
-        bool active;
-    };
-
-    struct ArpNoteOffEvent {
-        ArpNoteEvent noteEvent;
-        uint32_t timer;
-    };
-
     ArpNoteEvent arpVoice[NUM_VOICES];
     ArpNoteOffEvent arpNoteOffEvent[NUM_VOICES];
     ArpNoteEvent notesBypassed[NUM_VOICES];
