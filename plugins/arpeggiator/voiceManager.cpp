@@ -41,12 +41,12 @@ ArpNoteEvent VoiceManager::getEvent(int n)
         if (arpVoice[i].active)
         {
             if (step == n) {
-                std::cout << "return step: " << n << std::endl;
                 return arpVoice[i];
             }
             step++;
         }
     }
+
     return emptyVoice;
 }
 
@@ -91,8 +91,7 @@ bool VoiceManager::freeVoice(uint8_t midiNote)
 
 void VoiceManager::sort()
 {
-    // TODO FIX ME
-    //utils.quicksort(arpVoice, 0, NUM_VOICES - 1);
+    utils.quicksort(arpVoice, 0, NUM_VOICES - 1);
 }
 
 void VoiceManager::freeAll()

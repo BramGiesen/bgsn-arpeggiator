@@ -250,6 +250,8 @@ void Arpeggiator::reset()
         octavePattern[o]->reset();
     }
 
+    std::cout << "RESET!" << std::endl;
+
     firstNoteTimer  = 0;
     currentStep = 0;
     notesTracker.resetAll();
@@ -272,6 +274,22 @@ void Arpeggiator::allNotesOff()
     }
     notesTracker.resetAll();
     reset();
+}
+
+void Arpeggiator::sendAllNotesOffToOutput(uint32_t current_frame)
+{
+    std::cout << "sendALlNotesOffToOutput" << std::endl;
+    struct MidiEvent midiEvent;
+    //send all notes off, on current active MIDI channel
+    midiEvent.size = 3;
+    midiEvent.data[2] = 0;
+
+    midiEvent.frame = 0;
+    midiEvent.data[0] = 0xb0 | arpNoteOffEvent[currentStep].noteEvent.channel;
+    midiEvent.data[1] = 0x40; // sustain pedal
+    midiHandler.appendMidiMessage(midiEvent);
+    midiEvent.data[1] = 0x7b; // all notes off
+    midiHandler.appendMidiMessage(midiEvent);
 }
 
 int Arpeggiator::getPatternSize()
@@ -358,7 +376,6 @@ void Arpeggiator::handleNoteOnEvent(const MidiEvent *event)
     notesTracker.registerNewActiveNote();
 
     if (arpMode != ARP_PLAYED) {
-        //TODO fix me
         voiceManager->sort();
     }
 
@@ -399,8 +416,17 @@ void Arpeggiator::handleNoteOffEvent(const MidiEvent *event)
     if (!latchMode) {
         voiceManager->freeVoice(midiNote);
         if (arpMode != ARP_PLAYED) {
-            //voiceManager->sort();
+            voiceManager->sort();
         }
+    }
+
+    // If by releasing the note the current step is higher then the amount of active notes,
+    // decrement the amount of steps until this is back in range
+    while (currentStep > 0
+            && currentStep > (notesTracker.getNumActiveNotes() - 1))
+    {
+        currentStep--;
+        arpPattern[arpMode]->setStep(currentStep);
     }
 }
 
@@ -431,7 +457,6 @@ void Arpeggiator::handleMidiInputEvent(const MidiEvent *event, uint8_t status)
         switch(status) {
             //TODO check IO
             case MIDI_NOTEON:
-                std::cout << "NOTE ON" << std::endl;
                 handleNoteOnEvent(event);
                 break;
             case MIDI_NOTEOFF:
@@ -571,9 +596,7 @@ void Arpeggiator::handleTimeBasedEvents(uint32_t n_frames)
 
         clock.tick();
 
-        // TODO fix time out
-        // if ((clock.getGate() && !timeOut)) {
-        if (clock.getGate() && true) {
+        if ((clock.getGate() && !timeOut)) {
 
             if (arpEnabled) {
 
@@ -582,7 +605,7 @@ void Arpeggiator::handleTimeBasedEvents(uint32_t n_frames)
                 }
 
                 if (first) {
-                    allNotesOff();
+                    sendAllNotesOffToOutput(s);
                     first = false;
                 }
             }
@@ -591,6 +614,7 @@ void Arpeggiator::handleTimeBasedEvents(uint32_t n_frames)
                 ArpNoteEvent event = voiceManager->getEvent(currentStep);
                 // Create a MIDI message out
                 if (event.active) {
+                    std::cout << "Create new event: " << (int)event.midiNote << std::endl;
                     createNewArpOutEvent(event, s);
                     // Add this event to the timer for sending a note off later
                     addEventToNoteOffTimer(event);
