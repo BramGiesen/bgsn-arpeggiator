@@ -27,7 +27,9 @@ public:
     void setSampleRate(float sampleRate);
     void setSyncMode(int mode);
     void setBpm(double bpm);
-    void setDivision(int division);
+    void setSelectedDivision(int selected);
+    void updateClockDivision();
+    void setDivision(int index, int value);
     void setVelocity(uint8_t velocity);
     void setNoteLength(float noteLength);
     void setOctaveSpread(int octaveSpread);
@@ -40,7 +42,8 @@ public:
     float getSampleRate() const;
     int getSyncMode() const;
     float getBpm() const;
-    int getDivision() const;
+    int getSelectedDivision() const;
+    int getDivision(int index) const;
     uint8_t getVelocity() const;
     float getNoteLength() const;
     int getOctaveSpread() const;
@@ -77,6 +80,8 @@ private:
     int octaveMode;
     int octaveSpread;
     int arpMode;
+    int divisionValues[2];
+    int selectedDivision;
 
     float noteLength;
 

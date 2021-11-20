@@ -6,6 +6,7 @@ Arpeggiator::Arpeggiator() :
     octaveMode(0),
     octaveSpread(1),
     arpMode(0),
+    selectedDivision(0),
     noteLength(0.8),
     velocity(80),
     timeOutTime(1000),
@@ -28,6 +29,9 @@ Arpeggiator::Arpeggiator() :
     clock.transmitHostInfo(0, 4, 1, 1, 120.0);
     clock.setSampleRate(static_cast<float>(48000.0));
     clock.setDivision(7);
+
+    divisionValues[0] = 9;
+    divisionValues[1] = 9;
 
     arpPattern = new Pattern*[6];
 
@@ -125,8 +129,32 @@ void Arpeggiator::setBpm(double newBpm)
     }
 }
 
-void Arpeggiator::setDivision(int newDivision)
+void Arpeggiator::setSelectedDivision(int selectedDivision)
 {
+    this->selectedDivision = selectedDivision;
+    updateClockDivision();
+}
+
+void Arpeggiator::setDivision(int index, int value)
+{
+    divisionValues[index] = value;
+    updateClockDivision();
+}
+
+void Arpeggiator::updateClockDivision()
+{
+    int newDivision = 0;
+
+    switch (selectedDivision)
+    {
+        case 0:
+            newDivision = divisionValues[0];
+            break;
+        case 1:
+            newDivision = divisionValues[1];
+            break;
+    }
+
     if (newDivision != division) {
         clock.setDivision(newDivision);
         division = newDivision;
@@ -194,9 +222,14 @@ float Arpeggiator::getBpm() const
     return clock.getInternalBpmValue();
 }
 
-int Arpeggiator::getDivision() const
+int Arpeggiator::getSelectedDivision() const
 {
-    return clock.getDivision();
+    return selectedDivision;
+}
+
+int Arpeggiator::getDivision(int index) const
+{
+    return divisionValues[index];
 }
 
 uint8_t Arpeggiator::getVelocity() const
@@ -375,6 +408,15 @@ void Arpeggiator::handleNoteOnEvent(const MidiEvent *event)
 
 void Arpeggiator::handleNoteOffEvent(const MidiEvent *event)
 {
+
+    uint8_t midiNote = event->data[1];
+
+    // If the note off is not active in the arp, redirect note off to midithrough
+    if (!voiceManager->voiceActive(midiNote)) {
+        handleMidiThroughEvent(event);
+        return;
+    }
+
     if (!latchMode) {
         latchPlaying = false;
     } else {
@@ -383,14 +425,6 @@ void Arpeggiator::handleNoteOffEvent(const MidiEvent *event)
 
     if (notesTracker.getNumActiveNotes() == 0 && !latchPlaying && !latchMode) {
         reset();
-        return;
-    }
-
-    uint8_t midiNote = event->data[1];
-
-    // If the note off is not active in the arp, redirect note off to midithrough
-    if (!voiceManager->voiceActive(midiNote)) {
-        handleMidiThroughEvent(event);
         return;
     }
 

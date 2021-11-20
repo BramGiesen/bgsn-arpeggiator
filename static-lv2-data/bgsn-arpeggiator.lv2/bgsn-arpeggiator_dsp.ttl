@@ -1,14 +1,17 @@
-@prefix atom: <http://lv2plug.in/ns/ext/atom#> .
-@prefix doap: <http://usefulinc.com/ns/doap#> .
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix lv2:  <http://lv2plug.in/ns/lv2core#> .
-@prefix mod:  <http://moddevices.com/ns/mod#> .
-@prefix opts: <http://lv2plug.in/ns/ext/options#> .
-@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix rsz:  <http://lv2plug.in/ns/ext/resize-port#> .
+@prefix atom:  <http://lv2plug.in/ns/ext/atom#> .
+@prefix doap:  <http://usefulinc.com/ns/doap#> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix lv2:   <http://lv2plug.in/ns/lv2core#> .
+@prefix mod:   <http://moddevices.com/ns/mod#> .
+@prefix opts:  <http://lv2plug.in/ns/ext/options#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rsz:   <http://lv2plug.in/ns/ext/resize-port#> .
 @prefix units: <http://lv2plug.in/ns/extensions/units#> .
-@prefix epp: <http://lv2plug.in/ns/ext/port-props#> .
+@prefix epp:   <http://lv2plug.in/ns/ext/port-props#> .
+@prefix lv2pg: <http://lv2plug.in/ns/ext/port-groups#> .
+
+@prefix arpeggiator_lv2: <http://bramgiesen.com/arpeggiator#> .
 
 <http://bramgiesen.com/arpeggiator>
     a lv2:Plugin, lv2:UtilityPlugin , mod:MIDIPlugin ;
@@ -70,6 +73,7 @@
         ] ;
 
         lv2:portProperty lv2:integer ;
+		lv2pg:group arpeggiator_lv2:G101_TEMPO_CONTROLS ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
@@ -81,12 +85,34 @@
         lv2:maximum 280 ;
         lv2:portProperty lv2:integer ;
         units:unit units:bpm ;
+		lv2pg:group arpeggiator_lv2:G101_TEMPO_CONTROLS ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
         lv2:index 4 ;
-        lv2:name """Division""" ;
-        lv2:symbol "Divisions" ;
+        lv2:name """Selected Division""" ;
+        lv2:symbol "SelectedDivision" ;
+        lv2:default 0 ;
+        lv2:minimum 0 ;
+        lv2:maximum 1 ;
+        lv2:portProperty lv2:enumeration ;
+        lv2:scalePoint [
+            rdfs:label  """Division 1""" ;
+            rdf:value 0 ;
+        ] ,
+        [
+            rdfs:label  """Division 2""" ;
+            rdf:value 1 ;
+        ] ;
+
+        lv2:portProperty lv2:integer ;
+		lv2pg:group arpeggiator_lv2:G101_TEMPO_CONTROLS ;
+    ] ,
+    [
+        a lv2:InputPort, lv2:ControlPort ;
+        lv2:index 5 ;
+        lv2:name """Division 1""" ;
+        lv2:symbol "Divisions1" ;
         lv2:default 9 ;
         lv2:minimum 0 ;
         lv2:maximum 12 ;
@@ -145,10 +171,75 @@
         ] ;
 
         lv2:portProperty lv2:integer ;
+		lv2pg:group arpeggiator_lv2:G101_TEMPO_CONTROLS ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 5 ;
+        lv2:index 6 ;
+        lv2:name """Division 2""" ;
+        lv2:symbol "Divisions2" ;
+        lv2:default 9 ;
+        lv2:minimum 0 ;
+        lv2:maximum 12 ;
+        lv2:portProperty lv2:enumeration ;
+        lv2:scalePoint [
+            rdfs:label  """1/1""" ;
+            rdf:value 0 ;
+        ] ,
+        [
+            rdfs:label  """1/2""" ;
+            rdf:value 1 ;
+        ] ,
+        [
+            rdfs:label  """1/3""" ;
+            rdf:value 2 ;
+        ] ,
+        [
+            rdfs:label  """1/4""" ;
+            rdf:value 3 ;
+        ] ,
+        [
+            rdfs:label  """1/4.""" ;
+            rdf:value 4 ;
+        ] ,
+        [
+            rdfs:label  """1/4T""" ;
+            rdf:value 5 ;
+        ] ,
+        [
+            rdfs:label  """1/8""" ;
+            rdf:value 6 ;
+        ] ,
+        [
+            rdfs:label  """1/8.""" ;
+            rdf:value 7 ;
+        ] ,
+        [
+            rdfs:label  """1/8T""" ;
+            rdf:value 8 ;
+        ] ,
+        [
+            rdfs:label  """1/16""" ;
+            rdf:value 9 ;
+        ] ,
+        [
+            rdfs:label  """1/16.""" ;
+            rdf:value 10 ;
+        ] ,
+        [
+            rdfs:label  """1/16T""" ;
+            rdf:value 11 ;
+        ] ,
+        [
+            rdfs:label  """1/32""" ;
+            rdf:value 12 ;
+        ] ;
+        lv2:portProperty lv2:integer ;
+		lv2pg:group arpeggiator_lv2:G101_TEMPO_CONTROLS ;
+    ] ,
+    [
+        a lv2:InputPort, lv2:ControlPort ;
+        lv2:index 7 ;
         lv2:name """Velocity""" ;
         lv2:symbol "velocity" ;
         lv2:default 110 ;
@@ -158,7 +249,7 @@
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 6 ;
+        lv2:index 8 ;
         lv2:name """Note Length""" ;
         lv2:symbol "noteLength" ;
         lv2:default 0.700000 ;
@@ -167,7 +258,7 @@
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 7 ;
+        lv2:index 9 ;
         lv2:name """Octave Spread""" ;
         lv2:symbol "octaveSpread" ;
         lv2:default 1 ;
@@ -192,10 +283,11 @@
         ] ;
 
         lv2:portProperty lv2:integer ;
+		lv2pg:group arpeggiator_lv2:G201_ARP_MODES ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 8 ;
+        lv2:index 10 ;
         lv2:name """Arp Mode""" ;
         lv2:symbol "arpMode" ;
         lv2:default 0 ;
@@ -228,10 +320,11 @@
         ] ;
 
         lv2:portProperty lv2:integer ;
+		lv2pg:group arpeggiator_lv2:G201_ARP_MODES ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 9 ;
+        lv2:index 11 ;
         lv2:name """Octave Mode""" ;
         lv2:symbol "octaveMode" ;
         lv2:default 4 ;
@@ -260,20 +353,22 @@
         ] ;
 
         lv2:portProperty lv2:integer ;
+		lv2pg:group arpeggiator_lv2:G201_ARP_MODES ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 10 ;
+        lv2:index 12 ;
         lv2:name """Latch""" ;
         lv2:symbol "latch" ;
         lv2:default 0.000000 ;
         lv2:minimum 0.000000 ;
         lv2:maximum 1.000000 ;
         lv2:portProperty lv2:toggled ;
+		lv2pg:group arpeggiator_lv2:G201_ARP_MODES ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 11 ;
+        lv2:index 13 ;
         lv2:name """Panic""" ;
         lv2:symbol "Panic" ;
         lv2:default 0 ;
@@ -283,7 +378,7 @@
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 12 ;
+        lv2:index 14 ;
         lv2:name """Enabled""" ;
         lv2:symbol "enabled" ;
         lv2:default 1.000000 ;
@@ -310,3 +405,18 @@
     lv2:microVersion 3 ;
     lv2:minorVersion 1 .
 
+
+arpeggiator_lv2:G101_TEMPO_CONTROLS
+	a lv2pg:InputGroup;
+	lv2:name "Tempo Controls" ;
+	lv2:symbol "G101_TEMPO_CONTROLS" .
+
+arpeggiator_lv2:G201_ARP_MODES
+	a lv2pg:InputGroup;
+	lv2:name "ARP Modes" ;
+	lv2:symbol "G201_ARP_MODES" .
+
+arpeggiator_lv2:3GLOBAL
+	a lv2pg:InputGroup;
+	lv2:name "Global" ;
+	lv2:symbol "3GLOBAL" .
