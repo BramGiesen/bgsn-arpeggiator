@@ -48,14 +48,7 @@ Arpeggiator::Arpeggiator() :
     octavePattern[3] = new PatternUpDownAlt();
     octavePattern[4] = new PatternCycle();
 
-    for (unsigned i = 0; i < NUM_VOICES; i++) {
-        arpVoice[i].midiNote = 0;
-        arpVoice[i].channel = 0;
-        arpVoice[i].active = false;
-        notesBypassed[i].active = false;
-    }
-
-    voiceManager = new VoiceManager(arpVoice);
+    voiceManager = new VoiceManager();
 
     for (unsigned i = 0; i < NUM_VOICES; i++) {
         arpNoteOffEvent[i].noteEvent.midiNote = 0;
@@ -109,7 +102,6 @@ void Arpeggiator::setSampleRate(float newSampleRate)
 
 void Arpeggiator::setSyncMode(int mode)
 {
-
     switch (mode)
     {
         case FREE_RUNNING:
@@ -265,7 +257,7 @@ void Arpeggiator::reset()
     firstNote = false;
     first = true;
 
-    voiceManager->freeAll();
+    //voiceManager->freeAll();
 }
 
 void Arpeggiator::emptyMidiBuffer()
@@ -436,10 +428,10 @@ void Arpeggiator::handleMidiInputEvent(const MidiEvent *event, uint8_t status)
 
         //midiNotesCopied = false;
 
-
         switch(status) {
             //TODO check IO
             case MIDI_NOTEON:
+                std::cout << "NOTE ON" << std::endl;
                 handleNoteOnEvent(event);
                 break;
             case MIDI_NOTEOFF:
@@ -456,12 +448,12 @@ void Arpeggiator::handleMidiEventDisabledState(const MidiEvent *event, uint8_t s
 {
     uint8_t midiNote = event->data[1];
 
-    if (!midiNotesCopied) {
-        for (unsigned b = 0; b < NUM_VOICES; b++) {
-            notesBypassed[b] = arpVoice[b];
-        }
-        midiNotesCopied = true;
-    }
+    //if (!midiNotesCopied) {
+    //    for (unsigned b = 0; b < NUM_VOICES; b++) {
+    //        notesBypassed[b] = arpVoice[b];
+    //    }
+    //    midiNotesCopied = true;
+    //}
 
     if (latchMode) {
         if (status == MIDI_NOTEOFF) {
@@ -555,11 +547,17 @@ void Arpeggiator::noteOffTimer(size_t currentFrame)
     }
 }
 
-void Arpeggiator::handleTimeBasedEvents(uint8_t n_frames)
+void Arpeggiator::handleTimeBasedEvents(uint32_t n_frames)
 {
+
     for (unsigned s = 0; s < n_frames; s++) {
 
         bool timeOut = (firstNoteTimer > (int)timeOutTime) ? false : true;
+
+        static bool prevFirstNote = false;
+        if (firstNote != prevFirstNote) {
+            prevFirstNote = firstNote;
+        }
 
         if (firstNote) {
             clock.closeGate(); //close gate to prevent opening before timeOut
@@ -573,7 +571,9 @@ void Arpeggiator::handleTimeBasedEvents(uint8_t n_frames)
 
         clock.tick();
 
-        if ((clock.getGate() && !timeOut)) {
+        // TODO fix time out
+        // if ((clock.getGate() && !timeOut)) {
+        if (clock.getGate() && true) {
 
             if (arpEnabled) {
 
@@ -590,10 +590,12 @@ void Arpeggiator::handleTimeBasedEvents(uint8_t n_frames)
             if (arpEnabled) {
                 ArpNoteEvent event = voiceManager->getEvent(currentStep);
                 // Create a MIDI message out
-                createNewArpOutEvent(event, s);
-                // Add this event to the timer for sending a note off later
-                addEventToNoteOffTimer(event);
-                firstNote = false;
+                if (event.active) {
+                    createNewArpOutEvent(event, s);
+                    // Add this event to the timer for sending a note off later
+                    addEventToNoteOffTimer(event);
+                    firstNote = false;
+                }
             }
             // Keep pattern running, even when disabled.
             // This makes time syncing easier.
@@ -610,7 +612,6 @@ void Arpeggiator::process(const MidiEvent* events, uint32_t eventCount, uint32_t
 {
     if (!arpEnabled && !latchMode) {
         reset();
-        voiceManager->freeAll();
     }
 
     if (!latchMode && previousLatch && notesTracker.getNumKeysPressed() <= 0) {
@@ -630,7 +631,6 @@ void Arpeggiator::process(const MidiEvent* events, uint32_t eventCount, uint32_t
         uint8_t status = events[i].data[0] & 0xF0;
 
         if (arpEnabled) {
-            //TODO verify this is working
             handleMidiInputEvent(&events[i], status);
         } else {
             handleMidiEventDisabledState(&events[i], status);

@@ -169,7 +169,7 @@ uint32_t PluginClock::getPos() const
     return pos;
 }
 
-void PluginClock::tick()
+void PluginClock::countElapsedBars()
 {
     int beat = static_cast<int>(hostBarBeat);
 
@@ -187,7 +187,10 @@ void PluginClock::tick()
             previousBeat = beat;
         }
     }
+}
 
+void PluginClock::applyTempoSettings()
+{
     float threshold = 0.009; //TODO might not be needed
 
     switch (syncMode)
@@ -206,7 +209,7 @@ void PluginClock::tick()
                 previousSyncMode = syncMode;
             }
             break;
-        case HOST_QUANTIZED_SYNC: //TODO fix this duplicate
+        case HOST_QUANTIZED_SYNC:
             if ((hostBpm != previousBpm && (fabs(previousBpm - hostBpm) > threshold)) || (syncMode != previousSyncMode)) {
                 setBpm(hostBpm);
                 if (playing) {
@@ -217,6 +220,12 @@ void PluginClock::tick()
             }
             break;
     }
+}
+
+void PluginClock::tick()
+{
+    countElapsedBars();
+    applyTempoSettings();
 
     if (pos > period) {
         pos = 0;

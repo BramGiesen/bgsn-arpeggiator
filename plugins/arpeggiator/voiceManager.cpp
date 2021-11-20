@@ -1,8 +1,14 @@
 #include "voiceManager.hpp"
+#include <iostream>
 
-VoiceManager::VoiceManager(ArpNoteEvent *arpVoices)
+VoiceManager::VoiceManager()
 {
-    this->arpVoices = arpVoices;
+    for (unsigned i = 0; i < NUM_VOICES; i++) {
+        arpVoice[i].midiNote = 0;
+        arpVoice[i].channel = 0;
+        arpVoice[i].active = false;
+        emptyVoice.active = false;
+    }
 }
 
 VoiceManager::~VoiceManager()
@@ -11,38 +17,37 @@ VoiceManager::~VoiceManager()
 
 void VoiceManager::addVoice(ArpNoteEvent event)
 {
-    uint8_t searchNote = 0;
+    int searchNote = 0;
 
     while (searchNote < NUM_VOICES)
     {
-        if (!arpVoices[searchNote].active)
+        if (!arpVoice[searchNote].active)
         {
-            arpVoices[searchNote] = event;
+            arpVoice[searchNote].midiNote = event.midiNote;
+            arpVoice[searchNote].channel = event.channel;
+            arpVoice[searchNote].active = event.active;
+
             return;
         }
         searchNote++;
     }
-
 }
 
-ArpNoteEvent VoiceManager::getEvent(uint8_t n)
+ArpNoteEvent VoiceManager::getEvent(int n)
 {
-    uint8_t searchNote = 0;
-    uint8_t step = 0;
+    int step = 0;
 
-    //TODO error handling
-    // Iterate over voices until Nth step is found
-    while (searchNote < NUM_VOICES)
-    {
-        if (arpVoices[searchNote].active)
+    for (int i = 0; i < NUM_VOICES; i++) {
+        if (arpVoice[i].active)
         {
-            step++;
             if (step == n) {
-                return arpVoices[searchNote];
+                std::cout << "return step: " << n << std::endl;
+                return arpVoice[i];
             }
+            step++;
         }
-        searchNote++;
     }
+    return emptyVoice;
 }
 
 int VoiceManager::findVoiceIndexInBuffer(uint8_t noteToFind)
@@ -51,7 +56,8 @@ int VoiceManager::findVoiceIndexInBuffer(uint8_t noteToFind)
 
     while (searchNote < NUM_VOICES)
     {
-        if (arpVoices[searchNote].midiNote == noteToFind)
+        if (arpVoice[searchNote].midiNote == noteToFind
+                && arpVoice[searchNote].active)
         {
             return searchNote;
         }
@@ -76,7 +82,7 @@ bool VoiceManager::freeVoice(uint8_t midiNote)
     int activeNoteIndex = findVoiceIndexInBuffer(midiNote);
 
     if (activeNoteIndex != -1) {
-        arpVoices[activeNoteIndex].active = false;
+        arpVoice[activeNoteIndex].active = false;
         return true;
     } else {
         return false;
@@ -85,14 +91,15 @@ bool VoiceManager::freeVoice(uint8_t midiNote)
 
 void VoiceManager::sort()
 {
-    utils.quicksort(arpVoices, 0, NUM_VOICES - 1);
+    // TODO FIX ME
+    //utils.quicksort(arpVoice, 0, NUM_VOICES - 1);
 }
 
 void VoiceManager::freeAll()
 {
     for (unsigned clear_notes = 0; clear_notes < NUM_VOICES; clear_notes++) {
-        arpVoices[clear_notes].midiNote = 0;
-        arpVoices[clear_notes].channel = 0;
-        arpVoices[clear_notes].active = false;
+        arpVoice[clear_notes].midiNote = 0;
+        arpVoice[clear_notes].channel = 0;
+        arpVoice[clear_notes].active = false;
     }
 }

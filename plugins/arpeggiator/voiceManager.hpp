@@ -6,7 +6,7 @@
 
 class VoiceManager {
 public:
-    VoiceManager(ArpNoteEvent *arpVoices);
+    VoiceManager();
     ~VoiceManager();
     void addVoice(ArpNoteEvent event);
     void freeVoice(ArpNoteEvent event);
@@ -15,9 +15,10 @@ public:
     bool freeVoice(uint8_t midiNote);
     void sort();
     void freeAll();
-    ArpNoteEvent getEvent(uint8_t n);
+    ArpNoteEvent getEvent(int n);
 protected:
-    ArpNoteEvent *arpVoices;
+    ArpNoteEvent arpVoice[NUM_VOICES];
+    ArpNoteEvent emptyVoice;
 private:
     ArpUtils utils;
 };

@@ -23,6 +23,8 @@ public:
     void syncClock();
     void setPos(uint32_t pos);
     void setNumBarsElapsed(uint32_t numBarsElapsed);
+    void countElapsedBars();
+    void applyTempoSettings();
     void calcPeriod();
     void closeGate();
     void reset();

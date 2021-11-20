@@ -1,6 +1,6 @@
 This repository contains an arpeggiator and a MIDI-pattern plugin developed for the MOD platform.
 
-# Arpeggiator
+# BGSN-Arpeggiator
 
 The arpeggiator has the following options:
 * Tempo options:
@@ -34,8 +34,8 @@ The arpeggiator has the following options:
 
 To install the plugins do:
 ```
-git clone https://github.com/moddevices/mod-arpeggiator-lv2.git
-cd mod-arpeggiator-lv2
+git clone https://github.com/BramGiesen/bgsn-arpeggiator-lv2.git
+cd bgsn-arpeggiator-lv2
 make
 make install
 ```

@@ -62,13 +62,12 @@ private:
     void handleNoteOnEvent(const MidiEvent *event);
     void handleNoteOffEvent(const MidiEvent *event);
     void handleMidiThroughEvent(const MidiEvent *event);
-    void handleTimeBasedEvents(uint8_t n_frames);
+    void handleTimeBasedEvents(uint32_t n_frames);
     void createNewArpOutEvent(ArpNoteEvent event, size_t currentFrame);
     void noteOffTimer(size_t currentFrame);
     void addEventToNoteOffTimer(ArpNoteEvent event);
     void resetArpPattern();
 
-    ArpNoteEvent arpVoice[NUM_VOICES];
     ArpNoteOffEvent arpNoteOffEvent[NUM_VOICES];
     ArpNoteEvent notesBypassed[NUM_VOICES];
 

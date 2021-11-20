@@ -2,7 +2,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix pset: <http://lv2plug.in/ns/ext/presets#> .
 
-<http://moddevices.com/plugins/mod-devel/arpeggiator>
+<http://bramgiesen.com/arpeggiator>
     a lv2:Plugin ;
-    lv2:binary <mod-arpeggiator_dsp.so> ;
-    rdfs:seeAlso <mod-arpeggiator_dsp.ttl> .
+    lv2:binary <bgsn-arpeggiator_dsp.so> ;
+    rdfs:seeAlso <bgsn-arpeggiator_dsp.ttl> .

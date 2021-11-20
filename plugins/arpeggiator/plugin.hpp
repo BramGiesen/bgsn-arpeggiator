@@ -42,7 +42,7 @@ protected:
     }
 
     const char* getMaker() const noexcept override {
-        return "MOD";
+        return "BGSN";
     }
 
     const char* getHomePage() const override {
