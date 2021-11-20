@@ -71,7 +71,6 @@ private:
     void resetArpPattern();
 
     ArpNoteOffEvent arpNoteOffEvent[NUM_VOICES];
-    ArpNoteEvent notesBypassed[NUM_VOICES];
 
     int currentStep;
 
@@ -95,7 +94,6 @@ private:
     bool firstNote;
     bool quantizedStart;
     bool resetPattern;
-    bool midiNotesCopied;
     bool panic;
 
     int division;

@@ -20,7 +20,6 @@ Arpeggiator::Arpeggiator() :
     firstNote(false),
     quantizedStart(false),
     resetPattern(false),
-    midiNotesCopied(false),
     panic(false),
     division(0),
     sampleRate(48000),
@@ -256,7 +255,7 @@ void Arpeggiator::reset()
     firstNote = false;
     first = true;
 
-    //voiceManager->freeAll();
+    voiceManager->freeAll();
 }
 
 void Arpeggiator::emptyMidiBuffer()
@@ -266,10 +265,6 @@ void Arpeggiator::emptyMidiBuffer()
 
 void Arpeggiator::allNotesOff()
 {
-    for (unsigned i = 0; i < NUM_VOICES; i++) {
-        notesBypassed[i].active = false;
-    }
-    notesTracker.resetAll();
     reset();
 }
 
@@ -332,7 +327,7 @@ void Arpeggiator::handleNoteOnEvent(const MidiEvent *event)
 
     bool pitchFound = voiceManager->voiceActive(midiNote);
 
-    if (pitchFound) {
+    if (pitchFound && !latchPlaying) {
         //'New' pitch is already active, disregard
         return;
     }
@@ -371,14 +366,11 @@ void Arpeggiator::handleNoteOnEvent(const MidiEvent *event)
     notesTracker.registerNewPressedKey();
     notesTracker.registerNewActiveNote();
 
+    notesTracker.setNumActiveNotes(notesTracker.getNumKeysPressed());
+
     if (arpMode != ARP_PLAYED) {
         voiceManager->sort();
     }
-
-    //TODO ?????
-    //if (midiNote < arpVoice[currentStep - 1].midiNote && currentStep > 0) {
-    //    currentStep++;
-    //}
 }
 
 void Arpeggiator::handleNoteOffEvent(const MidiEvent *event)
@@ -448,8 +440,6 @@ void Arpeggiator::handleMidiInputEvent(const MidiEvent *event, uint8_t status)
             allNotesOff();
         }
 
-        //midiNotesCopied = false;
-
         switch(status) {
             //TODO check IO
             case MIDI_NOTEON:
@@ -468,13 +458,6 @@ void Arpeggiator::handleMidiInputEvent(const MidiEvent *event, uint8_t status)
 void Arpeggiator::handleMidiEventDisabledState(const MidiEvent *event, uint8_t status)
 {
     uint8_t midiNote = event->data[1];
-
-    //if (!midiNotesCopied) {
-    //    for (unsigned b = 0; b < NUM_VOICES; b++) {
-    //        notesBypassed[b] = arpVoice[b];
-    //    }
-    //    midiNotesCopied = true;
-    //}
 
     if (latchMode) {
         if (status == MIDI_NOTEOFF) {
