@@ -63,10 +63,11 @@ private:
     void handleNoteOffEvent(const MidiEvent *event);
     void handleMidiThroughEvent(const MidiEvent *event);
     void handleTimeBasedEvents(uint32_t n_frames);
+    void applyOctavePatternToEvent(ArpNoteEvent *event);
     void createNewArpOutEvent(ArpNoteEvent event, size_t currentFrame);
     void noteOffTimer(size_t currentFrame);
     void addEventToNoteOffTimer(ArpNoteEvent event);
-    void sendAllNotesOffToOutput(uint32_t current_frame);
+    void sendAllNotesOffToOutput();
     void resetArpPattern();
 
     ArpNoteOffEvent arpNoteOffEvent[NUM_VOICES];

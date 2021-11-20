@@ -39,7 +39,6 @@ Arpeggiator::Arpeggiator() :
     arpPattern[4] = new PatternUp();
     arpPattern[5] = new PatternRandom();
 
-
     octavePattern = new Pattern*[5];
 
     octavePattern[0] = new PatternUp();
@@ -250,8 +249,6 @@ void Arpeggiator::reset()
         octavePattern[o]->reset();
     }
 
-    std::cout << "RESET!" << std::endl;
-
     firstNoteTimer  = 0;
     currentStep = 0;
     notesTracker.resetAll();
@@ -276,9 +273,8 @@ void Arpeggiator::allNotesOff()
     reset();
 }
 
-void Arpeggiator::sendAllNotesOffToOutput(uint32_t current_frame)
+void Arpeggiator::sendAllNotesOffToOutput()
 {
-    std::cout << "sendALlNotesOffToOutput" << std::endl;
     struct MidiEvent midiEvent;
     //send all notes off, on current active MIDI channel
     midiEvent.size = 3;
@@ -499,12 +495,24 @@ void Arpeggiator::handleMidiEventDisabledState(const MidiEvent *event, uint8_t s
 
 void Arpeggiator::addEventToNoteOffTimer(ArpNoteEvent event)
 {
-    for (size_t i = 0; i < NUM_NOTE_OFF_SLOTS; i++) {
+    bool noteOffSlotFound = false;
+
+    int i = 0;
+
+    while (!noteOffSlotFound && i < NUM_NOTE_OFF_SLOTS)
+    {
         if (!arpNoteOffEvent[i].noteEvent.active) {
             arpNoteOffEvent[i].noteEvent.midiNote = event.midiNote;
             arpNoteOffEvent[i].noteEvent.channel = event.channel;
             arpNoteOffEvent[i].noteEvent.active = true;
+            noteOffSlotFound = true;
         }
+        i++;
+    }
+
+    if (!noteOffSlotFound)
+    {
+        sendAllNotesOffToOutput();
     }
 }
 
@@ -512,9 +520,6 @@ void Arpeggiator::createNewArpOutEvent(ArpNoteEvent event, size_t currentFrame)
 {
     //create MIDI note on message
     uint8_t midiNote = event.midiNote;
-    uint8_t octave = octavePattern[octaveMode]->getStep() * 12;
-
-    midiNote = midiNote + octave;
 
     struct MidiEvent midiEvent;
 
@@ -572,6 +577,15 @@ void Arpeggiator::noteOffTimer(size_t currentFrame)
     }
 }
 
+void Arpeggiator::applyOctavePatternToEvent(ArpNoteEvent *event)
+{
+    uint8_t octave = octavePattern[octaveMode]->getStep() * 12;
+    event->midiNote = event->midiNote + octave;
+
+    // Clip value if needed, to prevent it going out of range
+    event->midiNote = (event->midiNote > 127) ? 127 : event->midiNote;
+}
+
 void Arpeggiator::handleTimeBasedEvents(uint32_t n_frames)
 {
 
@@ -605,7 +619,7 @@ void Arpeggiator::handleTimeBasedEvents(uint32_t n_frames)
                 }
 
                 if (first) {
-                    sendAllNotesOffToOutput(s);
+                    sendAllNotesOffToOutput();
                     first = false;
                 }
             }
@@ -614,7 +628,7 @@ void Arpeggiator::handleTimeBasedEvents(uint32_t n_frames)
                 ArpNoteEvent event = voiceManager->getEvent(currentStep);
                 // Create a MIDI message out
                 if (event.active) {
-                    std::cout << "Create new event: " << (int)event.midiNote << std::endl;
+                    applyOctavePatternToEvent(&event);
                     createNewArpOutEvent(event, s);
                     // Add this event to the timer for sending a note off later
                     addEventToNoteOffTimer(event);
@@ -645,6 +659,7 @@ void Arpeggiator::process(const MidiEvent* events, uint32_t eventCount, uint32_t
         previousLatch = latchMode;
     }
     if (panic) {
+        sendAllNotesOffToOutput();
         reset();
         panic = false;
     }
