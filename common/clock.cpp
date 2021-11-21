@@ -209,7 +209,7 @@ uint32_t PluginClock::getPeriod() const
 
 uint32_t PluginClock::getClockCycleDuration() const
 {
-	return period / 2;
+    return period / 2;
 }
 
 uint32_t PluginClock::getPos() const
@@ -290,9 +290,9 @@ void PluginClock::applyTempoSettings()
 void PluginClock::tick()
 {
 
-	if (bpm <= 0) {
-		return;
-	}
+    if (bpm <= 0) {
+        return;
+    }
 
     countElapsedBars();
     checkForTempoChange();
