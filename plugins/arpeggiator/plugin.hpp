@@ -15,6 +15,7 @@ public:
     enum Parameters {
         paramSyncMode = 0,
         paramBpm,
+        paramSwing,
         paramSelectedDivision,
         paramDivision1,
         paramDivision2,

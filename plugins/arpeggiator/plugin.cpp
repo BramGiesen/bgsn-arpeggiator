@@ -50,6 +50,14 @@ void PluginArpeggiator::initParameter(uint32_t index, Parameter& parameter)
             parameter.ranges.min = 20.f;
             parameter.ranges.max = 280.f;
             break;
+        case paramSwing:
+            parameter.hints = kParameterIsAutomable;
+            parameter.name = "Swing";
+            parameter.symbol = "Swing";
+            parameter.ranges.def = 0.f;
+            parameter.ranges.min = -0.5f;
+            parameter.ranges.max = 0.5f;
+            break;
         case paramSelectedDivision:
             parameter.hints = kParameterIsAutomable | kParameterIsInteger;
             parameter.name = "Selected Division";
@@ -309,6 +317,8 @@ float PluginArpeggiator::getParameterValue(uint32_t index) const
             return arpeggiator.getSyncMode();
         case paramBpm:
             return arpeggiator.getBpm();
+        case paramSwing:
+            return arpeggiator.getSwing();
         case paramSelectedDivision:
             return arpeggiator.getSelectedDivision();
         case paramDivision1:
@@ -352,6 +362,9 @@ void PluginArpeggiator::setParameterValue(uint32_t index, float value)
             break;
         case paramBpm:
             arpeggiator.setBpm(value);
+            break;
+        case paramSwing:
+            arpeggiator.setSwing(value);
             break;
         case paramSelectedDivision:
             arpeggiator.setSelectedDivision(static_cast<int>(value));

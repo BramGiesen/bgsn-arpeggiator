@@ -90,6 +90,16 @@
     [
         a lv2:InputPort, lv2:ControlPort ;
         lv2:index 4 ;
+        lv2:name """Swing""" ;
+        lv2:symbol "Swing" ;
+        lv2:default 0 ;
+        lv2:minimum -0.5 ;
+        lv2:maximum 0.5 ;
+		lv2pg:group arpeggiator_lv2:G101_TEMPO_CONTROLS ;
+    ] ,
+    [
+        a lv2:InputPort, lv2:ControlPort ;
+        lv2:index 5 ;
         lv2:name """Selected Division""" ;
         lv2:symbol "SelectedDivision" ;
         lv2:default 0 ;
@@ -110,7 +120,7 @@
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 5 ;
+        lv2:index 6 ;
         lv2:name """Division 1""" ;
         lv2:symbol "Divisions1" ;
         lv2:default 9 ;
@@ -175,7 +185,7 @@
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 6 ;
+        lv2:index 7 ;
         lv2:name """Division 2""" ;
         lv2:symbol "Divisions2" ;
         lv2:default 9 ;
@@ -239,7 +249,7 @@
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 7 ;
+        lv2:index 8 ;
         lv2:name """Tempo Multiplier""" ;
         lv2:symbol "TempoMultiplier" ;
         lv2:default 1 ;
@@ -250,7 +260,7 @@
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 8 ;
+        lv2:index 9 ;
         lv2:name """Multiplier Enabled""" ;
         lv2:symbol "MultiplierEnabled" ;
         lv2:default 0.000000 ;
@@ -261,7 +271,7 @@
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 9 ;
+        lv2:index 10 ;
         lv2:name """Hold""" ;
         lv2:symbol "Hold" ;
         lv2:default 0.000000 ;
@@ -272,7 +282,7 @@
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 10 ;
+        lv2:index 11 ;
         lv2:name """Velocity""" ;
         lv2:symbol "velocity" ;
         lv2:default 110 ;
@@ -283,7 +293,7 @@
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 11 ;
+        lv2:index 12 ;
         lv2:name """Note Length""" ;
         lv2:symbol "noteLength" ;
         lv2:default 0.700000 ;
@@ -293,7 +303,7 @@
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 12 ;
+        lv2:index 13 ;
         lv2:name """Octave Spread""" ;
         lv2:symbol "octaveSpread" ;
         lv2:default 1 ;
@@ -322,7 +332,7 @@
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 13 ;
+        lv2:index 14 ;
         lv2:name """Arp Mode""" ;
         lv2:symbol "arpMode" ;
         lv2:default 0 ;
@@ -359,7 +369,7 @@
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 14 ;
+        lv2:index 15 ;
         lv2:name """Octave Mode""" ;
         lv2:symbol "octaveMode" ;
         lv2:default 4 ;
@@ -392,7 +402,7 @@
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 15 ;
+        lv2:index 16 ;
         lv2:name """Latch""" ;
         lv2:symbol "latch" ;
         lv2:default 0.000000 ;
@@ -403,7 +413,7 @@
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 16 ;
+        lv2:index 17 ;
         lv2:name """Panic""" ;
         lv2:symbol "Panic" ;
         lv2:default 0 ;
@@ -414,7 +424,7 @@
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 17 ;
+        lv2:index 18 ;
         lv2:name """Enabled""" ;
         lv2:symbol "enabled" ;
         lv2:default 1.000000 ;

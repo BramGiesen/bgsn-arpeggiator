@@ -133,6 +133,11 @@ void Arpeggiator::setBpm(double newBpm)
     }
 }
 
+void Arpeggiator::setSwing(float swing)
+{
+    clock.setSwing(swing);
+}
+
 void Arpeggiator::setSelectedDivision(int selectedDivision)
 {
     this->selectedDivision = selectedDivision;
@@ -240,6 +245,11 @@ int Arpeggiator::getSyncMode() const
 float Arpeggiator::getBpm() const
 {
     return clock.getInternalBpmValue();
+}
+
+float Arpeggiator::getSwing() const
+{
+    return clock.getSwing();
 }
 
 int Arpeggiator::getSelectedDivision() const
@@ -607,7 +617,8 @@ void Arpeggiator::noteOffTimer(size_t currentFrame)
     for (size_t i = 0; i < NUM_NOTE_OFF_SLOTS; i++) {
         if (arpNoteOffEvent[i].noteEvent.active) {
             arpNoteOffEvent[i].timer += 1;
-            if (arpNoteOffEvent[i].timer > static_cast<uint32_t>(clock.getPeriod() * noteLength)) {
+            uint32_t noteDurationInSamples = static_cast<uint32_t>(clock.getClockCycleDuration() * noteLength);
+            if (arpNoteOffEvent[i].timer > noteDurationInSamples) {
                 struct MidiEvent midiEvent;
                 midiEvent.frame = currentFrame;
                 midiEvent.size = 3;

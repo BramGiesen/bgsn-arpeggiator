@@ -22,6 +22,7 @@ public:
     void setDivision(int division);
     void setTempoMultiplyFactor(int factor);
     void setTempoMultiplyEnabled(bool enabled);
+    void setSwing(float swing);
     void syncClock();
     void setPos(uint32_t pos);
     void setNumBarsElapsed(uint32_t numBarsElapsed);
@@ -34,9 +35,11 @@ public:
     int getSyncMode() const;
     float getInternalBpmValue() const;
     int getDivision() const;
+    float getSwing() const;
     int getTempoMultiplyFactor() const;
     bool getTempoMultiplyEnabled() const;
     uint32_t getPeriod() const;
+    uint32_t getClockCycleDuration() const;
     uint32_t getPos() const;
     void tick();
 
@@ -71,9 +74,11 @@ private:
     float sampleRate;
     int division;
     float divisionValue;
+    float swing;
 
     float hostBarBeat;
     float beatTick;
+    int triggerIndex;
     int syncMode;
     int previousSyncMode;
     int hostTick;

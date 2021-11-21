@@ -22,8 +22,11 @@ PluginClock::PluginClock() :
     previousBpm(0),
     sampleRate(48000.0),
     division(1),
+    divisionValue(9),
+    swing(0),
     hostBarBeat(0.0),
     beatTick(0.0),
+    triggerIndex(0),
     syncMode(1),
     previousSyncMode(0),
     hostTick(0),
@@ -102,9 +105,14 @@ void PluginClock::setBpm(float bpm)
         bpm = bpm * tempoMultiplyFactor;
     }
 
-    this->bpm = bpm;
+    this->bpm = (bpm / 2.0);
 
     calcPeriod();
+}
+
+void PluginClock::setSwing(float swing)
+{
+    this->swing = swing;
 }
 
 void PluginClock::setSampleRate(float sampleRate)
@@ -189,9 +197,19 @@ int PluginClock::getDivision() const
     return division;
 }
 
+float PluginClock::getSwing() const
+{
+    return swing;
+}
+
 uint32_t PluginClock::getPeriod() const
 {
     return period;
+}
+
+uint32_t PluginClock::getClockCycleDuration() const
+{
+	return period / 2;
 }
 
 uint32_t PluginClock::getPos() const
@@ -271,6 +289,11 @@ void PluginClock::applyTempoSettings()
 
 void PluginClock::tick()
 {
+
+	if (bpm <= 0) {
+		return;
+	}
+
     countElapsedBars();
     checkForTempoChange();
     applyTempoSettings();
@@ -279,14 +302,17 @@ void PluginClock::tick()
         pos = 0;
     }
 
-    if (pos < quarterWaveLength && !trigger) {
+    uint32_t triggerPos[2];
+    triggerPos[0] = 0;
+    triggerPos[1] = static_cast<uint32_t>(halfWavelength + (halfWavelength * swing));
+
+    if (pos < triggerPos[1] && trigger) {
+        triggerIndex ^= 1;
+        trigger = false;
+    }
+    if (pos >= triggerPos[triggerIndex] && !trigger) {
         gate = true;
         trigger = true;
-    } else if (pos > halfWavelength && trigger) {
-        if (playing && beatSync) {
-            syncClock();
-        }
-        trigger = false;
     }
 
     if (playing && beatSync) {

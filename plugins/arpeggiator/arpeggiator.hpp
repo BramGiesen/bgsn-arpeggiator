@@ -27,6 +27,7 @@ public:
     void setSampleRate(float sampleRate);
     void setSyncMode(int mode);
     void setBpm(double bpm);
+    void setSwing(float swing);
     void setSelectedDivision(int selected);
     void updateClockDivision();
     void setDivision(int index, int value);
@@ -45,6 +46,7 @@ public:
     float getSampleRate() const;
     int getSyncMode() const;
     float getBpm() const;
+    float getSwing() const;
     int getSelectedDivision() const;
     int getDivision(int index) const;
     int getTempoMultiplyFactor() const;
