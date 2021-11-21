@@ -30,6 +30,9 @@ public:
     void setSelectedDivision(int selected);
     void updateClockDivision();
     void setDivision(int index, int value);
+    void setTempoMultiplyFactor(int factor);
+    void setTempoMultiplyEnabled(bool enabled);
+    void setEnableHold(bool value);
     void setVelocity(uint8_t velocity);
     void setNoteLength(float noteLength);
     void setOctaveSpread(int octaveSpread);
@@ -44,6 +47,9 @@ public:
     float getBpm() const;
     int getSelectedDivision() const;
     int getDivision(int index) const;
+    int getTempoMultiplyFactor() const;
+    bool getTempoMultiplyEnabled() const;
+    bool getEnableHold() const;
     uint8_t getVelocity() const;
     float getNoteLength() const;
     int getOctaveSpread() const;
@@ -66,6 +72,7 @@ private:
     void handleNoteOffEvent(const MidiEvent *event);
     void handleMidiThroughEvent(const MidiEvent *event);
     void handleTimeBasedEvents(uint32_t n_frames);
+    ArpNoteEvent createHoldEvent(ArpNoteEvent event);
     void applyOctavePatternToEvent(ArpNoteEvent *event);
     void createNewArpOutEvent(ArpNoteEvent event, size_t currentFrame);
     void noteOffTimer(size_t currentFrame);
@@ -86,6 +93,7 @@ private:
     float noteLength;
 
     uint8_t velocity;
+    uint8_t noteToHold;
     int timeOutTime;
     int firstNoteTimer;
     float barBeat;
@@ -95,6 +103,9 @@ private:
     bool latchMode;
     bool previousLatch;
     bool latchPlaying;
+    bool tempoMultiplierEnabled;
+    bool hold;
+    bool holdEventDefined;
     bool trigger;
     bool firstNote;
     bool quantizedStart;

@@ -20,6 +20,8 @@ public:
     void setSyncMode(int mode);
     void setInternalBpmValue(float internalBpm);
     void setDivision(int division);
+    void setTempoMultiplyFactor(int factor);
+    void setTempoMultiplyEnabled(bool enabled);
     void syncClock();
     void setPos(uint32_t pos);
     void setNumBarsElapsed(uint32_t numBarsElapsed);
@@ -33,6 +35,8 @@ public:
     int getSyncMode() const;
     float getInternalBpmValue() const;
     int getDivision() const;
+    int getTempoMultiplyFactor() const;
+    bool getTempoMultiplyEnabled() const;
     uint32_t getPeriod() const;
     uint32_t getPos() const;
     void tick();
@@ -48,6 +52,9 @@ private:
     bool previousPlaying;
     bool endOfBar;
     bool init;
+    bool updateTempo;
+    bool tempoMultiplyEnabled;
+    bool multiplierChanged;
 
     uint32_t period;
     uint32_t halfWavelength;
@@ -72,6 +79,7 @@ private:
     int barLength;
     int numBarsElapsed;
     int previousBeat;
+    int tempoMultiplyFactor;
 
     int arpMode;
 

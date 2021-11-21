@@ -148,13 +148,31 @@ void PluginArpeggiator::initParameter(uint32_t index, Parameter& parameter)
                 channels[12].value = 12;
             }
             break;
-        case paramVelocity:
+        case paramTempoMultiplier:
             parameter.hints = kParameterIsAutomable | kParameterIsInteger;
-            parameter.name = "Velocity";
-            parameter.symbol = "velocity";
-            parameter.ranges.def = 0;
-            parameter.ranges.min = 0;
-            parameter.ranges.max = 127;
+            parameter.name = "Tempo Multiplier";
+            parameter.symbol = "TempoMultiplier";
+            parameter.ranges.def = 1;
+            parameter.ranges.min = 1;
+            parameter.ranges.max = 16;
+            break;
+        case paramMultiplierEnabled:
+            parameter.hints      = kParameterIsAutomable | kParameterIsBoolean;
+            parameter.name       = "Multplier Enabled";
+            parameter.symbol     = "MultplierEnabled";
+            parameter.unit       = "";
+            parameter.ranges.def = 0.f;
+            parameter.ranges.min = 0.f;
+            parameter.ranges.max = 1.f;
+            break;
+        case paramHoldEnabled:
+            parameter.hints      = kParameterIsAutomable | kParameterIsBoolean;
+            parameter.name       = "Hold";
+            parameter.symbol     = "Hold";
+            parameter.unit       = "";
+            parameter.ranges.def = 0.f;
+            parameter.ranges.min = 0.f;
+            parameter.ranges.max = 1.f;
             break;
         case paramNoteLength:
             parameter.hints      = kParameterIsAutomable;
@@ -297,6 +315,12 @@ float PluginArpeggiator::getParameterValue(uint32_t index) const
             return arpeggiator.getDivision(0);
         case paramDivision2:
             return arpeggiator.getDivision(1);
+        case paramTempoMultiplier:
+            return arpeggiator.getTempoMultiplyFactor();
+        case paramMultiplierEnabled:
+            return arpeggiator.getTempoMultiplyEnabled();
+        case paramHoldEnabled:
+            return arpeggiator.getEnableHold();
         case paramVelocity:
             return arpeggiator.getVelocity();
         case paramNoteLength:
@@ -337,6 +361,15 @@ void PluginArpeggiator::setParameterValue(uint32_t index, float value)
             break;
         case paramDivision2:
             arpeggiator.setDivision(1, static_cast<int>(value));
+            break;
+        case paramTempoMultiplier:
+            arpeggiator.setTempoMultiplyFactor(static_cast<int>(value));
+            break;
+        case paramMultiplierEnabled:
+            arpeggiator.setTempoMultiplyEnabled(static_cast<bool>(value));
+            break;
+        case paramHoldEnabled:
+            arpeggiator.setEnableHold(static_cast<bool>(value));
             break;
         case paramVelocity:
             arpeggiator.setVelocity(static_cast<int>(value));

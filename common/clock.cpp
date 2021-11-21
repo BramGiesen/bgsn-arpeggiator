@@ -9,6 +9,8 @@ PluginClock::PluginClock() :
     previousPlaying(false),
     endOfBar(false),
     init(false),
+    tempoMultiplyEnabled(false),
+    multiplierChanged(false),
     period(0),
     halfWavelength(0),
     quarterWaveLength(0),
@@ -81,9 +83,26 @@ void PluginClock::setInternalBpmValue(float internalBpm)
     this->internalBpm = internalBpm;
 }
 
+void PluginClock::setTempoMultiplyFactor(int factor)
+{
+    this->tempoMultiplyFactor = factor;
+    multiplierChanged = true;
+}
+
+void PluginClock::setTempoMultiplyEnabled(bool tempoMultiplyEnabled)
+{
+    this->tempoMultiplyEnabled = tempoMultiplyEnabled;
+    multiplierChanged = true;
+}
+
 void PluginClock::setBpm(float bpm)
 {
+    if (tempoMultiplyEnabled) {
+        bpm = bpm * tempoMultiplyFactor;
+    }
+
     this->bpm = bpm;
+
     calcPeriod();
 }
 
@@ -154,6 +173,16 @@ float PluginClock::getInternalBpmValue() const
     return internalBpm;
 }
 
+int PluginClock::getTempoMultiplyFactor() const
+{
+    return tempoMultiplyFactor;
+}
+
+bool PluginClock::getTempoMultiplyEnabled() const
+{
+    return tempoMultiplyEnabled;
+}
+
 int PluginClock::getDivision() const
 {
     return division;
@@ -196,27 +225,33 @@ void PluginClock::applyTempoSettings()
     switch (syncMode)
     {
         case FREE_RUNNING:
-            if ((internalBpm != previousBpm) || (syncMode != previousSyncMode)) {
+            if ((internalBpm != previousBpm) || (syncMode != previousSyncMode) || multiplierChanged) {
                 setBpm(internalBpm);
                 previousBpm = internalBpm;
                 previousSyncMode = syncMode;
+                multiplierChanged = false;
             }
             break;
         case HOST_BPM_SYNC:
-            if ((hostBpm != previousBpm && (fabs(previousBpm - hostBpm) > threshold)) || (syncMode != previousSyncMode)) {
+            if ((hostBpm != previousBpm && (fabs(previousBpm - hostBpm) > threshold))
+                    || (syncMode != previousSyncMode || multiplierChanged)) {
+
                 setBpm(hostBpm);
                 previousBpm = hostBpm;
                 previousSyncMode = syncMode;
+                multiplierChanged = false;
             }
             break;
         case HOST_QUANTIZED_SYNC:
-            if ((hostBpm != previousBpm && (fabs(previousBpm - hostBpm) > threshold)) || (syncMode != previousSyncMode)) {
+            if ((hostBpm != previousBpm && (fabs(previousBpm - hostBpm) > threshold))
+                    || (syncMode != previousSyncMode) || multiplierChanged) {
                 setBpm(hostBpm);
                 if (playing) {
                     syncClock();
                 }
                 previousBpm = hostBpm;
                 previousSyncMode = syncMode;
+                multiplierChanged = false;
             }
             break;
     }

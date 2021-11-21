@@ -9,6 +9,7 @@ Arpeggiator::Arpeggiator() :
     selectedDivision(0),
     noteLength(0.8),
     velocity(80),
+    noteToHold(0),
     timeOutTime(1000),
     firstNoteTimer(0),
     barBeat(0.0),
@@ -17,6 +18,9 @@ Arpeggiator::Arpeggiator() :
     latchMode(false),
     previousLatch(false),
     latchPlaying(false),
+    tempoMultiplierEnabled(false),
+    hold(false),
+    holdEventDefined(false),
     trigger(false),
     firstNote(false),
     quantizedStart(false),
@@ -141,6 +145,22 @@ void Arpeggiator::setDivision(int index, int value)
     updateClockDivision();
 }
 
+void Arpeggiator::setTempoMultiplyFactor(int factor)
+{
+    clock.setTempoMultiplyFactor(factor);
+}
+
+void Arpeggiator::setTempoMultiplyEnabled(bool enabled)
+{
+    tempoMultiplierEnabled = enabled;
+    clock.setTempoMultiplyEnabled(enabled);
+}
+
+void Arpeggiator::setEnableHold(bool hold)
+{
+    this->hold = hold;
+}
+
 void Arpeggiator::updateClockDivision()
 {
     int newDivision = 0;
@@ -230,6 +250,21 @@ int Arpeggiator::getSelectedDivision() const
 int Arpeggiator::getDivision(int index) const
 {
     return divisionValues[index];
+}
+
+int Arpeggiator::getTempoMultiplyFactor() const
+{
+    return clock.getTempoMultiplyFactor();
+}
+
+bool Arpeggiator::getTempoMultiplyEnabled() const
+{
+    return clock.getTempoMultiplyEnabled();
+}
+
+bool Arpeggiator::getEnableHold() const
+{
+    return hold;
 }
 
 uint8_t Arpeggiator::getVelocity() const
@@ -547,8 +582,6 @@ void Arpeggiator::createNewArpOutEvent(ArpNoteEvent event, size_t currentFrame)
     midiEvent.data[2] = velocity;
 
     midiHandler.appendMidiMessage(midiEvent);
-
-    octavePattern[octaveMode]->goToNextStep();
 }
 
 void Arpeggiator::resetArpPattern()
@@ -603,6 +636,16 @@ void Arpeggiator::applyOctavePatternToEvent(ArpNoteEvent *event)
     event->midiNote = (event->midiNote > 127) ? 127 : event->midiNote;
 }
 
+ArpNoteEvent Arpeggiator::createHoldEvent(ArpNoteEvent event)
+{
+    ArpNoteEvent holdEvent;
+    holdEvent.midiNote = event.midiNote;
+    holdEvent.channel = event.channel;
+    holdEvent.active = event.active;
+
+    return holdEvent;
+}
+
 void Arpeggiator::handleTimeBasedEvents(uint32_t n_frames)
 {
 
@@ -646,6 +689,24 @@ void Arpeggiator::handleTimeBasedEvents(uint32_t n_frames)
                 // Create a MIDI message out
                 if (event.active) {
                     applyOctavePatternToEvent(&event);
+
+                    //TODO create nice function for this
+                    if (tempoMultiplierEnabled) {
+                        if (!holdEventDefined) {
+                            noteToHold = event.midiNote;
+                            holdEventDefined = true;
+                        }
+
+                        if (hold) {
+                            event.midiNote = noteToHold;
+                        } else {
+                            holdEventDefined = false;
+                        }
+                    } else {
+                            holdEventDefined = false;
+                    }
+
+
                     createNewArpOutEvent(event, s);
                     // Add this event to the timer for sending a note off later
                     addEventToNoteOffTimer(event);
@@ -653,9 +714,12 @@ void Arpeggiator::handleTimeBasedEvents(uint32_t n_frames)
                 }
             }
             // Keep pattern running, even when disabled.
-            // This makes time syncing easier.
+            // This makes syncing easier.
+            // Only exception is when the 'hold' is set on the tempo multiplier
+            octavePattern[octaveMode]->goToNextStep();
             arpPattern[arpMode]->goToNextStep();
             currentStep = arpPattern[arpMode]->getStep();
+
             clock.closeGate();
         }
         //Run note off timer, that will fire a note-off event if note is active longer then set note lenght
