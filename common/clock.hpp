@@ -26,7 +26,6 @@ public:
     void setPos(uint32_t pos);
     void setNumBarsElapsed(uint32_t numBarsElapsed);
     void countElapsedBars();
-    void applyTempoSettings();
     void calcPeriod();
     void closeGate();
     void reset();
@@ -43,6 +42,8 @@ public:
 
 private:
     void setBpm(float bpm);
+    void checkForTempoChange();
+    void applyTempoSettings();
 
     bool gate;
     bool trigger;
@@ -55,6 +56,7 @@ private:
     bool updateTempo;
     bool tempoMultiplyEnabled;
     bool multiplierChanged;
+    bool tempoHasChanged;
 
     uint32_t period;
     uint32_t halfWavelength;

@@ -11,6 +11,7 @@ PluginClock::PluginClock() :
     init(false),
     tempoMultiplyEnabled(false),
     multiplierChanged(false),
+    tempoHasChanged(false),
     period(0),
     halfWavelength(0),
     quarterWaveLength(0),
@@ -218,48 +219,60 @@ void PluginClock::countElapsedBars()
     }
 }
 
-void PluginClock::applyTempoSettings()
+void PluginClock::checkForTempoChange()
 {
     float threshold = 0.009; //TODO might not be needed
+
+    if (syncMode != FREE_RUNNING) {
+        if (fabs(previousBpm - hostBpm) > threshold) {
+            tempoHasChanged = true;
+            previousBpm = hostBpm;
+            return;
+        }
+    } else if (internalBpm != previousBpm) {
+        tempoHasChanged = true;
+        previousBpm = internalBpm;
+        return;
+    }
+
+    if (syncMode != previousSyncMode) {
+        tempoHasChanged = true;
+        previousSyncMode = syncMode;
+        return;
+    }
+}
+
+void PluginClock::applyTempoSettings()
+{
+
+    if (!tempoHasChanged && !multiplierChanged) {
+        return;
+    }
 
     switch (syncMode)
     {
         case FREE_RUNNING:
-            if ((internalBpm != previousBpm) || (syncMode != previousSyncMode) || multiplierChanged) {
-                setBpm(internalBpm);
-                previousBpm = internalBpm;
-                previousSyncMode = syncMode;
-                multiplierChanged = false;
-            }
+            setBpm(internalBpm);
             break;
         case HOST_BPM_SYNC:
-            if ((hostBpm != previousBpm && (fabs(previousBpm - hostBpm) > threshold))
-                    || (syncMode != previousSyncMode || multiplierChanged)) {
-
-                setBpm(hostBpm);
-                previousBpm = hostBpm;
-                previousSyncMode = syncMode;
-                multiplierChanged = false;
-            }
+            setBpm(hostBpm);
             break;
         case HOST_QUANTIZED_SYNC:
-            if ((hostBpm != previousBpm && (fabs(previousBpm - hostBpm) > threshold))
-                    || (syncMode != previousSyncMode) || multiplierChanged) {
-                setBpm(hostBpm);
-                if (playing) {
-                    syncClock();
-                }
-                previousBpm = hostBpm;
-                previousSyncMode = syncMode;
-                multiplierChanged = false;
+            setBpm(hostBpm);
+            if (playing) {
+                syncClock();
             }
             break;
     }
+
+    tempoHasChanged = false;
+    multiplierChanged = false;
 }
 
 void PluginClock::tick()
 {
     countElapsedBars();
+    checkForTempoChange();
     applyTempoSettings();
 
     if (pos > period) {

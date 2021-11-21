@@ -636,14 +636,22 @@ void Arpeggiator::applyOctavePatternToEvent(ArpNoteEvent *event)
     event->midiNote = (event->midiNote > 127) ? 127 : event->midiNote;
 }
 
-ArpNoteEvent Arpeggiator::createHoldEvent(ArpNoteEvent event)
+void Arpeggiator::applyHoldToEvent(ArpNoteEvent *event)
 {
-    ArpNoteEvent holdEvent;
-    holdEvent.midiNote = event.midiNote;
-    holdEvent.channel = event.channel;
-    holdEvent.active = event.active;
+    if (tempoMultiplierEnabled) {
+        if (!holdEventDefined) {
+            noteToHold = event->midiNote;
+            holdEventDefined = true;
+        }
 
-    return holdEvent;
+        if (hold) {
+            event->midiNote = noteToHold;
+        } else {
+            holdEventDefined = false;
+        }
+    } else {
+        holdEventDefined = false;
+    }
 }
 
 void Arpeggiator::handleTimeBasedEvents(uint32_t n_frames)
@@ -689,22 +697,8 @@ void Arpeggiator::handleTimeBasedEvents(uint32_t n_frames)
                 // Create a MIDI message out
                 if (event.active) {
                     applyOctavePatternToEvent(&event);
+                    applyHoldToEvent(&event);
 
-                    //TODO create nice function for this
-                    if (tempoMultiplierEnabled) {
-                        if (!holdEventDefined) {
-                            noteToHold = event.midiNote;
-                            holdEventDefined = true;
-                        }
-
-                        if (hold) {
-                            event.midiNote = noteToHold;
-                        } else {
-                            holdEventDefined = false;
-                        }
-                    } else {
-                            holdEventDefined = false;
-                    }
 
 
                     createNewArpOutEvent(event, s);
