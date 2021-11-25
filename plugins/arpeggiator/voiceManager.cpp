@@ -5,6 +5,7 @@ VoiceManager::VoiceManager()
 {
     for (unsigned i = 0; i < NUM_VOICES; i++) {
         arpVoice[i].midiNote = 0;
+        arpVoice[i].velocity = 100;
         arpVoice[i].channel = 0;
         arpVoice[i].active = false;
         emptyVoice.active = false;

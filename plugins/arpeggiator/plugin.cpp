@@ -182,6 +182,15 @@ void PluginArpeggiator::initParameter(uint32_t index, Parameter& parameter)
             parameter.ranges.min = 0.f;
             parameter.ranges.max = 1.f;
             break;
+        case paramVelocity:
+            parameter.hints      = kParameterIsAutomable | kParameterIsInteger;
+            parameter.name       = "Velocity";
+            parameter.symbol     = "Velocity";
+            parameter.unit       = "";
+            parameter.ranges.def = 0;
+            parameter.ranges.min = 0;
+            parameter.ranges.max = 127;
+            break;
         case paramNoteLength:
             parameter.hints      = kParameterIsAutomable;
             parameter.name       = "Note Length";
@@ -272,6 +281,87 @@ void PluginArpeggiator::initParameter(uint32_t index, Parameter& parameter)
             parameter.ranges.min = 0.f;
             parameter.ranges.max = 1.f;
             break;
+        case paramProbabilityPatternSize:
+            parameter.hints      = kParameterIsAutomable | kParameterIsInteger;
+            parameter.name       = "Prob Pattern Size";
+            parameter.symbol     = "ProbPatternSize";
+            parameter.unit       = "";
+            parameter.ranges.def = 0;
+            parameter.ranges.min = 0;
+            parameter.ranges.max = 8;
+            break;
+        case paramProbabilityPattern1:
+            parameter.hints      = kParameterIsAutomable | kParameterIsInteger;
+            parameter.name       = "Prob Pattern 1";
+            parameter.symbol     = "ProbPattern1";
+            parameter.unit       = "";
+            parameter.ranges.def = 0;
+            parameter.ranges.min = 0;
+            parameter.ranges.max = 100;
+            break;
+        case paramProbabilityPattern2:
+            parameter.hints      = kParameterIsAutomable | kParameterIsInteger;
+            parameter.name       = "Prob Pattern 2";
+            parameter.symbol     = "ProbPattern2";
+            parameter.unit       = "";
+            parameter.ranges.def = 0;
+            parameter.ranges.min = 0;
+            parameter.ranges.max = 100;
+            break;
+        case paramProbabilityPattern3:
+            parameter.hints      = kParameterIsAutomable | kParameterIsInteger;
+            parameter.name       = "Prob Pattern 3";
+            parameter.symbol     = "ProbPattern3";
+            parameter.unit       = "";
+            parameter.ranges.def = 0;
+            parameter.ranges.min = 0;
+            parameter.ranges.max = 100;
+            break;
+        case paramProbabilityPattern4:
+            parameter.hints      = kParameterIsAutomable | kParameterIsInteger;
+            parameter.name       = "Prob Pattern 4";
+            parameter.symbol     = "ProbPattern4";
+            parameter.unit       = "";
+            parameter.ranges.def = 0;
+            parameter.ranges.min = 0;
+            parameter.ranges.max = 100;
+            break;
+        case paramProbabilityPattern5:
+            parameter.hints      = kParameterIsAutomable | kParameterIsInteger;
+            parameter.name       = "Prob Pattern 5";
+            parameter.symbol     = "ProbPattern5";
+            parameter.unit       = "";
+            parameter.ranges.def = 0;
+            parameter.ranges.min = 0;
+            parameter.ranges.max = 100;
+            break;
+        case paramProbabilityPattern6:
+            parameter.hints      = kParameterIsAutomable | kParameterIsInteger;
+            parameter.name       = "Prob Pattern 6";
+            parameter.symbol     = "ProbPattern6";
+            parameter.unit       = "";
+            parameter.ranges.def = 0;
+            parameter.ranges.min = 0;
+            parameter.ranges.max = 100;
+            break;
+        case paramProbabilityPattern7:
+            parameter.hints      = kParameterIsAutomable | kParameterIsInteger;
+            parameter.name       = "Prob Pattern 7";
+            parameter.symbol     = "ProbPattern7";
+            parameter.unit       = "";
+            parameter.ranges.def = 0;
+            parameter.ranges.min = 0;
+            parameter.ranges.max = 100;
+            break;
+        case paramProbabilityPattern8:
+            parameter.hints      = kParameterIsAutomable | kParameterIsInteger;
+            parameter.name       = "Prob Pattern 8";
+            parameter.symbol     = "ProbPattern8";
+            parameter.unit       = "";
+            parameter.ranges.def = 0;
+            parameter.ranges.min = 0;
+            parameter.ranges.max = 100;
+            break;
         case paramPanic:
             parameter.hints      = kParameterIsAutomable | kParameterIsTrigger;
             parameter.name       = "Panic";
@@ -343,6 +433,24 @@ float PluginArpeggiator::getParameterValue(uint32_t index) const
             return arpeggiator.getOctaveMode();
         case paramLatch:
             return arpeggiator.getLatchMode();
+        case paramProbabilityPatternSize:
+            return arpeggiator.getProbabilityPatternSize();
+        case paramProbabilityPattern1:
+            return arpeggiator.getProbability(0);
+        case paramProbabilityPattern2:
+            return arpeggiator.getProbability(1);
+        case paramProbabilityPattern3:
+            return arpeggiator.getProbability(2);
+        case paramProbabilityPattern4:
+            return arpeggiator.getProbability(3);
+        case paramProbabilityPattern5:
+            return arpeggiator.getProbability(4);
+        case paramProbabilityPattern6:
+            return arpeggiator.getProbability(5);
+        case paramProbabilityPattern7:
+            return arpeggiator.getProbability(6);
+        case paramProbabilityPattern8:
+            return arpeggiator.getProbability(7);
         case paramPanic:
             return arpeggiator.getPanic();
         case paramEnabled:
@@ -401,6 +509,33 @@ void PluginArpeggiator::setParameterValue(uint32_t index, float value)
             break;
         case paramLatch:
             arpeggiator.setLatchMode(static_cast<bool>(value));
+            break;
+        case paramProbabilityPatternSize:
+            arpeggiator.setProbabilityPatternSize(static_cast<int>(value));
+            break;
+        case paramProbabilityPattern1:
+            arpeggiator.setProbability(0, static_cast<int>(value));
+            break;
+        case paramProbabilityPattern2:
+            arpeggiator.setProbability(1, static_cast<int>(value));
+            break;
+        case paramProbabilityPattern3:
+            arpeggiator.setProbability(2, static_cast<int>(value));
+            break;
+        case paramProbabilityPattern4:
+            arpeggiator.setProbability(3, static_cast<int>(value));
+            break;
+        case paramProbabilityPattern5:
+            arpeggiator.setProbability(4, static_cast<int>(value));
+            break;
+        case paramProbabilityPattern6:
+            arpeggiator.setProbability(5, static_cast<int>(value));
+            break;
+        case paramProbabilityPattern7:
+            arpeggiator.setProbability(6, static_cast<int>(value));
+            break;
+        case paramProbabilityPattern8:
+            arpeggiator.setProbability(7, static_cast<int>(value));
             break;
         case paramPanic:
             arpeggiator.setPanic(static_cast<bool>(value));

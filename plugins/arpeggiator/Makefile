@@ -31,6 +31,8 @@ FILES_DSP = \
 	utils.cpp \
 	voiceManager.cpp \
 	notesTracker.cpp \
+	probabilityPattern.cpp \
+	velocityHandler.cpp \
 	../../common/midiHandler.cpp \
 	../../common/clock.cpp \
 	../../common/pattern.cpp \

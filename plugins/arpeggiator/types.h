@@ -25,6 +25,7 @@
 
 struct ArpNoteEvent {
     uint8_t midiNote;
+    uint8_t velocity;
     uint8_t channel;
     bool active;
 };

@@ -5,6 +5,7 @@
 
 #include "voiceManager.hpp"
 #include "notesTracker.hpp"
+#include "probabilityPattern.hpp"
 #include "../../common/clock.hpp"
 #include "../../common/pattern.hpp"
 #include "../../common/midiHandler.hpp"
@@ -39,6 +40,8 @@ public:
     void setOctaveSpread(int octaveSpread);
     void setArpMode(int arpMode);
     void setOctaveMode(int octaveMode);
+    void setProbabilityPatternSize(int size);
+    void setProbability(int index, int value);
     void setPanic(bool panic);
     int getPatternSize();
     bool getArpEnabled() const;
@@ -57,6 +60,8 @@ public:
     int getOctaveSpread() const;
     int getArpMode() const;
     int getOctaveMode() const;
+    int getProbabilityPatternSize() const;
+    int getProbability(int index) const;
     bool getPanic() const;
     void transmitHostInfo(const bool playing, const float beatsPerBar,
             const int beat, const float barBeat, const double bpm);
@@ -75,6 +80,7 @@ private:
     void handleMidiThroughEvent(const MidiEvent *event);
     void handleTimeBasedEvents(uint32_t n_frames);
     void applyOctavePatternToEvent(ArpNoteEvent *event);
+    void applyProbability(ArpNoteEvent *event);
     void applyHoldToEvent(ArpNoteEvent *event);
     void createNewArpOutEvent(ArpNoteEvent event, size_t currentFrame);
     void noteOffTimer(size_t currentFrame);
@@ -124,6 +130,7 @@ private:
     PluginClock clock;
     VoiceManager *voiceManager;
     NotesTracker notesTracker;
+    ProbabilityPattern probabilityPattern;
 };
 
 #endif //_H_ARPEGGIATOR_

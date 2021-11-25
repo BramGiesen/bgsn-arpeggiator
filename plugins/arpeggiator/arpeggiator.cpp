@@ -217,6 +217,16 @@ void Arpeggiator::setOctaveMode(int octaveMode)
     this->octaveMode = octaveMode;
 }
 
+void Arpeggiator::setProbabilityPatternSize(int size)
+{
+    probabilityPattern.setNumSteps(size);
+}
+
+void Arpeggiator::setProbability(int index, int value)
+{
+    probabilityPattern.setProbability(index, value);
+}
+
 void Arpeggiator::setPanic(bool panic)
 {
     this->panic = panic;
@@ -302,6 +312,16 @@ int Arpeggiator::getOctaveMode() const
     return octaveMode;
 }
 
+int Arpeggiator::getProbabilityPatternSize() const
+{
+    return probabilityPattern.getNumSteps();
+}
+
+int Arpeggiator::getProbability(int index) const
+{
+    return probabilityPattern.getProbability(index);
+}
+
 bool Arpeggiator::getPanic() const
 {
     return panic;
@@ -325,6 +345,7 @@ void Arpeggiator::reset()
     for (unsigned o = 0; o < NUM_OCTAVE_MODES; o++) {
         octavePattern[o]->reset();
     }
+    probabilityPattern.reset();
 
     firstNoteTimer  = 0;
     currentStep = 0;
@@ -580,16 +601,13 @@ void Arpeggiator::addEventToNoteOffTimer(ArpNoteEvent event)
 
 void Arpeggiator::createNewArpOutEvent(ArpNoteEvent event, size_t currentFrame)
 {
-    //create MIDI note on message
-    uint8_t midiNote = event.midiNote;
-
     struct MidiEvent midiEvent;
 
     midiEvent.frame = currentFrame;
     midiEvent.size = 3;
     midiEvent.data[0] = MIDI_NOTEON | event.channel;
-    midiEvent.data[1] = midiNote;
-    midiEvent.data[2] = velocity;
+    midiEvent.data[1] = event.midiNote;
+    midiEvent.data[2] = event.velocity;
 
     midiHandler.appendMidiMessage(midiEvent);
 }
@@ -606,6 +624,8 @@ void Arpeggiator::resetArpPattern()
     if (arpMode == ARP_DOWN) {
         arpPattern[arpMode]->setStep(numActiveNotes - 1);
     }
+
+    probabilityPattern.reset();
 
     resetPattern = false;
 
@@ -645,6 +665,11 @@ void Arpeggiator::applyOctavePatternToEvent(ArpNoteEvent *event)
 
     // Clip value if needed, to prevent it going out of range
     event->midiNote = (event->midiNote > 127) ? 127 : event->midiNote;
+}
+
+void Arpeggiator::applyProbability(ArpNoteEvent *event)
+{
+    event->velocity = (event->velocity * probabilityPattern.getStep());
 }
 
 void Arpeggiator::applyHoldToEvent(ArpNoteEvent *event)
@@ -709,8 +734,7 @@ void Arpeggiator::handleTimeBasedEvents(uint32_t n_frames)
                 if (event.active) {
                     applyOctavePatternToEvent(&event);
                     applyHoldToEvent(&event);
-
-
+                    applyProbability(&event);
 
                     createNewArpOutEvent(event, s);
                     // Add this event to the timer for sending a note off later
@@ -721,6 +745,7 @@ void Arpeggiator::handleTimeBasedEvents(uint32_t n_frames)
             // Keep pattern running, even when disabled.
             // This makes syncing easier.
             // Only exception is when the 'hold' is set on the tempo multiplier
+            probabilityPattern.goToNextStep();
             octavePattern[octaveMode]->goToNextStep();
             arpPattern[arpMode]->goToNextStep();
             currentStep = arpPattern[arpMode]->getStep();

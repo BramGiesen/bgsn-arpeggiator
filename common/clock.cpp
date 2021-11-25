@@ -160,6 +160,7 @@ void PluginClock::closeGate()
 void PluginClock::reset()
 {
     trigger = false;
+    triggerIndex = 0;
 }
 
 float PluginClock::getSampleRate() const
@@ -298,6 +299,7 @@ void PluginClock::tick()
     checkForTempoChange();
     applyTempoSettings();
 
+    //TODO check this with beatsync
     if (pos > period) {
         pos = 0;
     }
@@ -318,7 +320,7 @@ void PluginClock::tick()
     if (playing && beatSync) {
         syncClock(); //hard-sync to host position
     }
-    else if (!beatSync) {
+    else if (!beatSync) { //TODO check reseting POS on reset
         pos++;
     }
 }
