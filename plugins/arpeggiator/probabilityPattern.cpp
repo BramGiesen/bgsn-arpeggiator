@@ -1,5 +1,4 @@
 #include "probabilityPattern.hpp"
-#include <iostream>
 
 ProbabilityPattern::ProbabilityPattern() :
     randomValue(0),
@@ -29,7 +28,6 @@ void ProbabilityPattern::setNumSteps(int numSteps)
 {
     if (numSteps > 0 && numSteps <= MAX_NUM_STEPS) {
         this->numSteps = numSteps;
-        std::cout << "NUM STEPS: " << this->numSteps << std::endl;
     }
 }
 
