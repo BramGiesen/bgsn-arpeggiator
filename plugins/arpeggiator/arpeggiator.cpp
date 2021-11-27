@@ -708,7 +708,6 @@ void Arpeggiator::handleTimeBasedEvents(uint32_t n_frames)
         }
 
         if (clock.getSyncMode() <= 1 && first) {
-            clock.setPos(0);
             clock.reset();
         }
 

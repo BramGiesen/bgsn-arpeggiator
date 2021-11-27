@@ -161,6 +161,7 @@ void PluginClock::reset()
 {
     trigger = false;
     triggerIndex = 0;
+    pos = 0;
 }
 
 float PluginClock::getSampleRate() const
