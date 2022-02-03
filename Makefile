@@ -23,7 +23,7 @@ gen: plugins dpf/utils/lv2_ttl_generator
 	#@$(CURDIR)/dpf/utils/generate-ttl.sh
 	cp -r static-lv2-data/bgsn-arpeggiator.lv2/* bin/bgsn-arpeggiator.lv2/
 ifeq ($(MACOS),true)
-	@$(CURDIR)/dpf/utils/generate-vst-bundles.sh
+	# @$(CURDIR)/dpf/utils/generate-vst-bundles.sh
 endif
 dpf/utils/lv2_ttl_generator:
 	$(MAKE) -C dpf/utils/lv2-ttl-generator
