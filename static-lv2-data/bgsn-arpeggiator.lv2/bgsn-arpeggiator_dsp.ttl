@@ -536,14 +536,14 @@
 
     rdfs:comment """A MIDI arpeggiator""" ;
 
-    mod:brand "MOD" ;
+    mod:brand "BGSN" ;
     mod:label "Arpeggiator" ;
 
     doap:name """Arpeggiator""" ;
     doap:license <https://spdx.org/licenses/GPL-2.0-or-later> ;
 
     doap:maintainer [
-        foaf:name """MOD""" ;
+        foaf:name """BGSN""" ;
     ] ;
 
     lv2:microVersion 3 ;
