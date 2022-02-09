@@ -1,12 +1,10 @@
 #include "arpeggiator.hpp"
-#include <iostream>
 
 Arpeggiator::Arpeggiator() :
     currentStep(0),
     octaveMode(0),
     octaveSpread(1),
     arpMode(0),
-    selectedDivision(0),
     noteLength(0.8),
     velocity(80),
     noteToHold(0),
@@ -34,8 +32,7 @@ Arpeggiator::Arpeggiator() :
     clock.setSampleRate(static_cast<float>(48000.0));
     clock.setDivision(7);
 
-    divisionValues[0] = 9;
-    divisionValues[1] = 9;
+    divisionValue = 9;
 
     arpPattern = new Pattern*[6];
 
@@ -138,15 +135,9 @@ void Arpeggiator::setSwing(float swing)
     clock.setSwing(swing);
 }
 
-void Arpeggiator::setSelectedDivision(int selectedDivision)
+void Arpeggiator::setDivision(int value)
 {
-    this->selectedDivision = selectedDivision;
-    updateClockDivision();
-}
-
-void Arpeggiator::setDivision(int index, int value)
-{
-    divisionValues[index] = value;
+    divisionValue = value;
     updateClockDivision();
 }
 
@@ -168,21 +159,10 @@ void Arpeggiator::setEnableHold(bool hold)
 
 void Arpeggiator::updateClockDivision()
 {
-    int newDivision = 0;
 
-    switch (selectedDivision)
-    {
-        case 0:
-            newDivision = divisionValues[0];
-            break;
-        case 1:
-            newDivision = divisionValues[1];
-            break;
-    }
-
-    if (newDivision != division) {
-        clock.setDivision(newDivision);
-        division = newDivision;
+    if (divisionValue != division) {
+        clock.setDivision(divisionValue);
+        division = divisionValue;
     }
 }
 
@@ -262,14 +242,9 @@ float Arpeggiator::getSwing() const
     return clock.getSwing();
 }
 
-int Arpeggiator::getSelectedDivision() const
-{
-    return selectedDivision;
-}
-
 int Arpeggiator::getDivision(int index) const
 {
-    return divisionValues[index];
+    return divisionValue;
 }
 
 int Arpeggiator::getTempoMultiplyFactor() const

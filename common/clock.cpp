@@ -131,7 +131,13 @@ void PluginClock::setDivision(int setDivision)
 
 void PluginClock::syncClock()
 {
-    pos = static_cast<uint32_t>(fmod(sampleRate * (60.0f / bpm) * (hostBarBeat + (numBarsElapsed * beatsPerBar)), sampleRate * (60.0f / (bpm * (divisionValue / 2.0f)))));
+    float tempoMultiply = 1.0;
+    // TODO restructure
+    if (tempoMultiplyEnabled) {
+        tempoMultiply = tempoMultiplyFactor;
+    }
+
+    pos = static_cast<uint32_t>(fmod(sampleRate * ((60.0f / (bpm * 2.0)) * tempoMultiply) * (hostBarBeat + (numBarsElapsed * beatsPerBar)), sampleRate * (60.0f / ((bpm * (divisionValue / 2.0f))))));
 }
 
 void PluginClock::setPos(uint32_t pos)
@@ -249,9 +255,9 @@ void PluginClock::checkForTempoChange()
             previousBpm = hostBpm;
             return;
         }
-    } else if (internalBpm != previousBpm) {
+    } else if ((internalBpm * tempoMultiplyFactor) != previousBpm) {
         tempoHasChanged = true;
-        previousBpm = internalBpm;
+        previousBpm = (internalBpm * tempoMultiplyFactor);
         return;
     }
 

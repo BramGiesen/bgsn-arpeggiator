@@ -1,5 +1,4 @@
 #include "voiceManager.hpp"
-#include <iostream>
 
 VoiceManager::VoiceManager()
 {

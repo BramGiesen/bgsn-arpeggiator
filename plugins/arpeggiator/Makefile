@@ -15,7 +15,7 @@ LV2_DIR ?= $(LIBDIR)/lv2
 # --------------------------------------------------------------
 # Project name, used for binaries
 
-NAME = bgsn-arpeggiator
+NAME = mod-arpeggiator
 
 # --------------------------------------------------------------
 # Plugin types to build

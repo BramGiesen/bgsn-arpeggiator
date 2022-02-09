@@ -11,9 +11,9 @@
 @prefix epp:   <http://lv2plug.in/ns/ext/port-props#> .
 @prefix lv2pg: <http://lv2plug.in/ns/ext/port-groups#> .
 
-@prefix arpeggiator_lv2: <http://bramgiesen.com/arpeggiator#> .
+@prefix arpeggiator_lv2: <http://moddevices.com/plugins/mod-devel/arpeggiator#> .
 
-<http://bramgiesen.com/arpeggiator>
+<http://moddevices.com/plugins/mod-devel/arpeggiator>
     a lv2:Plugin, lv2:UtilityPlugin , mod:MIDIPlugin ;
 
     lv2:extensionData opts:interface ,
@@ -73,7 +73,6 @@
         ] ;
 
         lv2:portProperty lv2:integer ;
-        lv2pg:group arpeggiator_lv2:G101_TEMPO_CONTROLS ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
@@ -85,7 +84,6 @@
         lv2:maximum 280 ;
         lv2:portProperty lv2:integer ;
         units:unit units:bpm ;
-        lv2pg:group arpeggiator_lv2:G101_TEMPO_CONTROLS ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
@@ -95,215 +93,123 @@
         lv2:default 0 ;
         lv2:minimum -0.5 ;
         lv2:maximum 0.5 ;
-        lv2pg:group arpeggiator_lv2:G101_TEMPO_CONTROLS ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
         lv2:index 5 ;
-        lv2:name """Selected Division""" ;
-        lv2:symbol "SelectedDivision" ;
-        lv2:default 0 ;
+        lv2:name """Division""" ;
+        lv2:symbol "Divisions" ;
+        lv2:default 9 ;
         lv2:minimum 0 ;
-        lv2:maximum 1 ;
+        lv2:maximum 12 ;
         lv2:portProperty lv2:enumeration ;
         lv2:scalePoint [
-            rdfs:label  """Division 1""" ;
+            rdfs:label  """1/1""" ;
             rdf:value 0 ;
         ] ,
         [
-            rdfs:label  """Division 2""" ;
+            rdfs:label  """1/2""" ;
             rdf:value 1 ;
+        ] ,
+        [
+            rdfs:label  """1/3""" ;
+            rdf:value 2 ;
+        ] ,
+        [
+            rdfs:label  """1/4""" ;
+            rdf:value 3 ;
+        ] ,
+        [
+            rdfs:label  """1/4.""" ;
+            rdf:value 4 ;
+        ] ,
+        [
+            rdfs:label  """1/4T""" ;
+            rdf:value 5 ;
+        ] ,
+        [
+            rdfs:label  """1/8""" ;
+            rdf:value 6 ;
+        ] ,
+        [
+            rdfs:label  """1/8.""" ;
+            rdf:value 7 ;
+        ] ,
+        [
+            rdfs:label  """1/8T""" ;
+            rdf:value 8 ;
+        ] ,
+        [
+            rdfs:label  """1/16""" ;
+            rdf:value 9 ;
+        ] ,
+        [
+            rdfs:label  """1/16.""" ;
+            rdf:value 10 ;
+        ] ,
+        [
+            rdfs:label  """1/16T""" ;
+            rdf:value 11 ;
+        ] ,
+        [
+            rdfs:label  """1/32""" ;
+            rdf:value 12 ;
         ] ;
 
         lv2:portProperty lv2:integer ;
-        lv2pg:group arpeggiator_lv2:G101_TEMPO_CONTROLS ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
         lv2:index 6 ;
-        lv2:name """Division 1""" ;
-        lv2:symbol "Divisions1" ;
-        lv2:default 9 ;
-        lv2:minimum 0 ;
-        lv2:maximum 12 ;
-        lv2:portProperty lv2:enumeration ;
-        lv2:scalePoint [
-            rdfs:label  """1/1""" ;
-            rdf:value 0 ;
-        ] ,
-        [
-            rdfs:label  """1/2""" ;
-            rdf:value 1 ;
-        ] ,
-        [
-            rdfs:label  """1/3""" ;
-            rdf:value 2 ;
-        ] ,
-        [
-            rdfs:label  """1/4""" ;
-            rdf:value 3 ;
-        ] ,
-        [
-            rdfs:label  """1/4.""" ;
-            rdf:value 4 ;
-        ] ,
-        [
-            rdfs:label  """1/4T""" ;
-            rdf:value 5 ;
-        ] ,
-        [
-            rdfs:label  """1/8""" ;
-            rdf:value 6 ;
-        ] ,
-        [
-            rdfs:label  """1/8.""" ;
-            rdf:value 7 ;
-        ] ,
-        [
-            rdfs:label  """1/8T""" ;
-            rdf:value 8 ;
-        ] ,
-        [
-            rdfs:label  """1/16""" ;
-            rdf:value 9 ;
-        ] ,
-        [
-            rdfs:label  """1/16.""" ;
-            rdf:value 10 ;
-        ] ,
-        [
-            rdfs:label  """1/16T""" ;
-            rdf:value 11 ;
-        ] ,
-        [
-            rdfs:label  """1/32""" ;
-            rdf:value 12 ;
-        ] ;
-
-        lv2:portProperty lv2:integer ;
-        lv2pg:group arpeggiator_lv2:G101_TEMPO_CONTROLS ;
-    ] ,
-    [
-        a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 7 ;
-        lv2:name """Division 2""" ;
-        lv2:symbol "Divisions2" ;
-        lv2:default 9 ;
-        lv2:minimum 0 ;
-        lv2:maximum 12 ;
-        lv2:portProperty lv2:enumeration ;
-        lv2:scalePoint [
-            rdfs:label  """1/1""" ;
-            rdf:value 0 ;
-        ] ,
-        [
-            rdfs:label  """1/2""" ;
-            rdf:value 1 ;
-        ] ,
-        [
-            rdfs:label  """1/3""" ;
-            rdf:value 2 ;
-        ] ,
-        [
-            rdfs:label  """1/4""" ;
-            rdf:value 3 ;
-        ] ,
-        [
-            rdfs:label  """1/4.""" ;
-            rdf:value 4 ;
-        ] ,
-        [
-            rdfs:label  """1/4T""" ;
-            rdf:value 5 ;
-        ] ,
-        [
-            rdfs:label  """1/8""" ;
-            rdf:value 6 ;
-        ] ,
-        [
-            rdfs:label  """1/8.""" ;
-            rdf:value 7 ;
-        ] ,
-        [
-            rdfs:label  """1/8T""" ;
-            rdf:value 8 ;
-        ] ,
-        [
-            rdfs:label  """1/16""" ;
-            rdf:value 9 ;
-        ] ,
-        [
-            rdfs:label  """1/16.""" ;
-            rdf:value 10 ;
-        ] ,
-        [
-            rdfs:label  """1/16T""" ;
-            rdf:value 11 ;
-        ] ,
-        [
-            rdfs:label  """1/32""" ;
-            rdf:value 12 ;
-        ] ;
-        lv2:portProperty lv2:integer ;
-        lv2pg:group arpeggiator_lv2:G101_TEMPO_CONTROLS ;
-    ] ,
-    [
-        a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 8 ;
         lv2:name """Tempo Multiplier""" ;
         lv2:symbol "TempoMultiplier" ;
         lv2:default 1 ;
         lv2:minimum 1 ;
         lv2:maximum 16 ;
         lv2:portProperty lv2:integer ;
-        lv2pg:group arpeggiator_lv2:G201_TEMPO_MULTIPLIER ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 9 ;
+        lv2:index 7 ;
         lv2:name """Multiplier Enabled""" ;
         lv2:symbol "MultiplierEnabled" ;
         lv2:default 0.000000 ;
         lv2:minimum 0.000000 ;
         lv2:maximum 1.000000 ;
         lv2:portProperty lv2:toggled ;
-        lv2pg:group arpeggiator_lv2:G201_TEMPO_MULTIPLIER ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 10 ;
+        lv2:index 8 ;
         lv2:name """Hold""" ;
         lv2:symbol "Hold" ;
         lv2:default 0.000000 ;
         lv2:minimum 0.000000 ;
         lv2:maximum 1.000000 ;
         lv2:portProperty lv2:toggled ;
-        lv2pg:group arpeggiator_lv2:G201_TEMPO_MULTIPLIER ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 11 ;
+        lv2:index 9 ;
         lv2:name """Velocity""" ;
         lv2:symbol "velocity" ;
         lv2:default 110 ;
         lv2:minimum 0 ;
         lv2:maximum 127 ;
         lv2:portProperty lv2:integer ;
-        lv2pg:group arpeggiator_lv2:G301_NOTE_CONTROLS ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 12 ;
+        lv2:index 10 ;
         lv2:name """Note Length""" ;
         lv2:symbol "noteLength" ;
         lv2:default 0.700000 ;
         lv2:minimum 0.000000 ;
         lv2:maximum 1.000000 ;
-        lv2pg:group arpeggiator_lv2:G301_NOTE_CONTROLS ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 13 ;
+        lv2:index 11 ;
         lv2:name """Octave Spread""" ;
         lv2:symbol "octaveSpread" ;
         lv2:default 1 ;
@@ -327,11 +233,10 @@
             rdf:value 4 ;
         ] ;
         lv2:portProperty lv2:integer ;
-        lv2pg:group arpeggiator_lv2:G401_ARP_MODES ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 14 ;
+        lv2:index 12 ;
         lv2:name """Arp Mode""" ;
         lv2:symbol "arpMode" ;
         lv2:default 0 ;
@@ -363,11 +268,10 @@
             rdf:value 5 ;
         ] ;
         lv2:portProperty lv2:integer ;
-        lv2pg:group arpeggiator_lv2:G401_ARP_MODES ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 15 ;
+        lv2:index 13 ;
         lv2:name """Octave Mode""" ;
         lv2:symbol "octaveMode" ;
         lv2:default 4 ;
@@ -396,132 +300,120 @@
         ] ;
 
         lv2:portProperty lv2:integer ;
-        lv2pg:group arpeggiator_lv2:G401_ARP_MODES ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 16 ;
+        lv2:index 14 ;
         lv2:name """Latch""" ;
         lv2:symbol "latch" ;
         lv2:default 0.000000 ;
         lv2:minimum 0.000000 ;
         lv2:maximum 1.000000 ;
         lv2:portProperty lv2:toggled ;
-        lv2pg:group arpeggiator_lv2:G401_ARP_MODES ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 17 ;
+        lv2:index 15 ;
         lv2:name """Prob Pattern Size""" ;
         lv2:symbol "ProbPatternSize" ;
         lv2:default 1.000000 ;
         lv2:minimum 1.000000 ;
         lv2:maximum 8.000000 ;
         lv2:portProperty lv2:integer ;
-        lv2pg:group arpeggiator_lv2:G501_PROB ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 18 ;
+        lv2:index 16 ;
         lv2:name """Prob Pattern 1""" ;
         lv2:symbol "ProbPattern1" ;
         lv2:default 100.000000 ;
         lv2:minimum 0.000000 ;
         lv2:maximum 100.000000 ;
         lv2:portProperty lv2:integer ;
-        lv2pg:group arpeggiator_lv2:G501_PROB ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 19 ;
+        lv2:index 17 ;
         lv2:name """Prob Pattern 2""" ;
         lv2:symbol "ProbPattern2" ;
         lv2:default 100.000000 ;
         lv2:minimum 0.000000 ;
         lv2:maximum 100.000000 ;
         lv2:portProperty lv2:integer ;
-        lv2pg:group arpeggiator_lv2:G501_PROB ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 20 ;
+        lv2:index 18 ;
         lv2:name """Prob Pattern 3""" ;
         lv2:symbol "ProbPattern3" ;
         lv2:default 100.000000 ;
         lv2:minimum 0.000000 ;
         lv2:maximum 100.000000 ;
         lv2:portProperty lv2:integer ;
-        lv2pg:group arpeggiator_lv2:G501_PROB ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 21 ;
+        lv2:index 19 ;
         lv2:name """Prob Pattern 4""" ;
         lv2:symbol "ProbPattern4" ;
         lv2:default 100.000000 ;
         lv2:minimum 0.000000 ;
         lv2:maximum 100.000000 ;
         lv2:portProperty lv2:integer ;
-        lv2pg:group arpeggiator_lv2:G501_PROB ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 22 ;
+        lv2:index 20 ;
         lv2:name """Prob Pattern 5""" ;
         lv2:symbol "ProbPattern5" ;
         lv2:default 100.000000 ;
         lv2:minimum 0.000000 ;
         lv2:maximum 100.000000 ;
         lv2:portProperty lv2:integer ;
-        lv2pg:group arpeggiator_lv2:G501_PROB ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 23 ;
+        lv2:index 21 ;
         lv2:name """Prob Pattern 6""" ;
         lv2:symbol "ProbPattern6" ;
         lv2:default 100.000000 ;
         lv2:minimum 0.000000 ;
         lv2:maximum 100.000000 ;
         lv2:portProperty lv2:integer ;
-        lv2pg:group arpeggiator_lv2:G501_PROB ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 24 ;
+        lv2:index 22 ;
         lv2:name """Prob Pattern 7""" ;
         lv2:symbol "ProbPattern7" ;
         lv2:default 100.000000 ;
         lv2:minimum 0.000000 ;
         lv2:maximum 100.000000 ;
         lv2:portProperty lv2:integer ;
-        lv2pg:group arpeggiator_lv2:G501_PROB ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 25 ;
+        lv2:index 23 ;
         lv2:name """Prob Pattern 8""" ;
         lv2:symbol "ProbPattern8" ;
         lv2:default 100.000000 ;
         lv2:minimum 0.000000 ;
         lv2:maximum 100.000000 ;
         lv2:portProperty lv2:integer ;
-        lv2pg:group arpeggiator_lv2:G501_PROB ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 26 ;
+        lv2:index 24 ;
         lv2:name """Panic""" ;
         lv2:symbol "Panic" ;
         lv2:default 0 ;
         lv2:minimum 0 ;
         lv2:maximum 1 ;
         lv2:portProperty lv2:integer, lv2:toggled, epp:trigger ;
-        lv2pg:group arpeggiator_lv2:G601_GLOBAL ;
     ] ,
     [
         a lv2:InputPort, lv2:ControlPort ;
-        lv2:index 27 ;
+        lv2:index 25 ;
         lv2:name """Enabled""" ;
         lv2:symbol "enabled" ;
         lv2:default 1.000000 ;
@@ -531,50 +423,19 @@
         lv2:designation lv2:enabled;
         lv2:portProperty <http://lv2plug.in/ns/ext/port-props#expensive> ,
                          <http://kxstudio.sf.net/ns/lv2ext/props#NonAutomable> ;
-        lv2pg:group arpeggiator_lv2:G601_GLOBAL ;
     ] ;
 
     rdfs:comment """A MIDI arpeggiator""" ;
 
-    mod:brand "BGSN" ;
+    mod:brand "MOD" ;
     mod:label "Arpeggiator" ;
 
     doap:name """Arpeggiator""" ;
     doap:license <https://spdx.org/licenses/GPL-2.0-or-later> ;
 
     doap:maintainer [
-        foaf:name """BGSN""" ;
+        foaf:name """MOD""" ;
     ] ;
 
     lv2:microVersion 3 ;
-    lv2:minorVersion 1 .
-
-    arpeggiator_lv2:G101_TEMPO_CONTROLS
-        a lv2pg:InputGroup;
-        lv2:name "Tempo Controls" ;
-        lv2:symbol "G101_TEMPO_CONTROLS" .
-
-    arpeggiator_lv2:G201_TEMPO_MULTIPLIER
-        a lv2pg:InputGroup;
-        lv2:name "Tempo Multiplier" ;
-        lv2:symbol "G201_TEMPO_MULTIPLIER" .
-
-    arpeggiator_lv2:G301_NOTE_CONTROLS
-        a lv2pg:InputGroup;
-        lv2:name "Note Controls" ;
-        lv2:symbol "G301_NOTE_CONTROLS" .
-
-    arpeggiator_lv2:G401_ARP_MODES
-        a lv2pg:InputGroup;
-        lv2:name "ARP Modes" ;
-        lv2:symbol "G401_ARP_MODES" .
-
-    arpeggiator_lv2:G501_PROB
-        a lv2pg:InputGroup;
-        lv2:name "Probability Pattern" ;
-        lv2:symbol "G501_PROB" .
-
-    arpeggiator_lv2:G601_GLOBAL
-        a lv2pg:InputGroup;
-        lv2:name "Global" ;
-        lv2:symbol "G601_GLOBAL" .
+    lv2:minorVersion 2 .

@@ -10,8 +10,7 @@ PluginArpeggiator::PluginArpeggiator() :
 {
     arpeggiator.transmitHostInfo(0, 4, 1, 1, 120.0);
     arpeggiator.setSampleRate(static_cast<float>(getSampleRate()));
-    arpeggiator.setDivision(0 ,9);
-    arpeggiator.setDivision(1 ,9);
+    arpeggiator.setDivision(9);
 }
 
 // -----------------------------------------------------------------------
@@ -58,68 +57,10 @@ void PluginArpeggiator::initParameter(uint32_t index, Parameter& parameter)
             parameter.ranges.min = -0.5f;
             parameter.ranges.max = 0.5f;
             break;
-        case paramSelectedDivision:
+        case paramDivision:
             parameter.hints = kParameterIsAutomable | kParameterIsInteger;
-            parameter.name = "Selected Division";
-            parameter.symbol = "SelectedDivision";
-            parameter.ranges.def = 0;
-            parameter.ranges.min = 0;
-            parameter.ranges.max = 1;
-            parameter.enumValues.count = 2;
-            parameter.enumValues.restrictedMode = true;
-            {
-                ParameterEnumerationValue* const channels = new ParameterEnumerationValue[2];
-                parameter.enumValues.values = channels;
-                channels[0].label = "1/1";
-                channels[0].value = 0;
-                channels[1].label = "1/2";
-                channels[1].value = 1;
-            }
-            break;
-        case paramDivision1:
-            parameter.hints = kParameterIsAutomable | kParameterIsInteger;
-            parameter.name = "Divisons 1";
-            parameter.symbol = "Divisons1";
-            parameter.ranges.def = 9;
-            parameter.ranges.min = 0;
-            parameter.ranges.max = 12;
-            parameter.enumValues.count = 13;
-            parameter.enumValues.restrictedMode = true;
-            {
-                ParameterEnumerationValue* const channels = new ParameterEnumerationValue[13];
-                parameter.enumValues.values = channels;
-                channels[0].label = "1/1";
-                channels[0].value = 0;
-                channels[1].label = "1/2";
-                channels[1].value = 1;
-                channels[2].label = "1/3";
-                channels[2].value = 2;
-                channels[3].label = "1/4";
-                channels[3].value = 3;
-                channels[4].label = "1/4.";
-                channels[4].value = 4;
-                channels[5].label = "1/4T";
-                channels[5].value = 5;
-                channels[6].label = "1/8";
-                channels[6].value = 6;
-                channels[7].label = "1/8.";
-                channels[7].value = 7;
-                channels[8].label = "1/8T";
-                channels[8].value = 8;
-                channels[9].label = "1/16";
-                channels[9].value = 9;
-                channels[10].label = "1/16.";
-                channels[10].value = 10;
-                channels[11].label = "1/16T";
-                channels[11].value = 11;
-                channels[12].label = "1/32";
-                channels[12].value = 12;
-            }
-            break;
-        case paramDivision2:
-            parameter.hints = kParameterIsAutomable | kParameterIsInteger;
-            parameter.name = "Divisons 2";
-            parameter.symbol = "Divisons2";
+            parameter.name = "Divisons";
+            parameter.symbol = "Divisons";
             parameter.ranges.def = 9;
             parameter.ranges.min = 0;
             parameter.ranges.max = 12;
@@ -409,12 +350,8 @@ float PluginArpeggiator::getParameterValue(uint32_t index) const
             return arpeggiator.getBpm();
         case paramSwing:
             return arpeggiator.getSwing();
-        case paramSelectedDivision:
-            return arpeggiator.getSelectedDivision();
-        case paramDivision1:
+        case paramDivision:
             return arpeggiator.getDivision(0);
-        case paramDivision2:
-            return arpeggiator.getDivision(1);
         case paramTempoMultiplier:
             return arpeggiator.getTempoMultiplyFactor();
         case paramMultiplierEnabled:
@@ -474,14 +411,8 @@ void PluginArpeggiator::setParameterValue(uint32_t index, float value)
         case paramSwing:
             arpeggiator.setSwing(value);
             break;
-        case paramSelectedDivision:
-            arpeggiator.setSelectedDivision(static_cast<int>(value));
-            break;
-        case paramDivision1:
-            arpeggiator.setDivision(0, static_cast<int>(value));
-            break;
-        case paramDivision2:
-            arpeggiator.setDivision(1, static_cast<int>(value));
+        case paramDivision:
+            arpeggiator.setDivision(static_cast<int>(value));
             break;
         case paramTempoMultiplier:
             arpeggiator.setTempoMultiplyFactor(static_cast<int>(value));

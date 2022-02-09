@@ -29,9 +29,8 @@ public:
     void setSyncMode(int mode);
     void setBpm(double bpm);
     void setSwing(float swing);
-    void setSelectedDivision(int selected);
     void updateClockDivision();
-    void setDivision(int index, int value);
+    void setDivision(int value);
     void setTempoMultiplyFactor(int factor);
     void setTempoMultiplyEnabled(bool enabled);
     void setEnableHold(bool value);
@@ -95,8 +94,7 @@ private:
     int octaveMode;
     int octaveSpread;
     int arpMode;
-    int divisionValues[2];
-    int selectedDivision;
+    int divisionValue;
 
     float noteLength;
 
