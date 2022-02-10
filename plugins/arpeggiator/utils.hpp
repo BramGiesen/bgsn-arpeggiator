@@ -1,5 +1,5 @@
-#ifndef _H_UTILS_
-#define _H_UTILS_
+#ifndef H_UTILS
+#define H_UTILS
 
 #include <cstdint>
 
@@ -7,11 +7,11 @@
 
 class ArpUtils {
 public:
-    ArpUtils();
-    ~ArpUtils();
+    ArpUtils(void);
+    ~ArpUtils(void);
     void quicksort(ArpNoteEvent *events, int l, int r);
 private:
     void swap(ArpNoteEvent *a, ArpNoteEvent *b);
 };
 
-#endif //_H_UTILS_
+#endif // H_UTILS

@@ -1,22 +1,22 @@
-#ifndef _H_NOTES_TRACKER_
-#define _H_NOTES_TRACKER_
+#ifndef H_NOTES_TRACKER
+#define H_NOTES_TRACKER
 
 class NotesTracker {
 public:
-    NotesTracker();
-    ~NotesTracker();
-    void keyReleased();
-    void registerNewPressedKey();
-    void registerNewActiveNote();
+    NotesTracker(void);
+    ~NotesTracker(void);
+    void keyReleased(void);
+    void registerNewPressedKey(void);
+    void registerNewActiveNote(void);
     void setNumActiveNotes(int numActiveNotes);
-    void removeActiveNote();
-    void allKeysReleased();
-    void resetActiveNotes();
-    void resetAll();
-    int getNumKeysPressed();
-    int getNumActiveNotes();
+    void removeActiveNote(void);
+    void allKeysReleased(void);
+    void resetActiveNotes(void);
+    void resetAll(void);
+    int getNumKeysPressed(void);
+    int getNumActiveNotes(void);
 private:
     int numKeysPressed;
     int numActiveNotes;
 };
-#endif //_H_NOTES_TRACKER_
+#endif // H_NOTES_TRACKER

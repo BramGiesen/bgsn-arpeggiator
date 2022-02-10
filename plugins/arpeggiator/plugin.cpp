@@ -351,7 +351,7 @@ float PluginArpeggiator::getParameterValue(uint32_t index) const
         case paramSwing:
             return arpeggiator.getSwing();
         case paramDivision:
-            return arpeggiator.getDivision(0);
+            return arpeggiator.getDivision();
         case paramTempoMultiplier:
             return arpeggiator.getTempoMultiplyFactor();
         case paramMultiplierEnabled:

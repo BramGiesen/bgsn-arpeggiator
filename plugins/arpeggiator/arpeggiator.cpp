@@ -25,8 +25,8 @@ Arpeggiator::Arpeggiator() :
     resetPattern(false),
     panic(false),
     division(0),
-    sampleRate(48000),
-    bpm(0)
+    sampleRate(48000.0),
+    bpm(0.0)
 {
     clock.transmitHostInfo(0, 4, 1, 1, 120.0);
     clock.setSampleRate(static_cast<float>(48000.0));
@@ -53,7 +53,7 @@ Arpeggiator::Arpeggiator() :
 
     voiceManager = new VoiceManager();
 
-    for (unsigned i = 0; i < NUM_VOICES; i++) {
+    for (int i = 0; i < (int)NUM_VOICES; i++) {
         arpNoteOffEvent[i].noteEvent.midiNote = 0;
         arpNoteOffEvent[i].noteEvent.channel = 0;
         arpNoteOffEvent[i].noteEvent.active = false;
@@ -118,6 +118,8 @@ void Arpeggiator::setSyncMode(int mode)
         case HOST_QUANTIZED_SYNC:
             clock.setSyncMode(HOST_QUANTIZED_SYNC);
             quantizedStart = true;
+            break;
+        default:
             break;
     }
 }
@@ -242,7 +244,7 @@ float Arpeggiator::getSwing() const
     return clock.getSwing();
 }
 
-int Arpeggiator::getDivision(int index) const
+int Arpeggiator::getDivision() const
 {
     return divisionValue;
 }
@@ -314,10 +316,10 @@ void Arpeggiator::reset()
     clock.reset();
     clock.setNumBarsElapsed(0);
 
-    for (unsigned a = 0; a < NUM_ARP_MODES; a++) {
+    for (int a = 0; a < (int)NUM_ARP_MODES; a++) {
         arpPattern[arpMode]->reset();
     }
-    for (unsigned o = 0; o < NUM_OCTAVE_MODES; o++) {
+    for (int o = 0; o < (int)NUM_OCTAVE_MODES; o++) {
         octavePattern[o]->reset();
     }
     probabilityPattern.reset();
@@ -364,15 +366,15 @@ int Arpeggiator::getPatternSize()
     switch (arpMode)
     {
         case ARP_UP_DOWN:
-            return (numActiveNotes >= 3) ? numActiveNotes + (numActiveNotes - 2) : numActiveNotes;
+            numActiveNotes = (numActiveNotes >= 3) ? numActiveNotes + (numActiveNotes - 2) : numActiveNotes;
             break;
         case ARP_UP_DOWN_ALT:
-            return (numActiveNotes >= 3) ? numActiveNotes * 2 : numActiveNotes;
+            numActiveNotes = (numActiveNotes >= 3) ? (numActiveNotes * 2) : numActiveNotes;
             break;
         default:
-            return numActiveNotes;
             break;
     }
+    return numActiveNotes;
 }
 
 void Arpeggiator::setOctavePattern(int patternSize, int octaveSpread)
@@ -406,7 +408,7 @@ void Arpeggiator::handleNoteOnEvent(const MidiEvent *event)
         return;
     }
 
-    if (notesTracker.getNumActiveNotes() > NUM_VOICES - 1) {
+    if (notesTracker.getNumActiveNotes() > (NUM_VOICES - 1)) {
         reset();
         return;
     }
@@ -433,6 +435,7 @@ void Arpeggiator::handleNoteOnEvent(const MidiEvent *event)
     ArpNoteEvent arpEvent;
     arpEvent.midiNote = midiNote;
     arpEvent.channel = channel;
+    arpEvent.velocity = 0;
     arpEvent.active = true;
 
     voiceManager->addVoice(arpEvent);
@@ -442,7 +445,7 @@ void Arpeggiator::handleNoteOnEvent(const MidiEvent *event)
 
     notesTracker.setNumActiveNotes(notesTracker.getNumKeysPressed());
 
-    if (arpMode != ARP_PLAYED) {
+    if (arpMode != (int)ARP_PLAYED) {
         voiceManager->sort();
     }
 }
@@ -464,7 +467,7 @@ void Arpeggiator::handleNoteOffEvent(const MidiEvent *event)
         latchPlaying = true;
     }
 
-    if (notesTracker.getNumActiveNotes() == 0 && !latchPlaying && !latchMode) {
+    if ((notesTracker.getNumActiveNotes() == 0) && !latchPlaying && !latchMode) {
         reset();
         return;
     }
@@ -478,15 +481,14 @@ void Arpeggiator::handleNoteOffEvent(const MidiEvent *event)
 
     if (!latchMode) {
         voiceManager->freeVoice(midiNote);
-        if (arpMode != ARP_PLAYED) {
+        if (arpMode != (int)ARP_PLAYED) {
             voiceManager->sort();
         }
     }
 
     // If by releasing the note the current step is higher then the amount of active notes,
     // decrement the amount of steps until this is back in range
-    while (currentStep > 0
-            && currentStep > (notesTracker.getNumActiveNotes() - 1))
+    while ((currentStep > 0) && (currentStep > (notesTracker.getNumActiveNotes() - 1)))
     {
         currentStep--;
         arpPattern[arpMode]->setStep(currentStep);
@@ -499,7 +501,7 @@ void Arpeggiator::handleMidiThroughEvent(const MidiEvent *event)
 
     midiThroughEvent.frame = event->frame;
     midiThroughEvent.size = event->size;
-    for (unsigned d = 0; d < midiThroughEvent.size; d++) {
+    for (unsigned int d = 0; d < midiThroughEvent.size; d++) {
         midiThroughEvent.data[d] = event->data[d];
     }
     midiHandler.appendMidiThroughMessage(midiThroughEvent);
@@ -511,7 +513,7 @@ void Arpeggiator::handleMidiInputEvent(const MidiEvent *event, uint8_t status)
 
     if (arpEnabled) {
 
-        if (!latchPlaying && (midiNote == 0x7b && event->size == 3)) {
+        if (!latchPlaying && (midiNote == 0x7b) && (event->size == 3)) {
             allNotesOff();
         }
 
@@ -535,13 +537,13 @@ void Arpeggiator::handleMidiEventDisabledState(const MidiEvent *event, uint8_t s
     uint8_t midiNote = event->data[1];
 
     if (latchMode) {
-        if (status == MIDI_NOTEOFF) {
+        if (status == (uint8_t)MIDI_NOTEOFF) {
             voiceManager->freeVoice(midiNote);
             notesTracker.keyReleased();
         }
     }
 
-    if (midiNote == 0x7b && event->size == 3) {
+    if ((midiNote == 0x7b) && (event->size == 3)) {
         allNotesOff();
     }
 
@@ -557,7 +559,7 @@ void Arpeggiator::addEventToNoteOffTimer(ArpNoteEvent event)
 
     int i = 0;
 
-    while (!noteOffSlotFound && i < NUM_NOTE_OFF_SLOTS)
+    while (!noteOffSlotFound && (i < NUM_NOTE_OFF_SLOTS))
     {
         if (!arpNoteOffEvent[i].noteEvent.active) {
             arpNoteOffEvent[i].noteEvent.midiNote = event.midiNote;
@@ -591,12 +593,12 @@ void Arpeggiator::resetArpPattern()
 {
     int numActiveNotes = notesTracker.getNumActiveNotes();
     octavePattern[octaveMode]->reset();
-    if (octaveMode == ARP_DOWN) {
+    if (octaveMode == (int)ARP_DOWN) {
         octavePattern[octaveMode]->setStep(numActiveNotes - 1); //TODO maybe put this in reset()
     }
 
     arpPattern[arpMode]->reset();
-    if (arpMode == ARP_DOWN) {
+    if (arpMode == (int)ARP_DOWN) {
         arpPattern[arpMode]->setStep(numActiveNotes - 1);
     }
 
@@ -609,7 +611,7 @@ void Arpeggiator::resetArpPattern()
 
 void Arpeggiator::noteOffTimer(size_t currentFrame)
 {
-    for (size_t i = 0; i < NUM_NOTE_OFF_SLOTS; i++) {
+    for (size_t i = 0; i < (size_t)NUM_NOTE_OFF_SLOTS; i++) {
         if (arpNoteOffEvent[i].noteEvent.active) {
             arpNoteOffEvent[i].timer += 1;
             uint32_t noteDurationInSamples = static_cast<uint32_t>(clock.getClockCycleDuration() * noteLength);
@@ -668,7 +670,7 @@ void Arpeggiator::applyHoldToEvent(ArpNoteEvent *event)
 void Arpeggiator::handleTimeBasedEvents(uint32_t n_frames)
 {
 
-    for (unsigned s = 0; s < n_frames; s++) {
+    for (unsigned int s = 0; s < n_frames; s++) {
 
         bool timeOut = (firstNoteTimer > (int)timeOutTime) ? false : true;
 
@@ -682,7 +684,7 @@ void Arpeggiator::handleTimeBasedEvents(uint32_t n_frames)
             firstNoteTimer++;
         }
 
-        if (clock.getSyncMode() <= 1 && first) {
+        if ((clock.getSyncMode() <= 1) && first) {
             clock.reset();
         }
 

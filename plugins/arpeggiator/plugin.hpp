@@ -1,5 +1,5 @@
-#ifndef _H_PLUGIN_ARPEGGIATOR_
-#define _H_PLUGIN_ARPEGGIATOR_
+#ifndef H_PLUGIN_ARPEGGIATOR
+#define H_PLUGIN_ARPEGGIATOR
 
 #include "DistrhoPlugin.hpp"
 #include "arpeggiator.hpp"
@@ -40,37 +40,37 @@ public:
         paramCount
     };
 
-    PluginArpeggiator();
+    PluginArpeggiator(void);
 
 protected:
     // -------------------------------------------------------------------
     // Information
 
-    const char* getLabel() const noexcept override {
+    const char* getLabel(void) const noexcept override {
         return "Arpeggiator";
     }
 
-    const char* getDescription() const override {
+    const char* getDescription(void) const override {
         return "A MIDI arpeggiator";
     }
 
-    const char* getMaker() const noexcept override {
+    const char* getMaker(void) const noexcept override {
         return "BGSN";
     }
 
-    const char* getHomePage() const override {
+    const char* getHomePage(void) const override {
         return "";
     }
 
-    const char* getLicense() const noexcept override {
+    const char* getLicense(void) const noexcept override {
         return "https://spdx.org/licenses/GPL-2.0-or-later";
     }
 
-    uint32_t getVersion() const noexcept override {
+    uint32_t getVersion(void) const noexcept override {
         return d_version(1, 1, 2);
     }
 
-    int64_t getUniqueId() const noexcept override {
+    int64_t getUniqueId(void) const noexcept override {
         return d_cconst('M', 'O', 'A', 'P');
     }
 
@@ -94,7 +94,7 @@ protected:
     // -------------------------------------------------------------------
     // Process
 
-    void activate() override;
+    void activate(void) override;
 
     void run(const float**, float**, uint32_t,
             const MidiEvent* midiEvents, uint32_t midiEventCount) override;

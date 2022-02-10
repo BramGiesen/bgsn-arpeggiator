@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results version="2">
+    <cppcheck version="2.7"/>
+    <errors>
+        <error id="missingReturn" severity="error" msg="Found a exit path from function with non-void return type that has missing return statement" verbose="Found a exit path from function with non-void return type that has missing return statement" cwe="758" file0="plugin.cpp">
+            <location file="plugin.cpp" line="346" column="5"/>
+        </error>
+        <error id="uninitMemberVar" severity="warning" msg="Member variable &apos;PluginArpeggiator::fParams&apos; is not initialized in the constructor." verbose="Member variable &apos;PluginArpeggiator::fParams&apos; is not initialized in the constructor." cwe="398" file0="plugin.cpp">
+            <location file="plugin.cpp" line="7" column="20"/>
+            <symbol>PluginArpeggiator::fParams</symbol>
+        </error>
+        <error id="misra-c2012-2.7" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.hpp" line="99" column="10"/>
+        </error>
+        <error id="misra-c2012-8.1" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/midiHandler.hpp" line="31" column="5"/>
+        </error>
+        <error id="misra-c2012-8.1" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/midiHandler.hpp" line="34" column="5"/>
+        </error>
+        <error id="misra-c2012-8.1" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/midiHandler.hpp" line="37" column="5"/>
+        </error>
+        <error id="misra-c2012-8.1" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/midiHandler.hpp" line="40" column="5"/>
+        </error>
+        <error id="misra-c2012-8.1" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="506" column="10"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="513" column="21"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="utils.hpp" line="10" column="13"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="utils.hpp" line="11" column="14"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="voiceManager.hpp" line="9" column="17"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="voiceManager.hpp" line="10" column="18"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="voiceManager.hpp" line="16" column="14"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="voiceManager.hpp" line="17" column="17"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="notesTracker.hpp" line="6" column="17"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="notesTracker.hpp" line="7" column="18"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="notesTracker.hpp" line="8" column="21"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="notesTracker.hpp" line="9" column="31"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="notesTracker.hpp" line="10" column="31"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="notesTracker.hpp" line="12" column="26"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="notesTracker.hpp" line="13" column="25"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="notesTracker.hpp" line="14" column="26"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="notesTracker.hpp" line="15" column="18"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="notesTracker.hpp" line="16" column="26"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="notesTracker.hpp" line="17" column="26"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="probabilityPattern.hpp" line="18" column="23"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="probabilityPattern.hpp" line="19" column="24"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="probabilityPattern.hpp" line="21" column="15"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="probabilityPattern.hpp" line="24" column="20"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="probabilityPattern.hpp" line="26" column="22"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="probabilityPattern.hpp" line="27" column="17"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/clock.hpp" line="15" column="16"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/clock.hpp" line="16" column="17"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/clock.hpp" line="26" column="19"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/clock.hpp" line="29" column="26"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/clock.hpp" line="30" column="20"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/clock.hpp" line="31" column="19"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/clock.hpp" line="32" column="15"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/clock.hpp" line="33" column="17"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/clock.hpp" line="34" column="24"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/clock.hpp" line="35" column="20"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/clock.hpp" line="36" column="30"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/clock.hpp" line="37" column="20"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/clock.hpp" line="38" column="19"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/clock.hpp" line="39" column="31"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/clock.hpp" line="40" column="33"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/clock.hpp" line="41" column="23"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/clock.hpp" line="42" column="35"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/clock.hpp" line="43" column="20"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/clock.hpp" line="44" column="14"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/clock.hpp" line="48" column="29"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/clock.hpp" line="49" column="28"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="15" column="12"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="16" column="21"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="20" column="16"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="21" column="20"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="22" column="16"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="23" column="21"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="25" column="23"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="26" column="30"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="36" column="14"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="37" column="15"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="39" column="15"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="40" column="22"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="45" column="16"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="46" column="17"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="48" column="15"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="49" column="22"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="54" column="18"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="55" column="19"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="57" column="15"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="58" column="22"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="63" column="21"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="64" column="22"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="66" column="15"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="67" column="22"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="75" column="18"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="76" column="19"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="78" column="15"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="79" column="22"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="84" column="17"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="85" column="18"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="87" column="15"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="88" column="22"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/midiHandler.hpp" line="45" column="16"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/midiHandler.hpp" line="46" column="17"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/midiHandler.hpp" line="47" column="25"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/midiHandler.hpp" line="50" column="21"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/midiHandler.hpp" line="51" column="21"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/midiHandler.hpp" line="52" column="22"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/midiHandler.hpp" line="54" column="36"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="arpeggiator.hpp" line="24" column="16"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="arpeggiator.hpp" line="25" column="17"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="arpeggiator.hpp" line="32" column="29"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="arpeggiator.hpp" line="45" column="23"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="arpeggiator.hpp" line="46" column="23"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="arpeggiator.hpp" line="47" column="22"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="arpeggiator.hpp" line="48" column="24"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="arpeggiator.hpp" line="49" column="20"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="arpeggiator.hpp" line="50" column="17"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="arpeggiator.hpp" line="51" column="19"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="arpeggiator.hpp" line="52" column="28"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="arpeggiator.hpp" line="54" column="31"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="arpeggiator.hpp" line="55" column="33"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="arpeggiator.hpp" line="56" column="23"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="arpeggiator.hpp" line="57" column="24"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="arpeggiator.hpp" line="58" column="24"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="arpeggiator.hpp" line="59" column="24"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="arpeggiator.hpp" line="60" column="19"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="arpeggiator.hpp" line="61" column="22"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="arpeggiator.hpp" line="62" column="34"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="arpeggiator.hpp" line="64" column="18"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="arpeggiator.hpp" line="67" column="15"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="arpeggiator.hpp" line="68" column="25"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="arpeggiator.hpp" line="69" column="21"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="arpeggiator.hpp" line="70" column="36"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="arpeggiator.hpp" line="87" column="33"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="arpeggiator.hpp" line="88" column="25"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.hpp" line="43" column="22"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.hpp" line="49" column="25"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.hpp" line="53" column="31"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.hpp" line="57" column="25"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.hpp" line="61" column="28"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.hpp" line="65" column="27"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.hpp" line="69" column="24"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.hpp" line="73" column="24"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.hpp" line="97" column="18"/>
+        </error>
+        <error id="misra-c2012-8.2" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="488" column="35"/>
+        </error>
+        <error id="misra-c2012-12.3" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="8" column="29"/>
+        </error>
+        <error id="misra-c2012-15.5" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="21" column="30"/>
+        </error>
+        <error id="misra-c2012-15.5" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="348" column="13"/>
+        </error>
+        <error id="misra-c2012-15.5" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="350" column="13"/>
+        </error>
+        <error id="misra-c2012-15.5" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="352" column="13"/>
+        </error>
+        <error id="misra-c2012-15.5" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="354" column="13"/>
+        </error>
+        <error id="misra-c2012-15.5" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="356" column="13"/>
+        </error>
+        <error id="misra-c2012-15.5" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="358" column="13"/>
+        </error>
+        <error id="misra-c2012-15.5" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="360" column="13"/>
+        </error>
+        <error id="misra-c2012-15.5" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="362" column="13"/>
+        </error>
+        <error id="misra-c2012-15.5" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="364" column="13"/>
+        </error>
+        <error id="misra-c2012-15.5" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="366" column="13"/>
+        </error>
+        <error id="misra-c2012-15.5" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="368" column="13"/>
+        </error>
+        <error id="misra-c2012-15.5" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="370" column="13"/>
+        </error>
+        <error id="misra-c2012-15.5" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="372" column="13"/>
+        </error>
+        <error id="misra-c2012-15.5" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="374" column="13"/>
+        </error>
+        <error id="misra-c2012-15.5" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="376" column="13"/>
+        </error>
+        <error id="misra-c2012-15.5" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="378" column="13"/>
+        </error>
+        <error id="misra-c2012-15.5" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="380" column="13"/>
+        </error>
+        <error id="misra-c2012-15.5" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="382" column="13"/>
+        </error>
+        <error id="misra-c2012-15.5" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="384" column="13"/>
+        </error>
+        <error id="misra-c2012-15.5" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="386" column="13"/>
+        </error>
+        <error id="misra-c2012-15.5" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="388" column="13"/>
+        </error>
+        <error id="misra-c2012-15.5" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="390" column="13"/>
+        </error>
+        <error id="misra-c2012-15.5" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="392" column="13"/>
+        </error>
+        <error id="misra-c2012-15.5" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="394" column="13"/>
+        </error>
+        <error id="misra-c2012-16.4" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="23" column="5"/>
+        </error>
+        <error id="misra-c2012-16.4" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="345" column="5"/>
+        </error>
+        <error id="misra-c2012-16.4" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.cpp" line="403" column="5"/>
+        </error>
+        <error id="misra-c2012-21.1" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/clock.hpp" line="2" column="0"/>
+        </error>
+        <error id="misra-c2012-21.1" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/midiHandler.hpp" line="2" column="0"/>
+        </error>
+        <error id="misra-c2012-21.1" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="2" column="0"/>
+        </error>
+        <error id="misra-c2012-21.1" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="arpeggiator.hpp" line="2" column="0"/>
+        </error>
+        <error id="misra-c2012-21.1" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="notesTracker.hpp" line="2" column="0"/>
+        </error>
+        <error id="misra-c2012-21.1" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="plugin.hpp" line="2" column="0"/>
+        </error>
+        <error id="misra-c2012-21.1" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="probabilityPattern.hpp" line="2" column="0"/>
+        </error>
+        <error id="misra-c2012-21.1" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="types.h" line="2" column="0"/>
+        </error>
+        <error id="misra-c2012-21.1" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="utils.hpp" line="2" column="0"/>
+        </error>
+        <error id="misra-c2012-21.1" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="voiceManager.hpp" line="2" column="0"/>
+        </error>
+        <error id="misra-c2012-21.10" severity="style" msg="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" verbose="misra violation (use --rule-texts=&lt;file&gt; to get proper output)" file0="plugin.cpp.dump">
+            <location file="../../common/pattern.hpp" line="5" column="0"/>
+        </error>
+        <error id="unusedFunction" severity="style" msg="The function &apos;activate&apos; is never used." verbose="The function &apos;activate&apos; is never used." cwe="561">
+            <location file="plugin.cpp" line="483" column="0"/>
+            <symbol>activate</symbol>
+        </error>
+        <error id="unusedFunction" severity="style" msg="The function &apos;createPlugin&apos; is never used." verbose="The function &apos;createPlugin&apos; is never used." cwe="561">
+            <location file="plugin.cpp" line="513" column="0"/>
+            <symbol>createPlugin</symbol>
+        </error>
+        <error id="unusedFunction" severity="style" msg="The function &apos;getParameterValue&apos; is never used." verbose="The function &apos;getParameterValue&apos; is never used." cwe="561">
+            <location file="plugin.cpp" line="343" column="0"/>
+            <symbol>getParameterValue</symbol>
+        </error>
+        <error id="unusedFunction" severity="style" msg="The function &apos;initParameter&apos; is never used." verbose="The function &apos;initParameter&apos; is never used." cwe="561">
+            <location file="plugin.cpp" line="19" column="0"/>
+            <symbol>initParameter</symbol>
+        </error>
+        <error id="unusedFunction" severity="style" msg="The function &apos;run&apos; is never used." verbose="The function &apos;run&apos; is never used." cwe="561">
+            <location file="plugin.cpp" line="488" column="0"/>
+            <symbol>run</symbol>
+        </error>
+        <error id="unusedFunction" severity="style" msg="The function &apos;sampleRateChanged&apos; is never used." verbose="The function &apos;sampleRateChanged&apos; is never used." cwe="561">
+            <location file="plugin.cpp" line="333" column="0"/>
+            <symbol>sampleRateChanged</symbol>
+        </error>
+        <error id="unusedFunction" severity="style" msg="The function &apos;setParameterValue&apos; is never used." verbose="The function &apos;setParameterValue&apos; is never used." cwe="561">
+            <location file="plugin.cpp" line="401" column="0"/>
+            <symbol>setParameterValue</symbol>
+        </error>
+        <error id="missingInclude" severity="information" msg="Cppcheck cannot find all the include files (use --check-config for details)" verbose="Cppcheck cannot find all the include files. Cppcheck can check the code without the include files found. But the results will probably be more accurate if all the include files are found. Please check your project&apos;s include directories and add all of them as include directories for Cppcheck. To see what files Cppcheck cannot find use --check-config."/>
+    </errors>
+</results>

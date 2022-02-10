@@ -1,5 +1,5 @@
-#ifndef _H_TYPES_
-#define _H_TYPES_
+#ifndef H_TYPES
+#define H_TYPES
 
 #include <cstdint>
 
@@ -35,4 +35,4 @@ struct ArpNoteOffEvent {
     uint32_t timer;
 };
 
-#endif //_H_TYPES_
+#endif // H_TYPES
