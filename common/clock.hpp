@@ -62,9 +62,11 @@ private:
     bool tempoHasChanged;
 
     uint32_t period;
+    uint32_t prev_period;
     uint32_t halfWavelength;
     uint32_t quarterWaveLength;
-    uint32_t pos;
+    uint32_t posA;
+    uint32_t posB;
 
     float beatsPerBar;
     float bpm;

@@ -13,9 +13,11 @@ PluginClock::PluginClock() :
     multiplierChanged(false),
     tempoHasChanged(false),
     period(0),
+    prev_period(0),
     halfWavelength(0),
     quarterWaveLength(0),
-    pos(0),
+    posA(0),
+    posB(0),
     beatsPerBar(1.0),
     bpm(120.0),
     internalBpm(120.0),
@@ -96,6 +98,13 @@ void PluginClock::setTempoMultiplyFactor(int factor)
 void PluginClock::setTempoMultiplyEnabled(bool tempoMultiplyEnabled)
 {
     this->tempoMultiplyEnabled = tempoMultiplyEnabled;
+    if (tempoMultiplyEnabled) {
+        posB = posA;
+        prev_period = period;
+    } else {
+        posA = posB;
+    }
+
     multiplierChanged = true;
 }
 
@@ -137,12 +146,12 @@ void PluginClock::syncClock()
         tempoMultiply = tempoMultiplyFactor;
     }
 
-    pos = static_cast<uint32_t>(fmod(sampleRate * ((60.0f / (bpm * 2.0)) * tempoMultiply) * (hostBarBeat + (numBarsElapsed * beatsPerBar)), sampleRate * (60.0f / ((bpm * (divisionValue / 2.0f))))));
+    posA = static_cast<uint32_t>(fmod(sampleRate * ((60.0f / (bpm * 2.0)) * tempoMultiply) * (hostBarBeat + (numBarsElapsed * beatsPerBar)), sampleRate * (60.0f / ((bpm * (divisionValue / 2.0f))))));
 }
 
 void PluginClock::setPos(uint32_t pos)
 {
-    this->pos = pos;
+    this->posA = pos;
 }
 
 void PluginClock::setNumBarsElapsed(uint32_t numBarsElapsed)
@@ -167,7 +176,8 @@ void PluginClock::reset()
 {
     trigger = false;
     triggerIndex = 0;
-    pos = 0;
+    posA = 0;
+    posB = 0;
 }
 
 float PluginClock::getSampleRate() const
@@ -222,7 +232,7 @@ uint32_t PluginClock::getClockCycleDuration() const
 
 uint32_t PluginClock::getPos() const
 {
-    return pos;
+    return posA;
 }
 
 void PluginClock::countElapsedBars()
@@ -307,19 +317,25 @@ void PluginClock::tick()
     applyTempoSettings();
 
     //TODO check this with beatsync
-    if (pos > period) {
-        pos = 0;
+    if (posA > period && !beatSync) {
+        posA = 0;
+    }
+
+    if (tempoMultiplyEnabled && !beatSync) {
+        if (posB > prev_period) {
+            posB = 0;
+        }
     }
 
     uint32_t triggerPos[2];
     triggerPos[0] = 0;
     triggerPos[1] = static_cast<uint32_t>(halfWavelength + (halfWavelength * swing));
 
-    if (pos < triggerPos[1] && trigger) {
+    if (posA < triggerPos[1] && trigger) {
         triggerIndex ^= 1;
         trigger = false;
     }
-    if (pos >= triggerPos[triggerIndex] && !trigger) {
+    if (posA >= triggerPos[triggerIndex] && !trigger) {
         gate = true;
         trigger = true;
     }
@@ -328,6 +344,7 @@ void PluginClock::tick()
         syncClock(); //hard-sync to host position
     }
     else if (!beatSync) { //TODO check reseting POS on reset
-        pos++;
+        posA++;
+        posB++;
     }
 }
