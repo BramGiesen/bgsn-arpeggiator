@@ -26,27 +26,27 @@ public:
     void syncClock();
     void setPos(uint32_t pos);
     void setNumBarsElapsed(uint32_t numBarsElapsed);
-    void countElapsedBars();
-    void calcPeriod();
-    void closeGate();
-    void reset();
-    bool getGate() const;
-    float getSampleRate() const;
-    int getSyncMode() const;
-    float getInternalBpmValue() const;
-    int getDivision() const;
-    float getSwing() const;
-    int getTempoMultiplyFactor() const;
-    bool getTempoMultiplyEnabled() const;
-    uint32_t getPeriod() const;
-    uint32_t getClockCycleDuration() const;
-    uint32_t getPos() const;
-    void tick();
+    void countElapsedBars(void);
+    void calcPeriod(void);
+    void closeGate(void);
+    void reset(void);
+    bool getGate(void) const;
+    float getSampleRate(void) const;
+    int getSyncMode(void) const;
+    float getInternalBpmValue(void) const;
+    int getDivision(void) const;
+    float getSwing(void) const;
+    int getTempoMultiplyFactor(void) const;
+    bool getTempoMultiplyEnabled(void) const;
+    uint32_t getPeriod(void) const;
+    uint32_t getClockCycleDuration(void) const;
+    uint32_t getPos(void) const;
+    void tick(void);
 
 private:
     void setBpm(float bpm);
-    void checkForTempoChange();
-    void applyTempoSettings();
+    void checkForTempoChange(void);
+    void applyTempoSettings(void);
 
     bool gate;
     bool trigger;
