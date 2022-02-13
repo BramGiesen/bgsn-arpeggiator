@@ -10,8 +10,6 @@ public:
     void registerNewActiveNote(void);
     void setNumActiveNotes(int numActiveNotes);
     void removeActiveNote(void);
-    void allKeysReleased(void);
-    void resetActiveNotes(void);
     void resetAll(void);
     int getNumKeysPressed(void);
     int getNumActiveNotes(void);

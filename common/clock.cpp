@@ -21,6 +21,7 @@ PluginClock::PluginClock() :
     beatsPerBar(1.0),
     bpm(120.0),
     internalBpm(120.0),
+    hostBpm(120.0),
     previousBpm(0),
     sampleRate(48000.0),
     division(1),
@@ -36,6 +37,7 @@ PluginClock::PluginClock() :
     barLength(4),
     numBarsElapsed(0),
     previousBeat(0),
+    tempoMultiplyFactor(1),
     arpMode(0)
 {
 }
@@ -149,11 +151,6 @@ void PluginClock::syncClock()
     posA = static_cast<uint32_t>(fmod(sampleRate * ((60.0f / (bpm * 2.0)) * tempoMultiply) * (hostBarBeat + (numBarsElapsed * beatsPerBar)), sampleRate * (60.0f / ((bpm * (divisionValue / 2.0f))))));
 }
 
-void PluginClock::setPos(uint32_t pos)
-{
-    this->posA = pos;
-}
-
 void PluginClock::setNumBarsElapsed(uint32_t numBarsElapsed)
 {
     this->numBarsElapsed = numBarsElapsed;
@@ -164,7 +161,7 @@ void PluginClock::calcPeriod()
     period = static_cast<uint32_t>(sampleRate * (60.0f / (bpm * (divisionValue / 2.0f))));
     halfWavelength = static_cast<uint32_t>(period / 2.0f);
     quarterWaveLength = static_cast<uint32_t>(halfWavelength / 2.0f);
-    period = (period <= 0) ? 1 : period;
+    period = (period == 0) ? 1 : period;
 }
 
 void PluginClock::closeGate()
@@ -257,9 +254,9 @@ void PluginClock::countElapsedBars()
 
 void PluginClock::checkForTempoChange()
 {
-    float threshold = 0.009; //TODO might not be needed
 
     if (syncMode != FREE_RUNNING) {
+        float threshold = 0.009; //TODO might not be needed
         if (fabs(previousBpm - hostBpm) > threshold) {
             tempoHasChanged = true;
             previousBpm = hostBpm;

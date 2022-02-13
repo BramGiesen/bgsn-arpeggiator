@@ -4,3 +4,4 @@ bin
 build
 *.so
 connect_ports.sh
+*.xml

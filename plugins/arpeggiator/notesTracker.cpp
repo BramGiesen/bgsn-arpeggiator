@@ -34,16 +34,6 @@ void NotesTracker::setNumActiveNotes(int numActiveNotes)
 
 }
 
-void NotesTracker::allKeysReleased()
-{
-    numKeysPressed = 0;
-}
-
-void NotesTracker::resetActiveNotes()
-{
-    numActiveNotes = 0;
-}
-
 void NotesTracker::resetAll()
 {
     numActiveNotes = 0;

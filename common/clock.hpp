@@ -24,7 +24,6 @@ public:
     void setTempoMultiplyEnabled(bool enabled);
     void setSwing(float swing);
     void syncClock();
-    void setPos(uint32_t pos);
     void setNumBarsElapsed(uint32_t numBarsElapsed);
     void countElapsedBars(void);
     void calcPeriod(void);
@@ -56,7 +55,6 @@ private:
     bool previousPlaying;
     bool endOfBar;
     bool init;
-    bool updateTempo;
     bool tempoMultiplyEnabled;
     bool multiplierChanged;
     bool tempoHasChanged;
