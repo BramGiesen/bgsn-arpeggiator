@@ -392,6 +392,8 @@ float PluginArpeggiator::getParameterValue(uint32_t index) const
             return arpeggiator.getPanic();
         case paramEnabled:
             return arpeggiator.getArpEnabled();
+        default:
+            return 0;
     }
 }
 

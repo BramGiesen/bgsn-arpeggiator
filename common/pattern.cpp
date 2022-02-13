@@ -1,6 +1,6 @@
 #include "pattern.hpp"
 
-Pattern::Pattern() : size(1), step(0), range(1), direction(0)
+Pattern::Pattern() : size(1), step(0), direction(0), range(1)
 {
 }
 
