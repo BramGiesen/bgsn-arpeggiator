@@ -98,15 +98,6 @@ void PluginClock::setTempoMultiplyEnabled(bool tempoMultiplyEnabled)
     this->tempoMultiplyEnabled = tempoMultiplyEnabled;
     calcSmallestPeriodInDivision();
     multiplierSet = true;
-
-    //if (tempoMultiplyEnabled) {
-    //    // calculate the smallest division value that is within the same metric
-    //    // Once the pos will hit this point, the tempoMultiplier will be enabled
-    //} else {
-    //    // turn off tempo multiplier
-    //    enableTempoMultipy(false);
-    //    tempoHasChanged = true;
-    //}
 }
 
 void PluginClock::setBpm(float bpm)
@@ -166,9 +157,10 @@ void PluginClock::calcPeriod()
 void PluginClock::calcSmallestPeriodInDivision()
 {
     float dValue;
+    // TODO check divisionValues!!
     if (fmod(divisionValue, 0.3)) {
         dValue = 12.0;
-    } else if (fmod(divisionValue, 0.3)) {
+    } else if (fmod(divisionValue, 0.5)) {
         dValue = 16.0;
     } else {
         dValue = 10.66666;
