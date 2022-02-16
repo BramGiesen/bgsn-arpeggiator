@@ -46,25 +46,27 @@ private:
     void setBpm(float bpm);
     void checkForTempoChange(void);
     void applyTempoSettings(void);
+    void calcSmallestPeriodInDivision(void);
+    void enableTempoMultipy(bool enable);
 
     bool gate;
     bool trigger;
     bool beatSync;
-    bool phaseReset;
     bool playing;
     bool previousPlaying;
     bool endOfBar;
     bool init;
     bool tempoMultiplyEnabled;
-    bool multiplierChanged;
+    bool tempoMultiplyActive;
+    bool multiplierSet;
     bool tempoHasChanged;
 
     uint32_t period;
+    uint32_t smallestDivisionPeriod;
     uint32_t prev_period;
     uint32_t halfWavelength;
     uint32_t quarterWaveLength;
-    uint32_t posA;
-    uint32_t posB;
+    uint32_t pos;
 
     float beatsPerBar;
     float bpm;
@@ -77,18 +79,13 @@ private:
     float swing;
 
     float hostBarBeat;
-    float beatTick;
     int triggerIndex;
     int syncMode;
     int previousSyncMode;
-    int hostTick;
     int hostBeat;
-    int barLength;
     int numBarsElapsed;
     int previousBeat;
     int tempoMultiplyFactor;
-
-    int arpMode;
 
     // "1/1" "1/2" "1/3" "1/4" "1/4." "1/4T" "1/8" "1/8." "1/8T" "1/16" "1/16." "1/16T" "1/32"
     float divisionValues[13] {0.5, 1, 1.5, 2.0, 2.66666, 3.0, 4.0, 5.33333, 6.0, 8.0, 10.66666, 12.0, 16.0};

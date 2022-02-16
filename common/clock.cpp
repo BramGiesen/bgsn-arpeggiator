@@ -4,20 +4,20 @@ PluginClock::PluginClock() :
     gate(false),
     trigger(false),
     beatSync(true),
-    phaseReset(false),
     playing(false),
     previousPlaying(false),
     endOfBar(false),
     init(false),
     tempoMultiplyEnabled(false),
-    multiplierChanged(false),
+    tempoMultiplyActive(false),
+    multiplierSet(false),
     tempoHasChanged(false),
     period(0),
+    smallestDivisionPeriod(0),
     prev_period(0),
     halfWavelength(0),
     quarterWaveLength(0),
-    posA(0),
-    posB(0),
+    pos(0),
     beatsPerBar(1.0),
     bpm(120.0),
     internalBpm(120.0),
@@ -28,17 +28,13 @@ PluginClock::PluginClock() :
     divisionValue(9),
     swing(0),
     hostBarBeat(0.0),
-    beatTick(0.0),
     triggerIndex(0),
     syncMode(1),
     previousSyncMode(0),
-    hostTick(0),
     hostBeat(0),
-    barLength(4),
     numBarsElapsed(0),
     previousBeat(0),
-    tempoMultiplyFactor(1),
-    arpMode(0)
+    tempoMultiplyFactor(1)
 {
 }
 
@@ -94,25 +90,28 @@ void PluginClock::setInternalBpmValue(float internalBpm)
 void PluginClock::setTempoMultiplyFactor(int factor)
 {
     this->tempoMultiplyFactor = factor;
-    multiplierChanged = true;
+    tempoHasChanged = true;
 }
 
 void PluginClock::setTempoMultiplyEnabled(bool tempoMultiplyEnabled)
 {
     this->tempoMultiplyEnabled = tempoMultiplyEnabled;
-    if (tempoMultiplyEnabled) {
-        posB = posA;
-        prev_period = period;
-    } else {
-        posA = posB;
-    }
+    calcSmallestPeriodInDivision();
+    multiplierSet = true;
 
-    multiplierChanged = true;
+    //if (tempoMultiplyEnabled) {
+    //    // calculate the smallest division value that is within the same metric
+    //    // Once the pos will hit this point, the tempoMultiplier will be enabled
+    //} else {
+    //    // turn off tempo multiplier
+    //    enableTempoMultipy(false);
+    //    tempoHasChanged = true;
+    //}
 }
 
 void PluginClock::setBpm(float bpm)
 {
-    if (tempoMultiplyEnabled) {
+    if (tempoMultiplyActive) {
         bpm = bpm * tempoMultiplyFactor;
     }
 
@@ -144,11 +143,11 @@ void PluginClock::syncClock()
 {
     float tempoMultiply = 1.0;
     // TODO restructure
-    if (tempoMultiplyEnabled) {
+    if (tempoMultiplyActive) {
         tempoMultiply = tempoMultiplyFactor;
     }
 
-    posA = static_cast<uint32_t>(fmod(sampleRate * ((60.0f / (bpm * 2.0)) * tempoMultiply) * (hostBarBeat + (numBarsElapsed * beatsPerBar)), sampleRate * (60.0f / ((bpm * (divisionValue / 2.0f))))));
+    pos = static_cast<uint32_t>(fmod(sampleRate * ((60.0f / (bpm * 2.0)) * tempoMultiply) * (hostBarBeat + (numBarsElapsed * beatsPerBar)), sampleRate * (60.0f / ((bpm * (divisionValue / 2.0f))))));
 }
 
 void PluginClock::setNumBarsElapsed(uint32_t numBarsElapsed)
@@ -164,6 +163,19 @@ void PluginClock::calcPeriod()
     period = (period == 0) ? 1 : period;
 }
 
+void PluginClock::calcSmallestPeriodInDivision()
+{
+    float dValue;
+    if (fmod(divisionValue, 0.3)) {
+        dValue = 12.0;
+    } else if (fmod(divisionValue, 0.3)) {
+        dValue = 16.0;
+    } else {
+        dValue = 10.66666;
+    }
+    smallestDivisionPeriod = static_cast<uint32_t>(sampleRate * (60.0f / (bpm * (dValue / 2.0f))) / 2.0);
+}
+
 void PluginClock::closeGate()
 {
     gate = false;
@@ -173,8 +185,7 @@ void PluginClock::reset()
 {
     trigger = false;
     triggerIndex = 0;
-    posA = 0;
-    posB = 0;
+    pos = 0;
 }
 
 float PluginClock::getSampleRate() const
@@ -229,7 +240,7 @@ uint32_t PluginClock::getClockCycleDuration() const
 
 uint32_t PluginClock::getPos() const
 {
-    return posA;
+    return pos;
 }
 
 void PluginClock::countElapsedBars()
@@ -277,8 +288,20 @@ void PluginClock::checkForTempoChange()
 
 void PluginClock::applyTempoSettings()
 {
+    if (multiplierSet) {
+        if (beatSync) {
+            tempoMultiplyActive = tempoMultiplyEnabled;
+            multiplierSet = false;
+            tempoHasChanged = true;
+        } else if ((tempoMultiplyFactor > 1) && (fmod(pos, smallestDivisionPeriod))) {
+            tempoMultiplyActive = tempoMultiplyEnabled;
+            multiplierSet = false;
+            tempoHasChanged = true;
+            reset();
+        }
+    }
 
-    if (!tempoHasChanged && !multiplierChanged) {
+    if (!tempoHasChanged) {
         return;
     }
 
@@ -297,9 +320,7 @@ void PluginClock::applyTempoSettings()
             }
             break;
     }
-
     tempoHasChanged = false;
-    multiplierChanged = false;
 }
 
 void PluginClock::tick()
@@ -314,25 +335,19 @@ void PluginClock::tick()
     applyTempoSettings();
 
     //TODO check this with beatsync
-    if (posA > period && !beatSync) {
-        posA = 0;
-    }
-
-    if (tempoMultiplyEnabled && !beatSync) {
-        if (posB > prev_period) {
-            posB = 0;
-        }
+    if (pos > period && !beatSync) {
+        pos = 0;
     }
 
     uint32_t triggerPos[2];
     triggerPos[0] = 0;
     triggerPos[1] = static_cast<uint32_t>(halfWavelength + (halfWavelength * swing));
 
-    if (posA < triggerPos[1] && trigger) {
+    if (pos < triggerPos[1] && trigger) {
         triggerIndex ^= 1;
         trigger = false;
     }
-    if (posA >= triggerPos[triggerIndex] && !trigger) {
+    if (pos >= triggerPos[triggerIndex] && !trigger) {
         gate = true;
         trigger = true;
     }
@@ -341,7 +356,6 @@ void PluginClock::tick()
         syncClock(); //hard-sync to host position
     }
     else if (!beatSync) { //TODO check reseting POS on reset
-        posA++;
-        posB++;
+        pos++;
     }
 }

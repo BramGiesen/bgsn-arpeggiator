@@ -104,7 +104,6 @@ protected:
 
 private:
     Arpeggiator arpeggiator;
-    float fParams[paramCount];
     int syncMode;
 
     DISTRHO_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginArpeggiator)

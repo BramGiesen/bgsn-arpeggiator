@@ -420,7 +420,9 @@ void Arpeggiator::handleNoteOnEvent(const MidiEvent *event)
     if (notesTracker.getNumKeysPressed() == 0) {
         if (!latchPlaying) { //TODO check if there needs to be an exception when using sync
             octavePattern[octaveMode]->reset();
-            clock.reset();
+            if (clock.getSyncMode() != 2) {
+                clock.reset();
+            }
             currentStep = 0;
         }
         if (latchMode) {
