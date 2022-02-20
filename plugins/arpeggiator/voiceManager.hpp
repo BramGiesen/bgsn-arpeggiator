@@ -22,7 +22,11 @@ protected:
     ArpNoteEvent arpVoice[NUM_VOICES];
     ArpNoteEvent emptyVoice;
 private:
+    bool addVoiceToFreeSlot(ArpNoteEvent event);
+    void overWriteVoice(ArpNoteEvent event);
     ArpUtils utils;
+
+    int overwrite_idx;
 };
 
 #endif // H_VOICE_MANAGER

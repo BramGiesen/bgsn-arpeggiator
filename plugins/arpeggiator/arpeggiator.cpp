@@ -1,4 +1,5 @@
 #include "arpeggiator.hpp"
+#include "types.h"
 
 Arpeggiator::Arpeggiator() :
     currentStep(0),
@@ -408,11 +409,6 @@ void Arpeggiator::handleNoteOnEvent(const MidiEvent *event)
         return;
     }
 
-    if (notesTracker.getNumActiveNotes() > (NUM_VOICES - 1)) {
-        reset();
-        return;
-    }
-
     if (first) {
         firstNote = true;
     }
@@ -427,10 +423,15 @@ void Arpeggiator::handleNoteOnEvent(const MidiEvent *event)
         }
         if (latchMode) {
             latchPlaying = true;
-            notesTracker.removeActiveNote();
+            notesTracker.resetAll();
             voiceManager->freeAll();
         }
         resetPattern = true;
+    }
+
+    if (notesTracker.getNumActiveNotes() > (NUM_VOICES - 1)) {
+        reset();
+        return;
     }
 
     //Add new arp event to voice handler
@@ -445,7 +446,9 @@ void Arpeggiator::handleNoteOnEvent(const MidiEvent *event)
     notesTracker.registerNewPressedKey();
     notesTracker.registerNewActiveNote();
 
-    notesTracker.setNumActiveNotes(notesTracker.getNumKeysPressed());
+    if (!latchPlaying) {
+        notesTracker.setNumActiveNotes(notesTracker.getNumKeysPressed());
+    }
 
     if (arpMode != (int)ARP_PLAYED) {
         voiceManager->sort();
@@ -528,7 +531,9 @@ void Arpeggiator::handleMidiInputEvent(const MidiEvent *event, uint8_t status)
                 handleNoteOffEvent(event);
                 break;
             default:
-                handleMidiThroughEvent(event);
+                if (!(event->size > 4 && event->dataExt[0] == MIDI_SYSEX)) {
+                    handleMidiThroughEvent(event);
+                }
                 break;
         }
     }
@@ -536,23 +541,26 @@ void Arpeggiator::handleMidiInputEvent(const MidiEvent *event, uint8_t status)
 
 void Arpeggiator::handleMidiEventDisabledState(const MidiEvent *event, uint8_t status)
 {
-    uint8_t midiNote = event->data[1];
+    if (!(event->size > 4 && event->dataExt[0] == MIDI_SYSEX)) {
 
-    if (latchMode) {
-        if (status == (uint8_t)MIDI_NOTEOFF) {
-            voiceManager->freeVoice(midiNote);
-            notesTracker.keyReleased();
+        uint8_t midiNote = event->data[1];
+
+        if (latchMode) {
+            if (status == static_cast<uint8_t>(MIDI_NOTEOFF)) {
+                voiceManager->freeVoice(midiNote);
+                notesTracker.keyReleased();
+            }
         }
-    }
 
-    if ((midiNote == 0x7b) && (event->size == 3)) {
-        allNotesOff();
-    }
+        if ((midiNote == 0x7b) && (event->size == 3)) {
+            allNotesOff();
+        }
 
-    //send MIDI message through
-    // TODO validate this bit of code
-    midiHandler.appendMidiThroughMessage(*event);
-    first = true;
+        //send MIDI message through
+        // TODO validate this bit of code
+        midiHandler.appendMidiThroughMessage(*event);
+        first = true;
+    }
 }
 
 void Arpeggiator::addEventToNoteOffTimer(ArpNoteEvent event)

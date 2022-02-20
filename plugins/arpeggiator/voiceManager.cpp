@@ -1,6 +1,7 @@
 #include "voiceManager.hpp"
+#include "types.h"
 
-VoiceManager::VoiceManager()
+VoiceManager::VoiceManager() : overwrite_idx(0)
 {
     for (int i = 0; i < (int)NUM_VOICES; i++) {
         arpVoice[i].midiNote = 0;
@@ -15,7 +16,16 @@ VoiceManager::~VoiceManager()
 {
 }
 
-void VoiceManager::addVoice(ArpNoteEvent event)
+void VoiceManager::overWriteVoice(ArpNoteEvent event)
+{
+    arpVoice[overwrite_idx].midiNote = event.midiNote;
+    arpVoice[overwrite_idx].channel = event.channel;
+    arpVoice[overwrite_idx].active = event.active;
+
+    overwrite_idx = (overwrite_idx + 1) % (int)NUM_VOICES;
+}
+
+bool VoiceManager::addVoiceToFreeSlot(ArpNoteEvent event)
 {
     int searchNote = 0;
 
@@ -27,10 +37,18 @@ void VoiceManager::addVoice(ArpNoteEvent event)
             arpVoice[searchNote].channel = event.channel;
             arpVoice[searchNote].active = event.active;
 
-            //TODO validate
-            break;
+            return true;
         }
         searchNote++;
+    }
+    return false;
+}
+
+void VoiceManager::addVoice(ArpNoteEvent event)
+{
+    if (!addVoiceToFreeSlot(event)) {
+        // start overwriting voices if nothing is free
+        overWriteVoice(event);
     }
 }
 
@@ -102,4 +120,5 @@ void VoiceManager::freeAll()
         arpVoice[clear_notes].channel = 0;
         arpVoice[clear_notes].active = false;
     }
+    overwrite_idx = 0;
 }
