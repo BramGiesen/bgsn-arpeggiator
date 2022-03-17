@@ -1,6 +1,7 @@
 #ifndef H_ARPEGGIATOR
 #define H_ARPEGGIATOR
 
+#include <bits/stdint-uintn.h>
 #include <cstdint>
 
 #include "voiceManager.hpp"
@@ -71,6 +72,7 @@ public:
     void process(const MidiEvent* event, uint32_t eventCount, uint32_t n_frames);
 
 private:
+    void processMidiInput(const MidiEvent *event, uint32_t eventCount);
     void setOctavePattern(int patternSize, int octaveSpread);
     void handleMidiInputEvent(const MidiEvent *event, uint8_t status);
     void handleMidiEventDisabledState(const MidiEvent *event, uint8_t status);
@@ -82,10 +84,16 @@ private:
     void applyProbability(ArpNoteEvent *event);
     void applyHoldToEvent(ArpNoteEvent *event);
     void createNewArpOutEvent(ArpNoteEvent event, size_t currentFrame);
+    void queNewEvent(unsigned int frame);
+    void goToNextStep(void);
     void noteOffTimer(size_t currentFrame);
     void addEventToNoteOffTimer(ArpNoteEvent event);
     void sendAllNotesOffToOutput(void);
     void resetArpPattern(void);
+    void resetArpIfStartOfSequence(void);
+    void resetArpIfPanic(void);
+    void updateArpPattern(void);
+
 
     ArpNoteOffEvent arpNoteOffEvent[NUM_VOICES];
 

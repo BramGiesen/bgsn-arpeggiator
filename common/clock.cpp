@@ -326,7 +326,6 @@ void PluginClock::tick()
     checkForTempoChange();
     applyTempoSettings();
 
-    //TODO check this with beatsync
     if (pos > period && !beatSync) {
         pos = 0;
     }

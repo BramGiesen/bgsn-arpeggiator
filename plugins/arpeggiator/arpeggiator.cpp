@@ -1,5 +1,6 @@
 #include "arpeggiator.hpp"
 #include "types.h"
+#include <bits/stdint-uintn.h>
 
 Arpeggiator::Arpeggiator() :
     currentStep(0),
@@ -362,20 +363,20 @@ void Arpeggiator::sendAllNotesOffToOutput()
 
 int Arpeggiator::getPatternSize()
 {
-    int numActiveNotes = notesTracker.getNumActiveNotes();
+    int patternSize = notesTracker.getNumActiveNotes();
 
     switch (arpMode)
     {
         case ARP_UP_DOWN:
-            numActiveNotes = (numActiveNotes >= 3) ? numActiveNotes + (numActiveNotes - 2) : numActiveNotes;
+            patternSize = (patternSize >= 3) ? patternSize + (patternSize - 2) : patternSize;
             break;
         case ARP_UP_DOWN_ALT:
-            numActiveNotes = (numActiveNotes >= 3) ? (numActiveNotes * 2) : numActiveNotes;
+            patternSize = (patternSize >= 3) ? (patternSize * 2) : patternSize;
             break;
         default:
             break;
     }
-    return numActiveNotes;
+    return patternSize;
 }
 
 void Arpeggiator::setOctavePattern(int patternSize, int octaveSpread)
@@ -597,6 +598,9 @@ void Arpeggiator::createNewArpOutEvent(ArpNoteEvent event, size_t currentFrame)
     midiEvent.data[2] = event.velocity;
 
     midiHandler.appendMidiMessage(midiEvent);
+
+    // Add this event to the timer for sending a note off later
+    addEventToNoteOffTimer(event);
 }
 
 void Arpeggiator::resetArpPattern()
@@ -677,6 +681,28 @@ void Arpeggiator::applyHoldToEvent(ArpNoteEvent *event)
     }
 }
 
+void Arpeggiator::queNewEvent(unsigned int frame)
+{
+    ArpNoteEvent event = voiceManager->getEvent(currentStep);
+    // Create a MIDI message out
+    if (event.active) {
+        applyOctavePatternToEvent(&event);
+        applyHoldToEvent(&event);
+        applyProbability(&event);
+
+        createNewArpOutEvent(event, frame);
+        firstNote = false;
+    }
+}
+
+void Arpeggiator::goToNextStep()
+{
+    probabilityPattern.goToNextStep();
+    octavePattern[octaveMode]->goToNextStep();
+    arpPattern[arpMode]->goToNextStep();
+    currentStep = arpPattern[arpMode]->getStep();
+}
+
 void Arpeggiator::handleTimeBasedEvents(uint32_t n_frames)
 {
 
@@ -712,29 +738,14 @@ void Arpeggiator::handleTimeBasedEvents(uint32_t n_frames)
                     sendAllNotesOffToOutput();
                     first = false;
                 }
-            }
 
-            if (arpEnabled) {
-                ArpNoteEvent event = voiceManager->getEvent(currentStep);
-                // Create a MIDI message out
-                if (event.active) {
-                    applyOctavePatternToEvent(&event);
-                    applyHoldToEvent(&event);
-                    applyProbability(&event);
+                queNewEvent(s);
 
-                    createNewArpOutEvent(event, s);
-                    // Add this event to the timer for sending a note off later
-                    addEventToNoteOffTimer(event);
-                    firstNote = false;
-                }
             }
             // Keep pattern running, even when disabled.
             // This makes syncing easier.
             // Only exception is when the 'hold' is set on the tempo multiplier
-            probabilityPattern.goToNextStep();
-            octavePattern[octaveMode]->goToNextStep();
-            arpPattern[arpMode]->goToNextStep();
-            currentStep = arpPattern[arpMode]->getStep();
+            goToNextStep();
 
             clock.closeGate();
         }
@@ -743,24 +754,8 @@ void Arpeggiator::handleTimeBasedEvents(uint32_t n_frames)
     }
 }
 
-void Arpeggiator::process(const MidiEvent* events, uint32_t eventCount, uint32_t n_frames)
+void Arpeggiator::processMidiInput(const MidiEvent* events, uint32_t eventCount)
 {
-    if (!arpEnabled && !latchMode) {
-        reset();
-    }
-
-    if (!latchMode && previousLatch && notesTracker.getNumKeysPressed() <= 0) {
-        reset();
-    }
-    if (latchMode != previousLatch) {
-        previousLatch = latchMode;
-    }
-    if (panic) {
-        sendAllNotesOffToOutput();
-        reset();
-        panic = false;
-    }
-
     //Process incoming MIDI messages
     for (uint32_t i=0; i<eventCount; ++i) {
 
@@ -772,14 +767,48 @@ void Arpeggiator::process(const MidiEvent* events, uint32_t eventCount, uint32_t
             handleMidiEventDisabledState(&events[i], status);
         }
     }
+}
 
-    // Set pattern based on active notes
-    int numActiveNotes = notesTracker.getNumActiveNotes();
-    arpPattern[arpMode]->setPatternSize(numActiveNotes);
-    int patternSize = getPatternSize();
-    setOctavePattern(patternSize, octaveSpread);
+void Arpeggiator::updateArpPattern()
+{
+    arpPattern[arpMode]->setPatternSize(notesTracker.getNumActiveNotes());
+    setOctavePattern(getPatternSize(), octaveSpread);
+}
 
-    //Write events out based on clock to buffer
+void Arpeggiator::resetArpIfStartOfSequence()
+{
+    if (!arpEnabled && !latchMode) {
+        reset();
+    }
+
+    if (!latchMode && previousLatch && notesTracker.getNumKeysPressed() <= 0) {
+        reset();
+    }
+    if (latchMode != previousLatch) {
+        previousLatch = latchMode;
+    }
+}
+
+void Arpeggiator::resetArpIfPanic()
+{
+    if (panic) {
+        sendAllNotesOffToOutput();
+        reset();
+        panic = false;
+    }
+
+}
+
+void Arpeggiator::process(const MidiEvent* events, uint32_t eventCount, uint32_t n_frames)
+{
+    resetArpIfStartOfSequence();
+
+    resetArpIfPanic();
+
+    processMidiInput(events, eventCount);
+
+    updateArpPattern();
+
     handleTimeBasedEvents(n_frames);
 
     midiHandler.mergeBuffers();
