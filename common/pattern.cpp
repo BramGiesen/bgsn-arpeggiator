@@ -1,6 +1,6 @@
 #include "pattern.hpp"
 
-Pattern::Pattern() : size(1), step(0), range(1)
+Pattern::Pattern() : size(1), step(0), direction(0), range(1)
 {
 }
 
@@ -229,7 +229,7 @@ void PatternCycle::goToNextStep()
     if (size >= 1) {
         int nextStep = tempStep + direction;
 
-        if (range > 0 && size > 0) {
+        if (range > 0) {
             if (nextStep >= size) {
                 step = (step + 1) % range;
             }

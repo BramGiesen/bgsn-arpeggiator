@@ -1,5 +1,5 @@
-#ifndef _H_TYPES_
-#define _H_TYPES_
+#ifndef H_TYPES
+#define H_TYPES
 
 #include <cstdint>
 
@@ -8,9 +8,9 @@
 #define NUM_VOICES 32
 #define NUM_NOTE_OFF_SLOTS 32
 
-
 #define MIDI_NOTEOFF 0x80
 #define MIDI_NOTEON  0x90
+#define MIDI_SYSEX   0xF0
 
 #define MIDI_NOTE 0
 #define MIDI_CHANNEL 1
@@ -35,4 +35,4 @@ struct ArpNoteOffEvent {
     uint32_t timer;
 };
 
-#endif //_H_TYPES_
+#endif // H_TYPES

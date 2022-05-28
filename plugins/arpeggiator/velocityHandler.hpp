@@ -1,5 +1,5 @@
-#ifndef _H_VELOCITY_HANDLER_
-#define _H_VELOCITY_HANDLER_
+#ifndef H_VELOCITY_HANDLER
+#define H_VELOCITY_HANDLER
 
 #include <cstdint>
 
@@ -11,27 +11,25 @@ public:
         STATIC = 0,
         PATTERN
     };
-    VelocityHandler();
-    ~VelocityHandler();
+    VelocityHandler(void);
+    ~VelocityHandler(void);
 
-    void setSampleRate(float sampleRate);
     void setMode(int mode);
     void setNumSteps(int steps);
     void setVelocityPattern(int index, uint8_t value);
-    int getMode() const;
-    int getNumSteps() const;
+    int getMode(void) const;
+    int getNumSteps(void) const;
     int getVelocityPattern(int index) const;
-    void goToNextStep();
-    uint8_t getVelocity();
-    void process();
+    void goToNextStep(void);
+    uint8_t getVelocity(void);
+    void process(void);
 
 private:
     uint8_t velocity;
-    float sampleRate;
     int step;
     int numSteps;
     int velocityMode;
     uint8_t velocityPattern[MAX_NUM_STEPS];
 };
 
-#endif // _H_VELOCITY_HANDLER_
+#endif // H_VELOCITY_HANDLER

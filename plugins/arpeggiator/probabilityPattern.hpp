@@ -1,5 +1,5 @@
-#ifndef _H_PROBABILITY_
-#define _H_PROBABILITY_
+#ifndef H_PROBABILITY
+#define H_PROBABILITY
 
 #include <cstdlib>
 #include <ctime>
@@ -34,4 +34,4 @@ private:
     bool playNote;
 };
 
-#endif // _H_PROBABILITY_
+#endif // H_PROBABILITY

@@ -24,44 +24,46 @@ public:
     void setTempoMultiplyEnabled(bool enabled);
     void setSwing(float swing);
     void syncClock();
-    void setPos(uint32_t pos);
     void setNumBarsElapsed(uint32_t numBarsElapsed);
-    void countElapsedBars();
-    void calcPeriod();
-    void closeGate();
-    void reset();
-    bool getGate() const;
-    float getSampleRate() const;
-    int getSyncMode() const;
-    float getInternalBpmValue() const;
-    int getDivision() const;
-    float getSwing() const;
-    int getTempoMultiplyFactor() const;
-    bool getTempoMultiplyEnabled() const;
-    uint32_t getPeriod() const;
-    uint32_t getClockCycleDuration() const;
-    uint32_t getPos() const;
-    void tick();
+    void countElapsedBars(void);
+    void calcPeriod(void);
+    void closeGate(void);
+    void reset(void);
+    bool getGate(void) const;
+    float getSampleRate(void) const;
+    int getSyncMode(void) const;
+    float getInternalBpmValue(void) const;
+    int getDivision(void) const;
+    float getSwing(void) const;
+    int getTempoMultiplyFactor(void) const;
+    bool getTempoMultiplyEnabled(void) const;
+    uint32_t getPeriod(void) const;
+    uint32_t getClockCycleDuration(void) const;
+    uint32_t getPos(void) const;
+    void tick(void);
 
 private:
     void setBpm(float bpm);
-    void checkForTempoChange();
-    void applyTempoSettings();
+    void checkForTempoChange(void);
+    void applyTempoSettings(void);
+    void calcSmallestPeriodInDivision(void);
+    void enableTempoMultipy(bool enable);
 
     bool gate;
     bool trigger;
     bool beatSync;
-    bool phaseReset;
     bool playing;
     bool previousPlaying;
     bool endOfBar;
     bool init;
-    bool updateTempo;
     bool tempoMultiplyEnabled;
-    bool multiplierChanged;
+    bool tempoMultiplyActive;
+    bool multiplierSet;
     bool tempoHasChanged;
 
     uint32_t period;
+    uint32_t smallestDivisionPeriod;
+    uint32_t prev_period;
     uint32_t halfWavelength;
     uint32_t quarterWaveLength;
     uint32_t pos;
@@ -77,18 +79,13 @@ private:
     float swing;
 
     float hostBarBeat;
-    float beatTick;
     int triggerIndex;
     int syncMode;
     int previousSyncMode;
-    int hostTick;
     int hostBeat;
-    int barLength;
     int numBarsElapsed;
     int previousBeat;
     int tempoMultiplyFactor;
-
-    int arpMode;
 
     // "1/1" "1/2" "1/3" "1/4" "1/4." "1/4T" "1/8" "1/8." "1/8T" "1/16" "1/16." "1/16T" "1/32"
     float divisionValues[13] {0.5, 1, 1.5, 2.0, 2.66666, 3.0, 4.0, 5.33333, 6.0, 8.0, 10.66666, 12.0, 16.0};

@@ -1,11 +1,12 @@
 #include "velocityHandler.hpp"
 
 VelocityHandler::VelocityHandler() :
+    velocity(0),
     step(0),
     numSteps(1),
     velocityMode(0)
 {
-    for (unsigned i = 0; i < MAX_NUM_STEPS; i++) {
+    for (unsigned int i = 0; i < (unsigned int)MAX_NUM_STEPS; i++) {
         velocityPattern[i] = 0;
     }
 }
@@ -21,7 +22,7 @@ void VelocityHandler::setMode(int velocityMode)
 
 void VelocityHandler::setNumSteps(int numSteps)
 {
-    if (numSteps > 0 && numSteps < MAX_NUM_STEPS) {
+    if ((numSteps > 0) && (numSteps < MAX_NUM_STEPS)) {
         this->numSteps = numSteps;
     }
 }
@@ -65,6 +66,8 @@ void VelocityHandler::process()
             break;
         case PATTERN:
             velocity = velocityPattern[step];
+            break;
+        default:
             break;
     }
 }

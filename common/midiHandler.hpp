@@ -1,5 +1,5 @@
-#ifndef _H_MIDI_HANDLER_
-#define _H_MIDI_HANDLER_
+#ifndef H_MIDI_HANDLER
+#define H_MIDI_HANDLER
 
 #include "DistrhoPlugin.hpp"
 
@@ -28,32 +28,32 @@
 #define MIDI_SYSTEM_RESET 0xFF
 
 struct MidiBuffer {
-    unsigned maxBufferSize = MIDI_BUFFER_SIZE;
+    unsigned int maxBufferSize = MIDI_BUFFER_SIZE;
 
     MidiEvent bufferedEvents[MIDI_BUFFER_SIZE];
-    unsigned numBufferedEvents;
+    unsigned int numBufferedEvents;
 
     MidiEvent bufferedMidiThroughEvents[MIDI_BUFFER_SIZE];
-    unsigned numBufferedThroughEvents;
+    unsigned int numBufferedThroughEvents;
 
     MidiEvent midiOutputBuffer[MIDI_BUFFER_SIZE];
-    unsigned numOutputEvents;
+    unsigned int numOutputEvents;
 };
 
 class MidiHandler {
 public:
-    MidiHandler();
-    ~MidiHandler();
-    void emptyMidiBuffer();
+    MidiHandler(void);
+    ~MidiHandler(void);
+    void emptyMidiBuffer(void);
     void appendMidiMessage(MidiEvent event);
     void appendMidiThroughMessage(MidiEvent event);
-    void resetBuffer();
-    int getNumEvents();
-    void mergeBuffers();
+    void resetBuffer(void);
+    int getNumEvents(void);
+    void mergeBuffers(void);
     //MidiEvent getMidiEvent(int index);
-    struct MidiBuffer getMidiBuffer();
+    struct MidiBuffer getMidiBuffer(void);
 private:
     MidiBuffer buffer;
 };
 
-#endif //_H_MIDI_HANDLER_
+#endif //H_MIDI_HANDLER

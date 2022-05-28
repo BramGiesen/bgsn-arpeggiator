@@ -1,6 +1,7 @@
-#ifndef _H_ARPEGGIATOR_
-#define _H_ARPEGGIATOR_
+#ifndef H_ARPEGGIATOR
+#define H_ARPEGGIATOR
 
+#include <bits/stdint-uintn.h>
 #include <cstdint>
 
 #include "voiceManager.hpp"
@@ -21,17 +22,16 @@ public:
         ARP_PLAYED,
         ARP_RANDOM
     };
-    Arpeggiator();
-    ~Arpeggiator();
+    Arpeggiator(void);
+    ~Arpeggiator(void);
     void setArpEnabled(bool arpEnabled);
     void setLatchMode(bool latchMode);
     void setSampleRate(float sampleRate);
     void setSyncMode(int mode);
     void setBpm(double bpm);
     void setSwing(float swing);
-    void setSelectedDivision(int selected);
-    void updateClockDivision();
-    void setDivision(int index, int value);
+    void updateClockDivision(void);
+    void setDivision(int value);
     void setTempoMultiplyFactor(int factor);
     void setTempoMultiplyEnabled(bool enabled);
     void setEnableHold(bool value);
@@ -43,35 +43,36 @@ public:
     void setProbabilityPatternSize(int size);
     void setProbability(int index, int value);
     void setPanic(bool panic);
-    int getPatternSize();
-    bool getArpEnabled() const;
-    bool getLatchMode() const;
-    float getSampleRate() const;
-    int getSyncMode() const;
-    float getBpm() const;
-    float getSwing() const;
-    int getSelectedDivision() const;
-    int getDivision(int index) const;
-    int getTempoMultiplyFactor() const;
-    bool getTempoMultiplyEnabled() const;
-    bool getEnableHold() const;
-    uint8_t getVelocity() const;
-    float getNoteLength() const;
-    int getOctaveSpread() const;
-    int getArpMode() const;
-    int getOctaveMode() const;
-    int getProbabilityPatternSize() const;
+    int getPatternSize(void);
+    bool getArpEnabled(void) const;
+    bool getLatchMode(void) const;
+    float getSampleRate(void) const;
+    int getSyncMode(void) const;
+    float getBpm(void) const;
+    float getSwing(void) const;
+    int getSelectedDivision(void) const;
+    int getDivision() const;
+    int getTempoMultiplyFactor(void) const;
+    bool getTempoMultiplyEnabled(void) const;
+    bool getEnableHold(void) const;
+    uint8_t getVelocity(void) const;
+    float getNoteLength(void) const;
+    int getOctaveSpread(void) const;
+    int getArpMode(void) const;
+    int getOctaveMode(void) const;
+    int getProbabilityPatternSize(void) const;
     int getProbability(int index) const;
-    bool getPanic() const;
+    bool getPanic(void) const;
     void transmitHostInfo(const bool playing, const float beatsPerBar,
             const int beat, const float barBeat, const double bpm);
-    void reset();
-    void emptyMidiBuffer();
-    void allNotesOff();
-    struct MidiBuffer getMidiBuffer();
+    void reset(void);
+    void emptyMidiBuffer(void);
+    void allNotesOff(void);
+    struct MidiBuffer getMidiBuffer(void);
     void process(const MidiEvent* event, uint32_t eventCount, uint32_t n_frames);
 
 private:
+    void processMidiInput(const MidiEvent *event, uint32_t eventCount);
     void setOctavePattern(int patternSize, int octaveSpread);
     void handleMidiInputEvent(const MidiEvent *event, uint8_t status);
     void handleMidiEventDisabledState(const MidiEvent *event, uint8_t status);
@@ -83,10 +84,16 @@ private:
     void applyProbability(ArpNoteEvent *event);
     void applyHoldToEvent(ArpNoteEvent *event);
     void createNewArpOutEvent(ArpNoteEvent event, size_t currentFrame);
+    void queNewEvent(unsigned int frame);
+    void goToNextStep(void);
     void noteOffTimer(size_t currentFrame);
     void addEventToNoteOffTimer(ArpNoteEvent event);
-    void sendAllNotesOffToOutput();
-    void resetArpPattern();
+    void sendAllNotesOffToOutput(void);
+    void resetArpPattern(void);
+    void resetArpIfStartOfSequence(void);
+    void resetArpIfPanic(void);
+    void updateArpPattern(void);
+
 
     ArpNoteOffEvent arpNoteOffEvent[NUM_VOICES];
 
@@ -95,8 +102,7 @@ private:
     int octaveMode;
     int octaveSpread;
     int arpMode;
-    int divisionValues[2];
-    int selectedDivision;
+    int divisionValue;
 
     float noteLength;
 
@@ -133,4 +139,4 @@ private:
     ProbabilityPattern probabilityPattern;
 };
 
-#endif //_H_ARPEGGIATOR_
+#endif // H_ARPEGGIATOR

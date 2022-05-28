@@ -4,37 +4,37 @@ PluginClock::PluginClock() :
     gate(false),
     trigger(false),
     beatSync(true),
-    phaseReset(false),
     playing(false),
     previousPlaying(false),
     endOfBar(false),
     init(false),
     tempoMultiplyEnabled(false),
-    multiplierChanged(false),
+    tempoMultiplyActive(false),
+    multiplierSet(false),
     tempoHasChanged(false),
     period(0),
+    smallestDivisionPeriod(0),
+    prev_period(0),
     halfWavelength(0),
     quarterWaveLength(0),
     pos(0),
     beatsPerBar(1.0),
     bpm(120.0),
     internalBpm(120.0),
+    hostBpm(120.0),
     previousBpm(0),
     sampleRate(48000.0),
     division(1),
     divisionValue(9),
     swing(0),
     hostBarBeat(0.0),
-    beatTick(0.0),
     triggerIndex(0),
     syncMode(1),
     previousSyncMode(0),
-    hostTick(0),
     hostBeat(0),
-    barLength(4),
     numBarsElapsed(0),
     previousBeat(0),
-    arpMode(0)
+    tempoMultiplyFactor(1)
 {
 }
 
@@ -90,18 +90,19 @@ void PluginClock::setInternalBpmValue(float internalBpm)
 void PluginClock::setTempoMultiplyFactor(int factor)
 {
     this->tempoMultiplyFactor = factor;
-    multiplierChanged = true;
+    tempoHasChanged = true;
 }
 
 void PluginClock::setTempoMultiplyEnabled(bool tempoMultiplyEnabled)
 {
     this->tempoMultiplyEnabled = tempoMultiplyEnabled;
-    multiplierChanged = true;
+    calcSmallestPeriodInDivision();
+    multiplierSet = true;
 }
 
 void PluginClock::setBpm(float bpm)
 {
-    if (tempoMultiplyEnabled) {
+    if (tempoMultiplyActive) {
         bpm = bpm * tempoMultiplyFactor;
     }
 
@@ -131,12 +132,13 @@ void PluginClock::setDivision(int setDivision)
 
 void PluginClock::syncClock()
 {
-    pos = static_cast<uint32_t>(fmod(sampleRate * (60.0f / bpm) * (hostBarBeat + (numBarsElapsed * beatsPerBar)), sampleRate * (60.0f / (bpm * (divisionValue / 2.0f)))));
-}
+    float tempoMultiply = 1.0;
+    // TODO restructure
+    if (tempoMultiplyActive) {
+        tempoMultiply = tempoMultiplyFactor;
+    }
 
-void PluginClock::setPos(uint32_t pos)
-{
-    this->pos = pos;
+    pos = static_cast<uint32_t>(fmod(sampleRate * ((60.0f / (bpm * 2.0)) * tempoMultiply) * (hostBarBeat + (numBarsElapsed * beatsPerBar)), sampleRate * (60.0f / ((bpm * (divisionValue / 2.0f))))));
 }
 
 void PluginClock::setNumBarsElapsed(uint32_t numBarsElapsed)
@@ -149,7 +151,21 @@ void PluginClock::calcPeriod()
     period = static_cast<uint32_t>(sampleRate * (60.0f / (bpm * (divisionValue / 2.0f))));
     halfWavelength = static_cast<uint32_t>(period / 2.0f);
     quarterWaveLength = static_cast<uint32_t>(halfWavelength / 2.0f);
-    period = (period <= 0) ? 1 : period;
+    period = (period == 0) ? 1 : period;
+}
+
+void PluginClock::calcSmallestPeriodInDivision()
+{
+    float dValue;
+    // TODO check divisionValues!!
+    if (fmod(divisionValue, 0.3)) {
+        dValue = 12.0;
+    } else if (fmod(divisionValue, 0.5)) {
+        dValue = 16.0;
+    } else {
+        dValue = 10.66666;
+    }
+    smallestDivisionPeriod = static_cast<uint32_t>(sampleRate * (60.0f / (bpm * (dValue / 2.0f))) / 2.0);
 }
 
 void PluginClock::closeGate()
@@ -241,17 +257,17 @@ void PluginClock::countElapsedBars()
 
 void PluginClock::checkForTempoChange()
 {
-    float threshold = 0.009; //TODO might not be needed
 
     if (syncMode != FREE_RUNNING) {
+        float threshold = 0.009; //TODO might not be needed
         if (fabs(previousBpm - hostBpm) > threshold) {
             tempoHasChanged = true;
             previousBpm = hostBpm;
             return;
         }
-    } else if (internalBpm != previousBpm) {
+    } else if ((internalBpm * tempoMultiplyFactor) != previousBpm) {
         tempoHasChanged = true;
-        previousBpm = internalBpm;
+        previousBpm = (internalBpm * tempoMultiplyFactor);
         return;
     }
 
@@ -264,8 +280,20 @@ void PluginClock::checkForTempoChange()
 
 void PluginClock::applyTempoSettings()
 {
+    if (multiplierSet) {
+        if (beatSync) {
+            tempoMultiplyActive = tempoMultiplyEnabled;
+            multiplierSet = false;
+            tempoHasChanged = true;
+        } else if ((tempoMultiplyFactor > 1) && (fmod(pos, smallestDivisionPeriod))) {
+            tempoMultiplyActive = tempoMultiplyEnabled;
+            multiplierSet = false;
+            tempoHasChanged = true;
+            reset();
+        }
+    }
 
-    if (!tempoHasChanged && !multiplierChanged) {
+    if (!tempoHasChanged) {
         return;
     }
 
@@ -284,9 +312,7 @@ void PluginClock::applyTempoSettings()
             }
             break;
     }
-
     tempoHasChanged = false;
-    multiplierChanged = false;
 }
 
 void PluginClock::tick()
@@ -300,8 +326,7 @@ void PluginClock::tick()
     checkForTempoChange();
     applyTempoSettings();
 
-    //TODO check this with beatsync
-    if (pos > period) {
+    if (pos > period && !beatSync) {
         pos = 0;
     }
 

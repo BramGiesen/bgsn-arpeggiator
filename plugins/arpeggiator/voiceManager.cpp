@@ -1,9 +1,9 @@
 #include "voiceManager.hpp"
-#include <iostream>
+#include "types.h"
 
-VoiceManager::VoiceManager()
+VoiceManager::VoiceManager() : overwrite_idx(0)
 {
-    for (unsigned i = 0; i < NUM_VOICES; i++) {
+    for (int i = 0; i < (int)NUM_VOICES; i++) {
         arpVoice[i].midiNote = 0;
         arpVoice[i].velocity = 100;
         arpVoice[i].channel = 0;
@@ -16,11 +16,20 @@ VoiceManager::~VoiceManager()
 {
 }
 
-void VoiceManager::addVoice(ArpNoteEvent event)
+void VoiceManager::overWriteVoice(ArpNoteEvent event)
+{
+    arpVoice[overwrite_idx].midiNote = event.midiNote;
+    arpVoice[overwrite_idx].channel = event.channel;
+    arpVoice[overwrite_idx].active = event.active;
+
+    overwrite_idx = (overwrite_idx + 1) % (int)NUM_VOICES;
+}
+
+bool VoiceManager::addVoiceToFreeSlot(ArpNoteEvent event)
 {
     int searchNote = 0;
 
-    while (searchNote < NUM_VOICES)
+    while (searchNote < (int)NUM_VOICES)
     {
         if (!arpVoice[searchNote].active)
         {
@@ -28,9 +37,18 @@ void VoiceManager::addVoice(ArpNoteEvent event)
             arpVoice[searchNote].channel = event.channel;
             arpVoice[searchNote].active = event.active;
 
-            return;
+            return true;
         }
         searchNote++;
+    }
+    return false;
+}
+
+void VoiceManager::addVoice(ArpNoteEvent event)
+{
+    if (!addVoiceToFreeSlot(event)) {
+        // start overwriting voices if nothing is free
+        overWriteVoice(event);
     }
 }
 
@@ -38,7 +56,7 @@ ArpNoteEvent VoiceManager::getEvent(int n)
 {
     int step = 0;
 
-    for (int i = 0; i < NUM_VOICES; i++) {
+    for (int i = 0; i < (int)NUM_VOICES; i++) {
         if (arpVoice[i].active)
         {
             if (step == n) {
@@ -53,11 +71,11 @@ ArpNoteEvent VoiceManager::getEvent(int n)
 
 int VoiceManager::findVoiceIndexInBuffer(uint8_t noteToFind)
 {
-    uint8_t searchNote = 0;
+    int searchNote = 0;
 
-    while (searchNote < NUM_VOICES)
+    while (searchNote < (int)NUM_VOICES)
     {
-        if (arpVoice[searchNote].midiNote == noteToFind
+        if (arpVoice[searchNote].midiNote == (uint8_t)noteToFind
                 && arpVoice[searchNote].active)
         {
             return searchNote;
@@ -97,9 +115,10 @@ void VoiceManager::sort()
 
 void VoiceManager::freeAll()
 {
-    for (unsigned clear_notes = 0; clear_notes < NUM_VOICES; clear_notes++) {
+    for (int clear_notes = 0; clear_notes < (int)NUM_VOICES; clear_notes++) {
         arpVoice[clear_notes].midiNote = 0;
         arpVoice[clear_notes].channel = 0;
         arpVoice[clear_notes].active = false;
     }
+    overwrite_idx = 0;
 }

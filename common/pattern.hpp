@@ -1,5 +1,5 @@
-#ifndef _H_PATTERN_
-#define _H_PATTERN_
+#ifndef H_PATTERN
+#define H_PATTERN
 
 #include <stdlib.h>
 #include <time.h>
@@ -12,18 +12,18 @@ class Pattern {
     };
 
 public:
-    Pattern();
-    virtual ~Pattern();
+    Pattern(void);
+    virtual ~Pattern(void);
     void setPatternSize(int size);
     void setStep(int step);
     void setCycleRange(int range);
-    int getSize();
-    int getStepSize();
-    int getStep();
-    int getDirection();
+    int getSize(void);
+    int getStepSize(void);
+    int getStep(void);
+    int getDirection(void);
     virtual void setDirection(int direction) = 0;
-    virtual void reset() = 0;
-    virtual void goToNextStep() = 0;
+    virtual void reset(void) = 0;
+    virtual void goToNextStep(void) = 0;
 protected:
     int size;
     int step;
@@ -33,38 +33,38 @@ protected:
 
 class PatternUp : public Pattern {
 public:
-    PatternUp();
-    ~PatternUp();
+    PatternUp(void);
+    ~PatternUp(void);
     void setDirection(int direction) override;
-    void reset() override;
-    void goToNextStep() override;
+    void reset(void) override;
+    void goToNextStep(void) override;
 };
 
 class PatternDown : public Pattern {
 public:
-    PatternDown();
-    ~PatternDown();
+    PatternDown(void);
+    ~PatternDown(void);
     void setDirection(int direction) override;
-    void reset() override;
-    void goToNextStep() override;
+    void reset(void) override;
+    void goToNextStep(void) override;
 };
 
 class PatternUpDown : public Pattern {
 public:
-    PatternUpDown();
-    ~PatternUpDown();
+    PatternUpDown(void);
+    ~PatternUpDown(void);
     void setDirection(int direction) override;
-    void reset() override;
-    void goToNextStep() override;
+    void reset(void) override;
+    void goToNextStep(void) override;
 };
 
 class PatternUpDownAlt : public Pattern {
 public:
-    PatternUpDownAlt();
-    ~PatternUpDownAlt();
+    PatternUpDownAlt(void);
+    ~PatternUpDownAlt(void);
     void setDirection(int direction) override;
-    void reset() override;
-    void goToNextStep() override;
+    void reset(void) override;
+    void goToNextStep(void) override;
 private:
     bool checked;
     bool skip;
@@ -72,22 +72,22 @@ private:
 
 class PatternRandom : public Pattern {
 public:
-    PatternRandom();
-    ~PatternRandom();
+    PatternRandom(void);
+    ~PatternRandom(void);
     void setDirection(int direction) override;
-    void reset() override;
-    void goToNextStep() override;
+    void reset(void) override;
+    void goToNextStep(void) override;
 };
 
 class PatternCycle : public Pattern {
 public:
-    PatternCycle();
-    ~PatternCycle();
+    PatternCycle(void);
+    ~PatternCycle(void);
     void setDirection(int direction) override;
-    void reset() override;
-    void goToNextStep() override;
+    void reset(void) override;
+    void goToNextStep(void) override;
 private:
     int tempStep;
 };
 
-#endif // _H_PATTERN_
+#endif // H_PATTERN

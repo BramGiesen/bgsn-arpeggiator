@@ -3,7 +3,7 @@
 
 #define DISTRHO_PLUGIN_BRAND        "BGSN"
 #define DISTRHO_PLUGIN_NAME         "Arpeggiator"
-#define DISTRHO_PLUGIN_URI          "http://bramgiesen.com/arpeggiator"
+#define DISTRHO_PLUGIN_URI          "http://moddevices.com/plugins/mod-devel/arpeggiator"
 #define DISTRHO_PLUGIN_LV2_CATEGORY "lv2:MIDIPlugin"
 
 #define DISTRHO_PLUGIN_HAS_UI       0
